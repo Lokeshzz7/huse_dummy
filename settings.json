@@ -1,0 +1,71 @@
+{
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+  
+  // GitHub Copilot settings
+  "github.copilot.enable": {
+    "*": true,
+    "yaml": true,
+    "plaintext": true,
+    "markdown": true,
+    "typescript": true,
+    "typescriptreact": true,
+    "javascript": true,
+    "javascriptreact": true
+  },
+  
+  // AI Assistant settings
+  "github.copilot.editor.enableAutoCompletions": true,
+  "github.copilot.advanced": {
+    "debug.overrideEngine": "gpt-4",
+    "debug.testOverrideProxyUrl": "",
+    "debug.overrideProxyUrl": ""
+  },
+  
+  // File associations
+  "files.associations": {
+    "*.css": "tailwindcss",
+    ".env.*": "dotenv"
+  },
+  
+  // Tailwind IntelliSense
+  "tailwindCSS.experimental.classRegex": [
+    ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
+    ["cn\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
+  ],
+  "tailwindCSS.includeLanguages": {
+    "typescript": "javascript",
+    "typescriptreact": "javascript"
+  },
+  
+  // AI Context Files (Cursor/Continue)
+  "continue.contextFiles": [
+    "/AI_BACKEND_GUIDE.md",
+    "/API_SPECIFICATIONS.md",
+    "/ROADMAP_TO_LIVE.md",
+    "/ECOSYSTEM_MAP.md",
+    "/PLATFORM_STATUS_FIXED.md"
+  ],
+  
+  // Exclude from search
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/dist": true,
+    "**/build": true,
+    "**/.git": true,
+    "**/coverage": true
+  },
+  
+  // File nesting for cleaner file explorer
+  "explorer.fileNesting.enabled": true,
+  "explorer.fileNesting.patterns": {
+    "*.ts": "${capture}.test.ts, ${capture}.spec.ts",
+    "*.tsx": "${capture}.test.tsx, ${capture}.spec.tsx, ${capture}.module.css",
+    "package.json": "package-lock.json, yarn.lock, pnpm-lock.yaml, .npmrc, .nvmrc"
+  }
+}

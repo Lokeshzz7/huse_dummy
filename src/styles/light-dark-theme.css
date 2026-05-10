@@ -1,0 +1,383 @@
+/* Comprehensive Light/Dark Mode Theme System */
+
+/* ============================================
+   LIGHT MODE THEME
+   ============================================ */
+.light {
+  /* Main Background Colors */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8fafc;
+  --bg-tertiary: #f1f5f9;
+  --bg-elevated: #ffffff;
+  
+  /* Text Colors */
+  --text-primary: #0f172a;
+  --text-secondary: #334155;
+  --text-tertiary: #64748b;
+  --text-muted: #94a3b8;
+  
+  /* Border Colors */
+  --border-primary: rgba(15, 23, 42, 0.1);
+  --border-secondary: rgba(15, 23, 42, 0.05);
+  --border-accent: rgba(36, 198, 220, 0.3);
+  
+  /* Card/Component Backgrounds */
+  --card-bg: rgba(255, 255, 255, 0.9);
+  --card-bg-hover: rgba(255, 255, 255, 1);
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(15, 23, 42, 0.1);
+  
+  /* Overlay/Shadow Colors */
+  --overlay-bg: rgba(0, 0, 0, 0.5);
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  --shadow-strong: rgba(0, 0, 0, 0.15);
+  
+  /* Input/Form Elements */
+  --input-bg: #ffffff;
+  --input-border: rgba(15, 23, 42, 0.2);
+  --input-focus: rgba(36, 198, 220, 0.5);
+  
+  /* Accent Colors (maintain brand colors but adjust opacity) */
+  --accent-cyan: #24c6dc;
+  --accent-teal: #05997F;
+  --accent-purple: #8B5CF6;
+  --accent-pink: #EC4899;
+  --accent-amber: #F59E0B;
+}
+
+/* ============================================
+   DARK MODE THEME (DEFAULT)
+   ============================================ */
+.dark,
+:root:not(.light) {
+  /* Main Background Colors */
+  --bg-primary: #000000;
+  --bg-secondary: #0a0a0a;
+  --bg-tertiary: #111111;
+  --bg-elevated: #1a1a1a;
+  
+  /* Text Colors */
+  --text-primary: #ffffff;
+  --text-secondary: #d1d5db;
+  --text-tertiary: #9ca3af;
+  --text-muted: #6b7280;
+  
+  /* Border Colors */
+  --border-primary: rgba(255, 255, 255, 0.1);
+  --border-secondary: rgba(255, 255, 255, 0.05);
+  --border-accent: rgba(36, 198, 220, 0.3);
+  
+  /* Card/Component Backgrounds */
+  --card-bg: rgba(10, 10, 10, 0.9);
+  --card-bg-hover: rgba(26, 26, 26, 0.9);
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  
+  /* Overlay/Shadow Colors */
+  --overlay-bg: rgba(0, 0, 0, 0.8);
+  --shadow-color: rgba(0, 0, 0, 0.5);
+  --shadow-strong: rgba(0, 0, 0, 0.8);
+  
+  /* Input/Form Elements */
+  --input-bg: rgba(255, 255, 255, 0.05);
+  --input-border: rgba(255, 255, 255, 0.1);
+  --input-focus: rgba(36, 198, 220, 0.5);
+  
+  /* Accent Colors */
+  --accent-cyan: #24c6dc;
+  --accent-teal: #05997F;
+  --accent-purple: #8B5CF6;
+  --accent-pink: #EC4899;
+  --accent-amber: #F59E0B;
+}
+
+/* ============================================
+   GLOBAL THEME APPLICATION
+   ============================================ */
+
+/* Body and Root Background */
+body {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Light mode gradient background */
+.light body,
+.light .min-h-screen {
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #dbeafe 100%);
+}
+
+/* Dark mode gradient background */
+.dark body,
+.dark .min-h-screen {
+  background: linear-gradient(135deg, #000000 0%, #0a0a0a 50%, #050505 100%);
+}
+
+/* ============================================
+   AUTOMATIC COLOR REPLACEMENTS
+   ============================================ */
+
+/* Replace common bg-black with theme-aware background */
+.light .bg-black {
+  background-color: var(--bg-primary) !important;
+}
+
+.light .bg-\[#111\],
+.light .bg-\[#0a0a0a\] {
+  background-color: var(--bg-secondary) !important;
+}
+
+/* Replace white text with theme-aware text */
+.light .text-white {
+  color: var(--text-primary) !important;
+}
+
+/* Adjust gray text for light mode */
+.light .text-gray-300,
+.light .text-gray-400 {
+  color: var(--text-secondary) !important;
+}
+
+.light .text-gray-500,
+.light .text-gray-600 {
+  color: var(--text-tertiary) !important;
+}
+
+/* Border adjustments */
+.light .border-white\/10,
+.light .border-white\/20 {
+  border-color: var(--border-primary) !important;
+}
+
+/* Card backgrounds */
+.light .bg-white\/5,
+.light .bg-white\/10 {
+  background-color: var(--card-bg) !important;
+  border: 1px solid var(--border-primary);
+}
+
+/* ============================================
+   THEME UTILITY CLASSES
+   ============================================ */
+
+@layer utilities {
+  /* Background Utilities */
+  .bg-theme-primary {
+    background-color: var(--bg-primary);
+  }
+  
+  .bg-theme-secondary {
+    background-color: var(--bg-secondary);
+  }
+  
+  .bg-theme-tertiary {
+    background-color: var(--bg-tertiary);
+  }
+  
+  .bg-theme-elevated {
+    background-color: var(--bg-elevated);
+  }
+  
+  .bg-theme-card {
+    background-color: var(--card-bg);
+  }
+  
+  .bg-theme-glass {
+    background-color: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+  }
+  
+  /* Text Utilities */
+  .text-theme-primary {
+    color: var(--text-primary);
+  }
+  
+  .text-theme-secondary {
+    color: var(--text-secondary);
+  }
+  
+  .text-theme-tertiary {
+    color: var(--text-tertiary);
+  }
+  
+  .text-theme-muted {
+    color: var(--text-muted);
+  }
+  
+  /* Border Utilities */
+  .border-theme-primary {
+    border-color: var(--border-primary);
+  }
+  
+  .border-theme-secondary {
+    border-color: var(--border-secondary);
+  }
+  
+  .border-theme-accent {
+    border-color: var(--border-accent);
+  }
+  
+  /* Shadow Utilities */
+  .shadow-theme {
+    box-shadow: 0 4px 6px -1px var(--shadow-color), 0 2px 4px -2px var(--shadow-color);
+  }
+  
+  .shadow-theme-strong {
+    box-shadow: 0 10px 15px -3px var(--shadow-strong), 0 4px 6px -4px var(--shadow-strong);
+  }
+}
+
+/* ============================================
+   COMPONENT-SPECIFIC ADJUSTMENTS
+   ============================================ */
+
+/* Header adjustments */
+.light header,
+.light .header {
+  background-color: rgba(255, 255, 255, 0.8) !important;
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-primary) !important;
+}
+
+/* Card adjustments */
+.light .rounded-\[15px\],
+.light .rounded-\[20px\],
+.light .rounded-\[25px\],
+.light .rounded-xl,
+.light .rounded-3xl {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-primary);
+}
+
+/* Input fields */
+.light input,
+.light textarea,
+.light select {
+  background-color: var(--input-bg) !important;
+  border-color: var(--input-border) !important;
+  color: var(--text-primary) !important;
+}
+
+.light input::placeholder,
+.light textarea::placeholder {
+  color: var(--text-muted) !important;
+}
+
+.light input:focus,
+.light textarea:focus,
+.light select:focus {
+  border-color: var(--input-focus) !important;
+  outline: 2px solid var(--input-focus);
+  outline-offset: -1px;
+}
+
+/* Button adjustments - keep gradients vibrant */
+.light button[class*="gradient"],
+.light .bg-gradient-to-r,
+.light .bg-gradient-to-br {
+  /* Gradients maintain their colors in light mode */
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+}
+
+/* ============================================
+   SCROLLBAR STYLING
+   ============================================ */
+
+/* Dark mode scrollbar */
+.dark ::-webkit-scrollbar-track {
+  background: #0a0a0a;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #24c6dc 0%, #05997F 100%);
+  border-radius: 4px;
+}
+
+/* Light mode scrollbar */
+.light ::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+.light ::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #24c6dc 0%, #05997F 100%);
+  border-radius: 4px;
+}
+
+.light ::-webkit-scrollbar-thumb:hover,
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #05997F 0%, #24c6dc 100%);
+}
+
+/* ============================================
+   AMBIENT BACKGROUND ANIMATIONS
+   ============================================ */
+
+/* Light mode blur orbs */
+.light .bg-purple-500\/10,
+.light .bg-pink-500\/10,
+.light .bg-\[#24c6dc\]\/10 {
+  opacity: 0.4 !important;
+}
+
+/* Dark mode blur orbs - keep as is */
+.dark .bg-purple-500\/10,
+.dark .bg-pink-500\/10,
+.dark .bg-\[#24c6dc\]\/10 {
+  opacity: 0.3;
+}
+
+/* ============================================
+   MODAL/DROPDOWN OVERLAYS
+   ============================================ */
+
+.light [class*="bg-black/90"],
+.light [class*="bg-black/80"],
+.light [class*="bg-black/95"] {
+  background-color: rgba(255, 255, 255, 0.95) !important;
+  border: 1px solid var(--border-primary);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+}
+
+/* ============================================
+   TOAST NOTIFICATIONS
+   ============================================ */
+
+.light [data-sonner-toast] {
+  background-color: var(--bg-elevated) !important;
+  border: 1px solid var(--border-primary) !important;
+  color: var(--text-primary) !important;
+}
+
+/* ============================================
+   GLASSMORPHISM EFFECTS
+   ============================================ */
+
+.light .backdrop-blur-sm,
+.light .backdrop-blur-xl {
+  background-color: rgba(255, 255, 255, 0.7) !important;
+}
+
+.dark .backdrop-blur-sm,
+.dark .backdrop-blur-xl {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* ============================================
+   TRANSITIONS
+   ============================================ */
+
+* {
+  transition-property: background-color, border-color, color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
+}
+
+/* Don't transition transforms and opacity */
+*[class*="translate"],
+*[class*="scale"],
+*[class*="rotate"],
+*[class*="opacity"] {
+  transition-property: transform, opacity, background-color, border-color, color;
+}

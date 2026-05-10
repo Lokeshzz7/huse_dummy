@@ -1,0 +1,466 @@
+/* =================================
+   HUSE ECOSYSTEM - MOBILE RESPONSIVE
+   ================================= */
+
+/* Global Mobile Optimizations */
+@media (max-width: 768px) {
+  /* Reduce padding on mobile */
+  .container-responsive {
+    @apply px-4 py-6;
+  }
+  
+  /* Stack cards vertically on mobile */
+  .card-stack {
+    @apply flex-col gap-4;
+  }
+  
+  /* Full width modals on mobile */
+  .modal-responsive {
+    @apply w-full max-w-full mx-4 rounded-[20px];
+  }
+  
+  /* Touch-friendly button sizes */
+  .btn-touch {
+    @apply min-h-[44px] min-w-[44px] px-6 py-3;
+  }
+  
+  /* Larger text for readability */
+  .text-mobile-readable {
+    @apply text-base leading-relaxed;
+  }
+}
+
+/* Tablet Breakpoint */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .tablet-grid-2 {
+    @apply grid-cols-2;
+  }
+  
+  .tablet-hidden {
+    @apply hidden;
+  }
+  
+  .tablet-visible {
+    @apply block;
+  }
+}
+
+/* Mobile Navigation */
+@media (max-width: 768px) {
+  /* Bottom navigation bar for mobile */
+  .mobile-bottom-nav {
+    @apply fixed bottom-0 left-0 right-0 bg-[#0a0a0a] border-t border-white/10 z-40;
+    @apply flex items-center justify-around px-2 py-3 backdrop-blur-xl;
+  }
+  
+  .mobile-nav-item {
+    @apply flex flex-col items-center gap-1 px-3 py-2 rounded-xl transition-all;
+    @apply text-gray-400 hover:text-white hover:bg-white/5;
+  }
+  
+  .mobile-nav-item.active {
+    @apply text-white bg-gradient-to-br from-purple-500/20 to-cyan-500/20;
+  }
+  
+  /* Adjust main content for bottom nav */
+  .content-with-bottom-nav {
+    @apply pb-20;
+  }
+}
+
+/* Mobile Sidebar */
+@media (max-width: 768px) {
+  .sidebar-mobile {
+    @apply fixed inset-0 z-50 bg-black/80 backdrop-blur-sm;
+  }
+  
+  .sidebar-mobile-content {
+    @apply fixed top-0 left-0 bottom-0 w-[280px] bg-[#0a0a0a] border-r border-white/10;
+    @apply transform transition-transform duration-300 overflow-y-auto;
+  }
+  
+  .sidebar-mobile-content.closed {
+    @apply -translate-x-full;
+  }
+  
+  .sidebar-mobile-content.open {
+    @apply translate-x-0;
+  }
+}
+
+/* Responsive Tables */
+@media (max-width: 768px) {
+  /* Stack table rows as cards */
+  .table-responsive {
+    @apply block;
+  }
+  
+  .table-responsive thead {
+    @apply hidden;
+  }
+  
+  .table-responsive tr {
+    @apply block mb-4 border border-white/10 rounded-xl p-4 bg-[#111];
+  }
+  
+  .table-responsive td {
+    @apply block text-left;
+    @apply before:content-[attr(data-label)] before:font-bold before:block before:text-gray-400 before:text-xs before:mb-1;
+  }
+}
+
+/* Mobile Form Inputs */
+@media (max-width: 768px) {
+  .input-responsive {
+    @apply text-base; /* Prevents zoom on iOS */
+    @apply py-3.5 px-4;
+  }
+  
+  .input-group-mobile {
+    @apply flex-col gap-3;
+  }
+  
+  .input-group-mobile .input-responsive {
+    @apply w-full;
+  }
+}
+
+/* Modal Adaptations */
+@media (max-width: 768px) {
+  .modal-mobile {
+    @apply fixed inset-0 m-0 rounded-none max-h-screen;
+    @apply flex flex-col;
+  }
+  
+  .modal-mobile-header {
+    @apply sticky top-0 z-10 bg-[#0a0a0a] border-b border-white/10;
+    @apply px-4 py-4 flex items-center justify-between;
+  }
+  
+  .modal-mobile-body {
+    @apply flex-1 overflow-y-auto px-4 py-6;
+  }
+  
+  .modal-mobile-footer {
+    @apply sticky bottom-0 bg-[#0a0a0a] border-t border-white/10;
+    @apply px-4 py-4;
+  }
+}
+
+/* Card Layouts */
+@media (max-width: 768px) {
+  .card-grid-responsive {
+    @apply grid-cols-1;
+  }
+  
+  .card-mobile {
+    @apply w-full;
+  }
+  
+  /* Horizontal scroll for card lists */
+  .card-scroll-mobile {
+    @apply flex overflow-x-auto snap-x snap-mandatory gap-4 pb-4;
+  }
+  
+  .card-scroll-mobile > * {
+    @apply snap-start flex-shrink-0 w-[85%] md:w-auto;
+  }
+}
+
+/* Stats & Metrics */
+@media (max-width: 768px) {
+  .stats-mobile {
+    @apply grid-cols-2 gap-3;
+  }
+  
+  .stat-card-mobile {
+    @apply p-4;
+  }
+  
+  .stat-value-mobile {
+    @apply text-2xl;
+  }
+  
+  .stat-label-mobile {
+    @apply text-xs;
+  }
+}
+
+/* Typography Scaling */
+@media (max-width: 768px) {
+  .heading-mobile-xl {
+    @apply text-3xl;
+  }
+  
+  .heading-mobile-lg {
+    @apply text-2xl;
+  }
+  
+  .heading-mobile-md {
+    @apply text-xl;
+  }
+  
+  .heading-mobile-sm {
+    @apply text-lg;
+  }
+}
+
+/* Spacing Adjustments */
+@media (max-width: 768px) {
+  .section-spacing-mobile {
+    @apply py-12;
+  }
+  
+  .card-spacing-mobile {
+    @apply p-4 gap-3;
+  }
+  
+  .content-spacing-mobile {
+    @apply space-y-4;
+  }
+}
+
+/* Image & Media */
+@media (max-width: 768px) {
+  .img-responsive {
+    @apply w-full h-auto;
+  }
+  
+  .avatar-mobile {
+    @apply w-10 h-10;
+  }
+  
+  .icon-mobile {
+    @apply w-5 h-5;
+  }
+}
+
+/* Tabs */
+@media (max-width: 768px) {
+  .tabs-mobile {
+    @apply flex overflow-x-auto gap-2 pb-2;
+  }
+  
+  .tab-mobile {
+    @apply flex-shrink-0 px-4 py-2 text-sm;
+  }
+}
+
+/* Dropdown & Popovers */
+@media (max-width: 768px) {
+  .dropdown-mobile {
+    @apply fixed bottom-0 left-0 right-0;
+    @apply rounded-t-[25px] max-h-[70vh] overflow-y-auto;
+  }
+  
+  .popover-mobile {
+    @apply fixed inset-4 m-auto h-fit;
+  }
+}
+
+/* Filter & Search Bars */
+@media (max-width: 768px) {
+  .search-bar-mobile {
+    @apply w-full mb-4;
+  }
+  
+  .filter-mobile {
+    @apply w-full flex flex-col gap-3;
+  }
+  
+  .filter-pills-mobile {
+    @apply flex overflow-x-auto gap-2 pb-2;
+  }
+}
+
+/* Loading States */
+@media (max-width: 768px) {
+  .skeleton-mobile {
+    @apply h-24 rounded-xl;
+  }
+  
+  .spinner-mobile {
+    @apply w-8 h-8;
+  }
+}
+
+/* Notifications & Toasts */
+@media (max-width: 768px) {
+  .toast-mobile {
+    @apply bottom-20 left-4 right-4 w-auto;
+  }
+  
+  .notification-mobile {
+    @apply text-sm p-3;
+  }
+}
+
+/* Dashboard Specific */
+@media (max-width: 768px) {
+  .dashboard-mobile {
+    @apply flex flex-col;
+  }
+  
+  .dashboard-sidebar-mobile {
+    @apply hidden;
+  }
+  
+  .dashboard-content-mobile {
+    @apply w-full p-4;
+  }
+}
+
+/* Platform Specific Adjustments */
+@media (max-width: 768px) {
+  /* HUSE Circle Mobile */
+  .huse-mobile-nav {
+    @apply flex overflow-x-auto gap-2 pb-2 px-4;
+  }
+  
+  /* Dofracto Mobile */
+  .dofracto-card-mobile {
+    @apply flex-col gap-4;
+  }
+  
+  /* Quotify Mobile */
+  .quote-card-mobile {
+    @apply w-full;
+  }
+  
+  .quote-comparison-mobile {
+    @apply flex-col gap-4;
+  }
+}
+
+/* Accessibility - Touch Targets */
+@media (max-width: 768px) {
+  /* Ensure all interactive elements are at least 44x44px */
+  button,
+  a,
+  input[type="checkbox"],
+  input[type="radio"] {
+    @apply min-h-[44px];
+  }
+  
+  /* Larger icons for better visibility */
+  .icon-touch {
+    @apply w-6 h-6;
+  }
+}
+
+/* Landscape Mode (Mobile) */
+@media (max-width: 768px) and (orientation: landscape) {
+  .landscape-adjust {
+    @apply py-4;
+  }
+  
+  .landscape-header {
+    @apply h-14;
+  }
+}
+
+/* Small Mobile Devices (< 375px) */
+@media (max-width: 375px) {
+  .mobile-sm-text {
+    @apply text-sm;
+  }
+  
+  .mobile-sm-padding {
+    @apply px-3 py-2;
+  }
+  
+  .mobile-sm-gap {
+    @apply gap-2;
+  }
+}
+
+/* Super Admin Mobile Optimizations */
+@media (max-width: 768px) {
+  .admin-mobile-tabs {
+    @apply flex overflow-x-auto gap-2 pb-2 px-4 mb-4;
+  }
+  
+  .admin-mobile-tab {
+    @apply flex-shrink-0 px-4 py-2.5 rounded-xl text-sm font-medium;
+    @apply transition-all whitespace-nowrap;
+  }
+  
+  .admin-mobile-content {
+    @apply px-4 pb-6;
+  }
+  
+  .admin-mobile-header {
+    @apply px-4 py-4 h-auto min-h-[70px];
+  }
+}
+
+/* Print Styles */
+@media print {
+  .no-print {
+    @apply hidden;
+  }
+  
+  .print-full-width {
+    @apply w-full;
+  }
+}
+
+/* Dark Mode Adjustments (already dark, but for consistency) */
+@media (prefers-color-scheme: dark) {
+  .dark-mobile-bg {
+    @apply bg-[#0a0a0a];
+  }
+  
+  .dark-mobile-border {
+    @apply border-white/10;
+  }
+}
+
+/* Reduce Motion for Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Utilities */
+.hide-on-mobile {
+  @apply md:block hidden;
+}
+
+.show-on-mobile {
+  @apply md:hidden block;
+}
+
+.mobile-full-width {
+  @apply w-full md:w-auto;
+}
+
+.mobile-centered {
+  @apply mx-auto text-center;
+}
+
+.mobile-scroll-container {
+  @apply overflow-x-auto -mx-4 px-4;
+}
+
+/* Safe Area Insets for iOS */
+@supports (padding: max(0px)) {
+  .safe-area-top {
+    padding-top: max(env(safe-area-inset-top), 0px);
+  }
+  
+  .safe-area-bottom {
+    padding-bottom: max(env(safe-area-inset-bottom), 0px);
+  }
+  
+  .safe-area-left {
+    padding-left: max(env(safe-area-inset-left), 0px);
+  }
+  
+  .safe-area-right {
+    padding-right: max(env(safe-area-inset-right), 0px);
+  }
+}

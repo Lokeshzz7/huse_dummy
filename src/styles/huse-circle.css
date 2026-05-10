@@ -1,0 +1,161 @@
+/* HUSE Circle Platform - Custom Styles */
+
+/* Custom Font Variables for HUSE Circle */
+.huse-platform {
+  --font-display: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+/* HUSE Circle Color Palette */
+.huse-platform {
+  /* Primary Colors - Purple/Violet */
+  --huse-primary: #8B5CF6;
+  --huse-primary-dark: #7C3AED;
+  --huse-primary-light: #A78BFA;
+  
+  /* Secondary Colors - Gold/Amber */
+  --huse-secondary: #F59E0B;
+  --huse-secondary-dark: #D97706;
+  --huse-secondary-light: #FBBF24;
+  
+  /* Accent Colors */
+  --huse-accent-pink: #EC4899;
+  --huse-accent-blue: #3B82F6;
+  --huse-accent-green: #10B981;
+  
+  /* Background Colors */
+  --huse-bg-primary: #050505;
+  --huse-bg-secondary: #0F0F0F;
+  --huse-bg-tertiary: #1A1A1A;
+  --huse-bg-card: #141414;
+  
+  /* Border Colors */
+  --huse-border: rgba(139, 92, 246, 0.15);
+  --huse-border-hover: rgba(139, 92, 246, 0.3);
+  
+  /* Text Colors */
+  --huse-text-primary: #FFFFFF;
+  --huse-text-secondary: #A0A0A0;
+  --huse-text-muted: #666666;
+}
+
+/* Custom Scrollbar */
+.huse-platform::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.huse-platform::-webkit-scrollbar-track {
+  background: var(--huse-bg-secondary);
+}
+
+.huse-platform::-webkit-scrollbar-thumb {
+  background: var(--huse-primary);
+  border-radius: 10px;
+}
+
+.huse-platform::-webkit-scrollbar-thumb:hover {
+  background: var(--huse-primary-light);
+}
+
+/* Hide scrollbar for specific elements */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Glow Effects */
+.huse-glow-purple {
+  box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
+}
+
+.huse-glow-gold {
+  box-shadow: 0 0 20px rgba(245, 158, 11, 0.3);
+}
+
+.huse-glow-pink {
+  box-shadow: 0 0 20px rgba(236, 72, 153, 0.3);
+}
+
+/* Gradient Text */
+.huse-gradient-text {
+  background: linear-gradient(135deg, #8B5CF6 0%, #EC4899 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.huse-gradient-gold {
+  background: linear-gradient(135deg, #F59E0B 0%, #FBBF24 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Glass Morphism Effect */
+.huse-glass {
+  background: rgba(20, 20, 20, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(139, 92, 246, 0.1);
+}
+
+/* Animated Background */
+@keyframes huse-pulse {
+  0%, 100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+.huse-animated-bg {
+  animation: huse-pulse 3s ease-in-out infinite;
+}
+
+/* Custom Badge Styles */
+.huse-badge-premium {
+  background: linear-gradient(135deg, #F59E0B 0%, #FBBF24 100%);
+  box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);
+}
+
+.huse-badge-verified {
+  background: linear-gradient(135deg, #10B981 0%, #34D399 100%);
+  box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+}
+
+.huse-badge-trending {
+  background: linear-gradient(135deg, #EF4444 0%, #F97316 100%);
+  box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
+}
+
+/* Hover Lift Effect */
+.huse-hover-lift {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.huse-hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(139, 92, 246, 0.3);
+}
+
+/* Shimmer Effect */
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.huse-shimmer {
+  background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.2), transparent);
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite;
+}

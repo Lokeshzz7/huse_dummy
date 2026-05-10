@@ -1,0 +1,191 @@
+/**
+ * UNIFIED BRAND SYSTEM
+ * Dofracto & HUSE Circle Ecosystem
+ * 
+ * This file documents the unified design language
+ * that bridges both platforms while maintaining distinct identities.
+ */
+
+/* ===============================================
+   COLOR PALETTE
+   =============================================== */
+
+/* DOFRACTO COLORS (Primary Platform) */
+:root {
+  --dofracto-cyan: #24c6dc;
+  --dofracto-green: #05997F;
+  --dofracto-dark: #111;
+  --dofracto-darker: #0a0a0a;
+  
+  /* HUSE CIRCLE COLORS (Student Platform) */
+  --huse-purple: #8B5CF6;
+  --huse-gold: #F59E0B;
+  --huse-pink: #EC4899;
+  
+  /* SHARED SYSTEM COLORS */
+  --accent-amber: #F59E0B;
+  --success-green: #10B981;
+  --warning-red: #EF4444;
+  --text-white: #FFFFFF;
+  --text-gray-light: #D1D5DB;
+  --text-gray: #9CA3AF;
+  --text-gray-dark: #6B7280;
+  --text-gray-darker: #4B5563;
+}
+
+/* ===============================================
+   DESIGN PRINCIPLES
+   =============================================== */
+
+/**
+ * 1. GLASS MORPHISM
+ * - Both platforms use glass morphism for premium feel
+ * - Dofracto: Cyan/Green tinted glass
+ * - HUSE Circle: Purple/Pink tinted glass
+ */
+
+.glass-dofracto {
+  background: rgba(10, 10, 10, 0.7);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(36, 198, 220, 0.2);
+}
+
+.glass-huse {
+  background: rgba(10, 10, 10, 0.7);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(139, 92, 246, 0.3);
+}
+
+/**
+ * 2. GRADIENT SYSTEM
+ * - Dofracto: Horizontal gradients (stability, forward motion)
+ * - HUSE Circle: Diagonal gradients (growth, ascension)
+ */
+
+.gradient-dofracto-primary {
+  background: linear-gradient(90deg, #24c6dc 0%, #05997F 100%);
+}
+
+.gradient-huse-primary {
+  background: linear-gradient(135deg, #8B5CF6 0%, #EC4899 100%);
+}
+
+.gradient-unified {
+  /* Bridge gradient - used for cross-platform features */
+  background: linear-gradient(90deg, #24c6dc 0%, #8B5CF6 50%, #EC4899 100%);
+}
+
+/**
+ * 3. ANIMATION PHILOSOPHY
+ * - Dofracto: Smooth, professional transitions (0.3-0.6s)
+ * - HUSE Circle: Energetic, youthful animations (0.2-0.4s)
+ * - Shared: Motion.js for complex animations
+ */
+
+/**
+ * 4. TYPOGRAPHY HIERARCHY
+ * - Both platforms share the same font system
+ * - Dofracto: More spacious, mature
+ * - HUSE Circle: Tighter, energetic
+ */
+
+/**
+ * 5. ICONOGRAPHY
+ * - Dofracto: Lucide icons with cyan/green accents
+ * - HUSE Circle: Lucide icons with purple/gold/pink accents
+ * - Unified features: Multi-color icons showing platform integration
+ */
+
+/* ===============================================
+   CROSS-PLATFORM INTEGRATION STYLES
+   =============================================== */
+
+/**
+ * HUSE CIRCLE ALUMNI BADGE
+ * - Used on Dofracto to show startups born from HUSE Circle
+ * - Purple gradient with sparkle effect
+ */
+.badge-huse-alumni {
+  background: linear-gradient(90deg, rgba(139, 92, 246, 0.2) 0%, rgba(236, 72, 153, 0.2) 100%);
+  border: 1px solid rgba(139, 92, 246, 0.4);
+  color: #8B5CF6;
+}
+
+/**
+ * DOFRACTO OPPORTUNITY BADGE
+ * - Used on HUSE Circle to show gigs from Dofracto startups
+ * - Cyan gradient with verified effect
+ */
+.badge-dofracto-opportunity {
+  background: linear-gradient(90deg, rgba(36, 198, 220, 0.2) 0%, rgba(5, 153, 127, 0.2) 100%);
+  border: 1px solid rgba(36, 198, 220, 0.4);
+  color: #24c6dc;
+}
+
+/**
+ * UNIFIED REPUTATION INDICATOR
+ * - Shows combined reputation across platforms
+ * - Gold accent (prestigious, valuable)
+ */
+.indicator-unified-reputation {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.2) 0%, rgba(251, 191, 36, 0.2) 100%);
+  border: 1px solid rgba(245, 158, 11, 0.4);
+  color: #F59E0B;
+}
+
+/* ===============================================
+   COMPONENT PATTERNS
+   =============================================== */
+
+/**
+ * CARDS
+ * - Rounded corners: 15-25px
+ * - Padding: 24-32px
+ * - Hover: Scale 1.02-1.05, glow effect
+ */
+
+/**
+ * BUTTONS
+ * Primary (Dofracto): Cyan to Green gradient
+ * Primary (HUSE): Purple to Pink gradient
+ * Secondary: Transparent with colored border
+ * Ghost: Minimal hover states
+ */
+
+/**
+ * FORMS
+ * - Dark inputs with colored focus rings
+ * - Dofracto: Cyan focus
+ * - HUSE: Purple focus
+ */
+
+/* ===============================================
+   RESPONSIVE BREAKPOINTS
+   =============================================== */
+
+/**
+ * Mobile: < 768px
+ * Tablet: 768px - 1024px
+ * Desktop: > 1024px
+ * 
+ * Both platforms follow the same breakpoint system
+ */
+
+/* ===============================================
+   ACCESSIBILITY
+   =============================================== */
+
+/**
+ * - All colors meet WCAG AA contrast requirements
+ * - Focus states clearly visible
+ * - Reduced motion support
+ * - Screen reader friendly
+ */
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
