@@ -22,6 +22,7 @@ import { StartupDetailPage } from './pages/StartupDetailPage';
 import { HuseCirclePage } from './pages/HuseCirclePage';
 import { HuseCircleLoading } from './pages/HuseCircleLoading';
 import { HuseCircleLogin } from './pages/HuseCircleLogin';
+import { AuthCallback } from './pages/AuthCallback';
 import { HuseCirclePlatform } from './pages/HuseCirclePlatform';
 import { CollegeVerification } from './pages/CollegeVerification';
 import { RecruiterDashboard } from './pages/RecruiterDashboard';
@@ -74,75 +75,90 @@ function AppContent() {
   return (
     <>
       <Routes>
+        {/* ── Ecosystem / General ── */}
         <Route path="/" element={<EcosystemLanding />} />
-        <Route path="/onboarding" element={<HuseOnboarding />} />
         <Route path="/intro" element={<IntroPage />} />
-        <Route path="/huse-ecosystem-intro" element={<HuseEcosystemIntro />} />
-        <Route path="/demo-credentials" element={<DemoCredentials />} />
-        <Route path="/feature-status" element={<FeatureStatusPage />} />
-        <Route path="/reputation-guide" element={<ReputationGuide />} />
-        <Route path="/huse-circle-platform/challenges" element={<HuseChallenges />} />
-        <Route path="/dofracto" element={<DofractoPlatform />} />
-        <Route path="/dofracto-builders-hub" element={<UnifiedBuildersHub />} />
-        <Route path="/unified-builders-hub" element={<UnifiedBuildersHub />} />
-        <Route path="/dofracto/pricing" element={<ContributorPricing />} />
-        <Route path="/dofracto/business-pricing" element={<BusinessPricing />} />
-        <Route path="/dofracto-contributor-signup" element={<DofractoContributorSignup />} />
-        <Route path="/dofracto-business-login" element={<DofractoBusinessLogin />} />
-        <Route path="/dofracto-builder-login" element={<DofractoBuilderLogin />} />
-        <Route path="/dofracto/discover" element={<AllBusinessListingsPage />} />
-        <Route path="/all-business-listings" element={<AllBusinessListingsPage />} />
-        <Route path="/notifications" element={<NotificationsPage />} />
-        <Route path="/watchlist" element={<WatchlistPage />} />
-        <Route path="/reputation" element={<ReputationPage />} />
-        <Route path="/startup/:id" element={<StartupDetailPage />} />
-        <Route path="/business/:name" element={<StartupDetailPage />} />
-        <Route path="/huse-circle" element={<HuseCirclePage />} />
-        <Route path="/huse-circle-loading" element={<HuseCircleLoading />} />
-        <Route path="/huse-circle-login" element={<HuseCircleLogin />} />
-        <Route path="/huse-circle-platform" element={<HuseCirclePlatform />} />
-        <Route path="/verification-hub" element={<VerificationHub />} />
-        <Route path="/college-verification" element={<CollegeVerification />} />
-        <Route path="/recruiter-dashboard" element={<RecruiterDashboard />} />
-        <Route path="/recruiter-login" element={<RecruiterLogin />} />
         <Route path="/contact" element={<ContactPage />} />
+        <Route path="/search" element={<SearchPage />} />
+        <Route path="/ecosystem/intro" element={<HuseEcosystemIntro />} />
+        <Route path="/ecosystem/demo" element={<DemoCredentials />} />
+        <Route path="/ecosystem/features" element={<FeatureStatusPage />} />
+        <Route path="/ecosystem/theme" element={<ThemePreview />} />
+
+        {/* ── HUSE Circle ── */}
+        <Route path="/husecircle" element={<HuseCirclePage />} />
+        <Route path="/husecircle/onboarding" element={<HuseOnboarding />} />
+        <Route path="/husecircle/loading" element={<HuseCircleLoading />} />
+        <Route path="/husecircle/reputation/guide" element={<ReputationGuide />} />
+        <Route path="/husecircle/verify/college" element={<CollegeVerification />} />
+        <Route path="/husecircle/verify/hub" element={<VerificationHub />} />
+        <Route path="/husecircle/student/login" element={<HuseCircleLogin />} />
+        <Route path="/auth/callback" element={<AuthCallback />} />
+        <Route path="/husecircle/student/platform" element={<HuseCirclePlatform />} />
+        <Route path="/husecircle/student/platform/challenges" element={<HuseChallenges />} />
+        <Route path="/husecircle/student/portfolio/:studentId" element={<StudentPortfolio />} />
+        <Route path="/husecircle/student/notifications" element={<HuseNotifications />} />
+        <Route path="/husecircle/student/chats" element={<HuseConnections />} />
+        <Route path="/husecircle/student/connections" element={<HuseConnections />} />
+        <Route path="/husecircle/student/opportunities" element={<OpportunityFeed />} />
+        <Route path="/husecircle/student/reputation" element={<ReputationPage />} />
+        <Route path="/husecircle/student/graduation" element={<GraduationPage />} />
+
+        {/* ── Dofracto ── */}
+        <Route path="/dofracto" element={<DofractoPlatform />} />
+        <Route path="/dofracto/discover" element={<AllBusinessListingsPage />} />
+        <Route path="/dofracto/watchlist" element={<WatchlistPage />} />
+        <Route path="/dofracto/notifications" element={<NotificationsPage />} />
+        <Route path="/dofracto/startup/:id" element={<StartupDetailPage />} />
+        <Route path="/dofracto/business/:name" element={<StartupDetailPage />} />
+        <Route path="/dofracto/pricing/contributor" element={<ContributorPricing />} />
+        <Route path="/dofracto/pricing/business" element={<BusinessPricing />} />
+        <Route path="/dofracto/builder/login" element={<DofractoBuilderLogin />} />
+        <Route path="/dofracto/builder/signup" element={<DofractoContributorSignup />} />
+        <Route path="/dofracto/builder/hub" element={<UnifiedBuildersHub />} />
+        <Route path="/dofracto/builder/opportunities" element={<DofractoOpportunities />} />
+        <Route path="/dofracto/builder/tracker" element={<ApplicationTracker />} />
+        <Route path="/dofracto/builder/connections" element={<DofractoConnections />} />
+        <Route path="/dofracto/builder/messages" element={<DofractoConnections />} />
+        <Route path="/dofracto/business/login" element={<DofractoBusinessLogin />} />
+
+        {/* ── Quotify ── */}
         <Route path="/quotify" element={<QuotifyPage />} />
-        <Route path="/quotify-login" element={<QuotifyLogin />} />
+        <Route path="/quotify/login" element={<QuotifyLogin />} />
         <Route path="/quotify/dashboard" element={<QuotifyDashboard />} />
         <Route path="/quotify/new-request" element={<NewQuoteRequest />} />
         <Route path="/quotify/match-results" element={<SmartMatchResults />} />
         <Route path="/quotify/request/:requestId" element={<QuoteDetailsPage />} />
-        <Route path="/quotify/submit-quote/:requestId" element={<SubmitQuotePage />} />
+        <Route path="/quotify/submit/:requestId" element={<SubmitQuotePage />} />
         <Route path="/quotify/provider/:providerId" element={<ProviderProfilePage />} />
         <Route path="/quotify/settings" element={<QuotifySettingsPage />} />
         <Route path="/quotify/connections" element={<QuotifyConnections />} />
         <Route path="/quotify/messages" element={<QuotifyConnections />} />
-        <Route path="/admin-login" element={<AdminLogin />} />
-        <Route path="/user-login" element={<UserLogin />} />
-        <Route path="/admin-dashboard" element={<StartupDashboard />} />
-        <Route path="/user-dashboard" element={<UserDashboard />} />
-        <Route path="/add-business" element={<AddBusiness />} />
-        <Route path="/theme-preview" element={<ThemePreview />} />
-        <Route path="/admin-notifications" element={<AdminNotifications />} />
-        <Route path="/super-admin-login" element={<SuperAdminLogin />} />
-        <Route path="/super-admin-dashboard" element={<SuperAdminDashboard />} />
-        <Route path="/business-portal-login" element={<BusinessPortalLogin />} />
-        <Route path="/business-portal-register" element={<BusinessPortalRegister />} />
-        <Route path="/huse-notifications" element={<HuseNotifications />} />
-        <Route path="/huse-chats" element={<HuseConnections />} />
-        <Route path="/huse-connections" element={<HuseConnections />} />
-        <Route path="/opportunity-feed" element={<OpportunityFeed />} />
-        <Route path="/huse-circle-platform/portfolio/:studentId" element={<StudentPortfolio />} />
-        <Route path="/recruiter-profile" element={<RecruiterProfile />} />
-        <Route path="/recruiter-notifications" element={<RecruiterNotifications />} />
-        <Route path="/recruiter-messages" element={<RecruiterConnections />} />
-        <Route path="/recruiter-job-postings" element={<RecruiterJobPostings />} />
-        <Route path="/dofracto-opportunities" element={<DofractoOpportunities />} />
-        <Route path="/application-tracker" element={<ApplicationTracker />} />
-        <Route path="/messaging" element={<DofractoConnections />} />
-        <Route path="/dofracto-connections" element={<DofractoConnections />} />
-        <Route path="/search" element={<SearchPage />} />
-        <Route path="/graduation" element={<GraduationPage />} />
+
+        {/* ── Recruiter ── */}
+        <Route path="/recruiter/login" element={<RecruiterLogin />} />
+        <Route path="/recruiter/dashboard" element={<RecruiterDashboard />} />
+        <Route path="/recruiter/profile" element={<RecruiterProfile />} />
+        <Route path="/recruiter/notifications" element={<RecruiterNotifications />} />
+        <Route path="/recruiter/messages" element={<RecruiterConnections />} />
+        <Route path="/recruiter/connections" element={<RecruiterConnections />} />
+        <Route path="/recruiter/jobs" element={<RecruiterJobPostings />} />
+
+        {/* ── Admin ── */}
+        <Route path="/admin/login" element={<AdminLogin />} />
+        <Route path="/admin/dashboard" element={<StartupDashboard />} />
+        <Route path="/admin/notifications" element={<AdminNotifications />} />
+        <Route path="/admin/super/login" element={<SuperAdminLogin />} />
+        <Route path="/admin/super/dashboard" element={<SuperAdminDashboard />} />
+
+        {/* ── User ── */}
+        <Route path="/user/login" element={<UserLogin />} />
+        <Route path="/user/dashboard" element={<UserDashboard />} />
+
+        {/* ── Business Portal ── */}
+        <Route path="/business/login" element={<BusinessPortalLogin />} />
+        <Route path="/business/register" element={<BusinessPortalRegister />} />
+        <Route path="/business/add" element={<AddBusiness />} />
       </Routes>
       <Toaster
         position="top-right"

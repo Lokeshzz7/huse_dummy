@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+﻿import { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import {
@@ -24,7 +24,7 @@ export function SmartMatchResults() {
     const quotifyUser = localStorage.getItem('quotifyUser');
     if (!quotifyUser) {
       toast.error('Please login to view results');
-      navigate('/quotify-login');
+      navigate('/quotify/login');
       return;
     }
     setUser(JSON.parse(quotifyUser));

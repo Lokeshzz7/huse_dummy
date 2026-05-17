@@ -1,4 +1,4 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Lock, Mail, Eye, EyeOff, User, AlertCircle, CheckCircle } from 'lucide-react';
 import { motion } from 'motion/react';
@@ -55,9 +55,9 @@ export function UserLogin() {
       // Navigate based on user type
       setTimeout(() => {
         if (user.type === 'student') {
-          navigate('/huse-circle-platform');
+          navigate('/husecircle/student/platform');
         } else if (user.type === 'startup') {
-          navigate('/business-listings');
+          navigate('/dofracto/discover');
         } else {
           navigate('/quotify');
         }
@@ -260,7 +260,7 @@ export function UserLogin() {
           <p className="text-center text-gray-400 mt-3">
             Admin?{' '}
             <Link
-              to="/admin-login"
+              to="/admin/login"
               className="text-[#24c6dc] hover:text-[#05997F] transition-colors"
             >
               Login Here

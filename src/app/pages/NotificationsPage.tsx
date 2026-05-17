@@ -1,4 +1,4 @@
-import { motion, AnimatePresence } from 'motion/react';
+﻿import { motion, AnimatePresence } from 'motion/react';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Footer } from '../components/Footer';
@@ -117,7 +117,7 @@ export function NotificationsPage() {
   const handleLogout = () => {
     localStorage.removeItem('dofractoBuilderUser');
     setContributorUser(null);
-    navigate('/dofracto-builder-login');
+    navigate('/dofracto/builder/login');
   };
 
   const markAsRead = (id: number) => {
@@ -188,7 +188,7 @@ export function NotificationsPage() {
             <>
               <div className="hidden md:flex items-center gap-3 bg-black/50 p-2 rounded-xl border border-white/10">
                 <button
-                  onClick={() => navigate('/dofracto-builders-hub')}
+                  onClick={() => navigate('/dofracto/builder/hub')}
                   className="px-6 py-2.5 rounded-lg font-medium transition-all flex items-center gap-2 text-gray-400 hover:text-white hover:bg-white/5"
                 >
                   <Building2 className="w-4 h-4" />

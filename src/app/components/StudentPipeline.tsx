@@ -1,4 +1,4 @@
-import { motion } from 'motion/react';
+﻿import { motion } from 'motion/react';
 import { GraduationCap, Rocket, Award, TrendingUp, Users, Zap, ArrowRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
@@ -208,14 +208,14 @@ export function StudentPipeline() {
           transition={{ duration: 0.6, delay: 0.6 }}
         >
           <button
-            onClick={() => navigate('/huse-circle')}
+            onClick={() => navigate('/husecircle')}
             className="group bg-gradient-to-r from-[#8B5CF6] to-[#EC4899] text-white px-8 py-4 rounded-[15px] hover:shadow-[0_0_30px_rgba(139,92,246,0.5)] transition-all flex items-center gap-2"
           >
             Start in HUSE Circle
             <GraduationCap className="group-hover:scale-110 transition-transform" size={20} />
           </button>
           <button
-            onClick={() => navigate('/business-listings')}
+            onClick={() => navigate('/dofracto/discover')}
             className="group bg-gradient-to-r from-[#24c6dc] to-[#05997F] text-white px-8 py-4 rounded-[15px] hover:shadow-[0_0_30px_rgba(36,198,220,0.5)] transition-all flex items-center gap-2"
           >
             Launch on Dofracto

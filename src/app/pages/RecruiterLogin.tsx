@@ -1,4 +1,4 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   Building2, Mail, Lock, Eye, EyeOff, 
@@ -44,7 +44,7 @@ export function RecruiterLogin() {
       if (loginForm.email === 'recruiter@company.com' && loginForm.password === 'demo123') {
         toast.success('Welcome back! Redirecting to dashboard...');
         setTimeout(() => {
-          navigate('/recruiter-dashboard');
+          navigate('/recruiter/dashboard');
         }, 1000);
       } else {
         toast.error('Invalid credentials. Use demo credentials to login.');
@@ -71,7 +71,7 @@ export function RecruiterLogin() {
     setTimeout(() => {
       toast.success('Account created successfully! Redirecting to dashboard...');
       setTimeout(() => {
-        navigate('/recruiter-dashboard');
+        navigate('/recruiter/dashboard');
       }, 1000);
     }, 1500);
   };
@@ -95,7 +95,7 @@ export function RecruiterLogin() {
       {/* Back to Home Button */}
       <div className="absolute top-6 left-6 z-10">
         <button
-          onClick={() => navigate('/huse-circle')}
+          onClick={() => navigate('/husecircle')}
           className="flex items-center gap-2 px-4 py-2 bg-[#1A1A1A] border border-purple-500/20 text-gray-400 hover:text-white hover:border-purple-500/40 rounded-[12px] transition-all"
         >
           <Home size={16} />

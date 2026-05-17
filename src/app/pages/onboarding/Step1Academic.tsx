@@ -1,9 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion } from 'motion/react';
 import { useAuth } from '../../context/AuthContext';
 import { supabase } from '../../../lib/supabase';
+import { apiGet } from '../../../lib/api';
 import { toast } from 'sonner';
-import { ArrowRight, Loader2 } from 'lucide-react';
+import { ArrowRight, Loader2, X, ChevronDown, CheckCircle2, AlertCircle } from 'lucide-react';
 
 interface College {
   id: string;
@@ -21,116 +22,145 @@ interface DegreeProgram {
 
 export function Step1Academic({ onNext }: { onNext: () => void }) {
   const { user, updateUser } = useAuth();
-  
+
   const [loading, setLoading] = useState(false);
   const [colleges, setColleges] = useState<College[]>([]);
   const [programs, setPrograms] = useState<DegreeProgram[]>([]);
   const [fetchingData, setFetchingData] = useState(true);
+  const [fetchError, setFetchError] = useState(false);
+  const [mobileError, setMobileError] = useState(false);
+  const [collegeInput, setCollegeInput] = useState(user?.college_name || '');
+  const [showCollegeDropdown, setShowCollegeDropdown] = useState(false);
+  const collegeRef = useRef<HTMLDivElement>(null);
+
+  const currentYear = new Date().getFullYear();
 
   const [formData, setFormData] = useState({
     name: user?.name || '',
-    dob: '',
-    ug_pg: 'UG',
-    department: '',
-    college_id: '',
-    college_name: '',
-    degree_program_id: '',
-    current_year_of_study: 1,
-    resume_url: ''
+    dob: (user as any)?.dob || '',
+    mobile: user?.mobile ? user.mobile.replace('+91', '') : '',
+    ug_pg: (user as any)?.ug_pg || 'UG',
+    department: user?.department || '',
+    college_id: user?.college_id || '',
+    college_name: user?.college_name || '',
+    degree_program_id: (user as any)?.degree_program_id || '',
+    current_year_of_study: user?.current_year_of_study || 1,
+    joining_year: (user as any)?.joining_year || currentYear,
+    resume_url: user?.resume_url || '',
   });
 
   useEffect(() => {
     async function loadData() {
+      setFetchError(false);
       try {
-        const [collegesRes, programsRes] = await Promise.all([
-          supabase.from('colleges').select('id, name, city, state').order('name'),
-          supabase.from('degree_programs').select('id, name, category, duration_years')
+        const [degreesData, collegesData] = await Promise.all([
+          apiGet<DegreeProgram[]>('/reference/degrees'),
+          apiGet<College[]>('/reference/colleges'),
         ]);
-
-        if (collegesRes.data) setColleges(collegesRes.data);
-        if (programsRes.data) setPrograms(programsRes.data);
-
-        // Check if user's email domain matches a college
-        if (user?.email) {
-          const domain = user.email.split('@')[1];
-          const { data } = await supabase
-            .from('college_domains')
-            .select('college_id')
-            .eq('domain', domain)
-            .maybeSingle();
-
-          if (data?.college_id && collegesRes.data) {
-            const matchedCollege = collegesRes.data.find(c => c.id === data.college_id);
-            if (matchedCollege) {
-              setFormData(prev => ({
-                ...prev,
-                college_id: matchedCollege.id,
-                college_name: matchedCollege.name
-              }));
-            }
-          }
-        }
-      } catch (e) {
-        console.error('Error loading academic metadata', e);
-        toast.error('Failed to load colleges. Please try again.');
+        setPrograms(degreesData);
+        setColleges(collegesData);
+      } catch (e: any) {
+        setFetchError(true);
+        toast.error('Could not load college/degree options. Please refresh.');
       } finally {
         setFetchingData(false);
       }
     }
     loadData();
-  }, [user]);
+  }, []);
+
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (collegeRef.current && !collegeRef.current.contains(e.target as Node)) {
+        setShowCollegeDropdown(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const filteredColleges = (collegeInput && !formData.college_id)
+    ? colleges.filter(c =>
+        c.name.toLowerCase().includes(collegeInput.toLowerCase()) ||
+        c.city?.toLowerCase().includes(collegeInput.toLowerCase())
+      )
+    : colleges;
+
+  const handleCollegeSelect = (c: College) => {
+    setFormData(prev => ({ ...prev, college_id: c.id, college_name: c.name }));
+    setCollegeInput(c.name);
+    setShowCollegeDropdown(false);
+  };
+
+  const clearCollege = () => {
+    setFormData(prev => ({ ...prev, college_id: '', college_name: '' }));
+    setCollegeInput('');
+    setShowCollegeDropdown(true);
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData(prev => {
+      const updated = { ...prev, [name]: value };
+      if (name === 'current_year_of_study') {
+        updated.joining_year = currentYear - (Number(value) - 1);
+      }
+      if (name === 'ug_pg') {
+        updated.degree_program_id = '';
+      }
+      return updated;
+    });
   };
 
-  const handleCollegeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedId = e.target.value;
-    const selectedCollege = colleges.find(c => c.id === selectedId);
-    setFormData(prev => ({
-      ...prev,
-      college_id: selectedId,
-      college_name: selectedCollege?.name || ''
-    }));
-  };
+  const filteredPrograms = programs.filter(p => p.category === formData.ug_pg);
+  const selectedProgram = programs.find(p => p.id === formData.degree_program_id);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!user?.id) return;
-    setLoading(true);
 
-    const selectedProgram = programs.find(p => p.id === formData.degree_program_id);
+    if (!formData.college_id) {
+      toast.error('Please select your college from the list');
+      return;
+    }
     if (!selectedProgram) {
       toast.error('Please select a degree program');
-      setLoading(false);
       return;
     }
 
+    setLoading(true);
     try {
-      const payload = {
-        name: formData.name,
-        dob: formData.dob,
-        ug_pg: formData.ug_pg,
-        department: formData.department,
-        college_id: formData.college_id,
-        college_name: formData.college_name,
-        degree_program_id: formData.degree_program_id,
-        current_year_of_study: Number(formData.current_year_of_study),
-        course_duration: selectedProgram.duration_years,
-        resume_url: formData.resume_url || null
-      };
+      const mobile = formData.mobile ? `+91${formData.mobile.replace(/\D/g, '')}` : null;
 
-      const { data, error } = await supabase
+      const { error } = await supabase
         .from('users')
-        .update(payload)
-        .eq('id', user.id)
-        .select()
-        .single();
+        .update({
+          name: formData.name,
+          ug_pg: formData.ug_pg,
+          college_name: formData.college_name,
+          college_id: formData.college_id,
+          department: formData.department,
+          current_year_of_study: Number(formData.current_year_of_study),
+          mobile,
+        })
+        .eq('id', user.id);
 
       if (error) throw error;
 
-      updateUser(payload);
+      updateUser({
+        name: formData.name,
+        ug_pg: formData.ug_pg as 'UG' | 'PG',
+        college_name: formData.college_name,
+        college_id: formData.college_id,
+        degree_program_id: formData.degree_program_id,
+        department: formData.department,
+        current_year_of_study: Number(formData.current_year_of_study),
+        joining_year: Number(formData.joining_year),
+        dob: formData.dob,
+        mobile,
+        onboarding_step: 'verify_phone',
+      });
+
       onNext();
     } catch (e: any) {
       toast.error(e.message || 'Failed to save academic details');
@@ -143,7 +173,23 @@ export function Step1Academic({ onNext }: { onNext: () => void }) {
     return (
       <div className="flex flex-col items-center justify-center py-20 text-gray-400">
         <Loader2 className="w-8 h-8 animate-spin mb-4 text-purple-500" />
-        <p>Loading metadata...</p>
+        <p>Loading college &amp; degree options...</p>
+      </div>
+    );
+  }
+
+  if (fetchError) {
+    return (
+      <div className="flex flex-col items-center justify-center py-20 text-center gap-4">
+        <AlertCircle className="w-10 h-10 text-red-400" />
+        <p className="text-white font-semibold">Failed to load options</p>
+        <p className="text-gray-400 text-sm">Could not fetch colleges and degree programs.</p>
+        <button
+          onClick={() => { setFetchingData(true); setFetchError(false); }}
+          className="px-5 py-2 bg-purple-500/20 border border-purple-500/40 text-purple-400 rounded-xl text-sm hover:bg-purple-500/30 transition-colors"
+        >
+          Retry
+        </button>
       </div>
     );
   }
@@ -161,10 +207,11 @@ export function Step1Academic({ onNext }: { onNext: () => void }) {
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-5">
-        <div className="grid md:grid-cols-2 gap-5">
+        {/* SECTION 1: Identity & Timing */}
+        <div className="p-6 bg-[#1A1A1A]/30 border border-white/5 rounded-2xl space-y-5">
           <div className="space-y-2">
-            <label className="text-sm text-gray-400">Full Name</label>
-            <input 
+            <label className="text-xs font-semibold text-purple-400 uppercase tracking-wider">Full Name</label>
+            <input
               required
               name="name"
               value={formData.name}
@@ -173,104 +220,221 @@ export function Step1Academic({ onNext }: { onNext: () => void }) {
               placeholder="John Doe"
             />
           </div>
-          <div className="space-y-2">
-            <label className="text-sm text-gray-400">Date of Birth</label>
-            <input 
-              required
-              type="date"
-              name="dob"
-              value={formData.dob}
-              onChange={handleChange}
-              className="w-full bg-[#1A1A1A] border border-gray-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500 transition-colors"
-            />
+
+          <div className="grid md:grid-cols-2 gap-5">
+            <div className="space-y-2">
+              <label className="text-xs font-semibold text-purple-400 uppercase tracking-wider">Date of Birth</label>
+              <input
+                required
+                type="date"
+                name="dob"
+                value={formData.dob}
+                onChange={handleChange}
+                className="w-full bg-[#1A1A1A] border border-gray-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500 transition-colors"
+              />
+            </div>
+            <div className="space-y-2">
+              <label className="text-xs font-semibold text-purple-400 uppercase tracking-wider">Joining Year</label>
+              <select
+                name="joining_year"
+                value={formData.joining_year}
+                onChange={handleChange}
+                className="w-full bg-[#1A1A1A] border border-gray-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500 transition-colors appearance-none"
+              >
+                {Array.from({ length: 7 }, (_, i) => currentYear - 6 + i).map(yr => (
+                  <option key={yr} value={yr}>{yr}</option>
+                ))}
+              </select>
+            </div>
           </div>
         </div>
 
-        <div className="space-y-2">
-          <label className="text-sm text-gray-400">College / Institution</label>
-          <select 
-            required
-            name="college_id"
-            value={formData.college_id}
-            onChange={handleCollegeChange}
-            className="w-full bg-[#1A1A1A] border border-gray-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500 transition-colors appearance-none"
-          >
-            <option value="" disabled>Select your college</option>
-            {colleges.map(c => (
-              <option key={c.id} value={c.id}>{c.name} ({c.city})</option>
-            ))}
-          </select>
+        {/* SECTION 2: Institution Details */}
+        <div className="p-6 bg-[#1A1A1A]/30 border border-white/5 rounded-2xl space-y-5">
+
+          {/* College combobox */}
+          <div className="space-y-2">
+            <label className="text-xs font-semibold text-pink-400 uppercase tracking-wider">College / Institution</label>
+            <div ref={collegeRef} className="relative">
+              <div className={`flex items-center bg-[#1A1A1A] border ${formData.college_id ? 'border-purple-500/60' : 'border-gray-800'} rounded-xl focus-within:border-purple-500 transition-colors`}>
+                <input
+                  type="text"
+                  value={collegeInput}
+                  onChange={(e) => {
+                    setCollegeInput(e.target.value);
+                    if (formData.college_id) {
+                      setFormData(prev => ({ ...prev, college_id: '', college_name: '' }));
+                    }
+                    setShowCollegeDropdown(true);
+                  }}
+                  onFocus={() => setShowCollegeDropdown(true)}
+                  placeholder={
+                    colleges.length === 0
+                      ? 'No colleges available — admin must add them first'
+                      : 'Type to search your college...'
+                  }
+                  disabled={colleges.length === 0}
+                  className="flex-1 bg-transparent px-4 py-3 text-white focus:outline-none text-sm placeholder-gray-600 disabled:cursor-not-allowed"
+                />
+                {formData.college_id ? (
+                  <button
+                    type="button"
+                    onClick={clearCollege}
+                    className="px-3 py-3 text-gray-500 hover:text-white transition-colors"
+                    title="Clear selection"
+                  >
+                    <X size={14} />
+                  </button>
+                ) : (
+                  <ChevronDown size={14} className="mr-3 text-gray-500 flex-shrink-0" />
+                )}
+              </div>
+
+              {showCollegeDropdown && colleges.length > 0 && (
+                <div className="absolute z-20 w-full mt-1 bg-[#161616] border border-gray-700 rounded-xl shadow-2xl max-h-52 overflow-y-auto">
+                  {filteredColleges.length === 0 ? (
+                    <p className="px-4 py-3 text-gray-500 text-sm text-center">
+                      No match — try a different name or city
+                    </p>
+                  ) : (
+                    filteredColleges.map(c => (
+                      <button
+                        key={c.id}
+                        type="button"
+                        onMouseDown={() => handleCollegeSelect(c)}
+                        className="w-full px-4 py-2.5 text-left hover:bg-purple-500/15 transition-colors flex items-center justify-between gap-4 border-b border-white/5 last:border-0"
+                      >
+                        <span className="text-white text-sm font-medium truncate">{c.name}</span>
+                        <span className="text-gray-500 text-xs whitespace-nowrap flex-shrink-0">{c.city}</span>
+                      </button>
+                    ))
+                  )}
+                </div>
+              )}
+            </div>
+
+            {formData.college_id && (
+              <div className="flex items-center gap-1.5 text-xs text-green-400 mt-1">
+                <CheckCircle2 size={11} />
+                {formData.college_name} selected
+              </div>
+            )}
+
+            {colleges.length === 0 && (
+              <p className="text-xs text-amber-400 flex items-center gap-1.5 mt-1">
+                <AlertCircle size={11} />
+                Your institution is not listed yet. Contact support or wait for admin to add it.
+              </p>
+            )}
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-5">
+            <div className="space-y-2">
+              <label className="text-xs font-semibold text-pink-400 uppercase tracking-wider">Level</label>
+              <select
+                name="ug_pg"
+                value={formData.ug_pg}
+                onChange={handleChange}
+                className="w-full bg-[#1A1A1A] border border-gray-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500 transition-colors appearance-none"
+              >
+                <option value="UG">Undergraduate (UG)</option>
+                <option value="PG">Postgraduate (PG)</option>
+              </select>
+            </div>
+            <div className="space-y-2">
+              <label className="text-xs font-semibold text-pink-400 uppercase tracking-wider">Degree Program</label>
+              <select
+                required
+                name="degree_program_id"
+                value={formData.degree_program_id}
+                onChange={handleChange}
+                disabled={filteredPrograms.length === 0}
+                className="w-full bg-[#1A1A1A] border border-gray-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500 transition-colors appearance-none disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                <option value="" disabled>
+                  {filteredPrograms.length === 0 ? 'No programs available for this level' : 'Select program'}
+                </option>
+                {filteredPrograms.map(p => (
+                  <option key={p.id} value={p.id}>
+                    {p.name} ({p.duration_years}yr)
+                  </option>
+                ))}
+              </select>
+              {filteredPrograms.length === 0 && programs.length > 0 && (
+                <p className="text-xs text-amber-400 flex items-center gap-1.5">
+                  <AlertCircle size={11} />
+                  No {formData.ug_pg} programs added yet. Switch level or contact support.
+                </p>
+              )}
+            </div>
+          </div>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-5">
-          <div className="space-y-2">
-            <label className="text-sm text-gray-400">Degree Program</label>
-            <select 
-              required
-              name="degree_program_id"
-              value={formData.degree_program_id}
-              onChange={handleChange}
-              className="w-full bg-[#1A1A1A] border border-gray-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500 transition-colors appearance-none"
-            >
-              <option value="" disabled>Select program</option>
-              {programs.map(p => (
-                <option key={p.id} value={p.id}>{p.name}</option>
-              ))}
-            </select>
+        {/* SECTION 3: Current Status & Contact */}
+        <div className="p-6 bg-[#1A1A1A]/30 border border-white/5 rounded-2xl space-y-5">
+          <div className="grid md:grid-cols-2 gap-5">
+            <div className="space-y-2">
+              <label className="text-xs font-semibold text-blue-400 uppercase tracking-wider">Department</label>
+              <input
+                required
+                name="department"
+                value={formData.department}
+                onChange={handleChange}
+                className="w-full bg-[#1A1A1A] border border-gray-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500 transition-colors"
+                placeholder="Computer Science"
+              />
+            </div>
+            <div className="space-y-2">
+              <label className="text-xs font-semibold text-blue-400 uppercase tracking-wider">Year of Study</label>
+              <select
+                name="current_year_of_study"
+                value={formData.current_year_of_study}
+                onChange={handleChange}
+                className="w-full bg-[#1A1A1A] border border-gray-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500 transition-colors appearance-none"
+              >
+                {Array.from({ length: selectedProgram?.duration_years || 4 }, (_, i) => i + 1).map(yr => (
+                  <option key={yr} value={yr}>Year {yr}</option>
+                ))}
+              </select>
+            </div>
           </div>
-          <div className="space-y-2">
-            <label className="text-sm text-gray-400">Level</label>
-            <select 
-              name="ug_pg"
-              value={formData.ug_pg}
-              onChange={handleChange}
-              className="w-full bg-[#1A1A1A] border border-gray-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500 transition-colors appearance-none"
-            >
-              <option value="UG">Undergraduate (UG)</option>
-              <option value="PG">Postgraduate (PG)</option>
-            </select>
+
+          <div className="grid md:grid-cols-2 gap-5">
+            <div className="space-y-2">
+              <label className="text-xs font-semibold text-blue-400 uppercase tracking-wider">Mobile (Optional)</label>
+              <div className={`flex bg-[#1A1A1A] border ${mobileError ? 'border-red-500' : 'border-gray-800'} rounded-xl overflow-hidden focus-within:border-purple-500 transition-colors`}>
+                <span className="px-3 py-3 bg-[#222] text-gray-500 border-r border-gray-800 text-sm font-medium">+91</span>
+                <input
+                  type="tel"
+                  name="mobile"
+                  maxLength={10}
+                  value={formData.mobile}
+                  onChange={(e) => {
+                    setMobileError(false);
+                    setFormData(prev => ({ ...prev, mobile: e.target.value.replace(/\D/g, '') }));
+                  }}
+                  className="w-full bg-transparent px-4 py-3 text-white focus:outline-none"
+                  placeholder="9876543210"
+                />
+              </div>
+              {mobileError && <p className="text-red-500 text-xs mt-1">Number already in use.</p>}
+            </div>
+            <div className="space-y-2">
+              <label className="text-xs font-semibold text-blue-400 uppercase tracking-wider">Resume (Optional)</label>
+              <input
+                type="url"
+                name="resume_url"
+                value={formData.resume_url}
+                onChange={handleChange}
+                className="w-full bg-[#1A1A1A] border border-gray-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500 transition-colors"
+                placeholder="https://drive..."
+              />
+            </div>
           </div>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-5">
-          <div className="space-y-2">
-            <label className="text-sm text-gray-400">Department / Branch</label>
-            <input 
-              required
-              name="department"
-              value={formData.department}
-              onChange={handleChange}
-              className="w-full bg-[#1A1A1A] border border-gray-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500 transition-colors"
-              placeholder="Computer Science"
-            />
-          </div>
-          <div className="space-y-2">
-            <label className="text-sm text-gray-400">Current Year of Study</label>
-            <select 
-              name="current_year_of_study"
-              value={formData.current_year_of_study}
-              onChange={handleChange}
-              className="w-full bg-[#1A1A1A] border border-gray-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500 transition-colors appearance-none"
-            >
-              {[1,2,3,4,5,6].map(yr => <option key={yr} value={yr}>Year {yr}</option>)}
-            </select>
-          </div>
-        </div>
-
-        <div className="space-y-2">
-          <label className="text-sm text-gray-400">Resume URL (Optional)</label>
-          <input 
-            type="url"
-            name="resume_url"
-            value={formData.resume_url}
-            onChange={handleChange}
-            className="w-full bg-[#1A1A1A] border border-gray-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500 transition-colors"
-            placeholder="https://drive.google.com/..."
-          />
-        </div>
-
-        <button 
-          type="submit" 
+        <button
+          type="submit"
           disabled={loading}
           className="w-full mt-6 px-6 py-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-xl font-bold hover:shadow-lg hover:shadow-purple-500/30 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
         >

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Save, Upload, X, Building2 } from 'lucide-react';
 import { motion } from 'motion/react';
@@ -8,7 +8,7 @@ export function AddBusiness() {
   
   // Determine dashboard route based on user type
   const userType = localStorage.getItem('userType');
-  const dashboardRoute = userType === 'superadmin' ? '/super-admin-dashboard' : '/admin-dashboard';
+  const dashboardRoute = userType === 'superadmin' ? '/admin/super/dashboard' : '/admin/dashboard';
   
   const [formData, setFormData] = useState({
     businessName: '',

@@ -1,4 +1,4 @@
-import { motion } from 'motion/react';
+﻿import { motion } from 'motion/react';
 import { Search, MapPin, Star, ArrowRight, GraduationCap, Sparkles, Users } from 'lucide-react';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 import { useState } from 'react';
@@ -69,7 +69,7 @@ export function BusinessListings() {
   const handleViewDetails = (businessName: string) => {
     console.log('Viewing details for:', businessName);
     // Navigate to business detail page or show modal
-    navigate(`/business/${businessName}`);
+    navigate(`/dofracto/business/${businessName}`);
   };
 
   return (
@@ -244,7 +244,7 @@ export function BusinessListings() {
           transition={{ duration: 0.6, delay: 0.4 }}
         >
           <button 
-            onClick={() => navigate('/all-business-listings')}
+            onClick={() => navigate('/dofracto/discover')}
             className="bg-transparent text-white px-8 py-4 rounded-[15px] border-2 border-[#24c6dc] hover:bg-[#24c6dc]/10 transition-all inline-flex items-center gap-2"
           >
             View All Businesses

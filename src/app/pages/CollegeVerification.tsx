@@ -1,4 +1,4 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   Mail, CheckCircle, AlertCircle, ArrowRight, 
@@ -81,7 +81,7 @@ export function CollegeVerification() {
       
       // Redirect to platform after 2 seconds
       setTimeout(() => {
-        navigate('/huse-circle-platform');
+        navigate('/husecircle/student/platform');
       }, 2000);
     }, 2000);
   };
@@ -178,7 +178,7 @@ export function CollegeVerification() {
                 <div className="mt-4 text-center">
                   <button
                     type="button"
-                    onClick={() => navigate('/huse-circle-login')}
+                    onClick={() => navigate('/husecircle/student/login')}
                     className="text-purple-400 hover:text-purple-300 text-[13px] transition-colors"
                   >
                     Already have an account? Demo Login →

@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+﻿import { useNavigate } from 'react-router-dom';
 import { motion, useScroll, useTransform } from 'motion/react';
 import { Sparkles, ArrowRight, GraduationCap, Rocket, FileText, TrendingUp, Users, Zap, Award, Target, Brain, ChevronDown } from 'lucide-react';
 import { useEffect, useState } from 'react';
@@ -222,7 +222,7 @@ export function IntroPage() {
             </motion.button>
 
             <motion.button
-              onClick={() => navigate('/user-login')}
+              onClick={() => navigate('/user/login')}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="px-10 py-4 rounded-xl font-medium border-2 border-[#24c6dc]/50 text-theme-primary hover:bg-[#24c6dc]/10 transition-all duration-300"
@@ -475,7 +475,7 @@ export function IntroPage() {
                   </motion.button>
 
                   <motion.button
-                    onClick={() => navigate('/huse-circle-login')}
+                    onClick={() => navigate('/husecircle/student/login')}
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     className="px-10 py-4 rounded-xl font-medium bg-gradient-to-r from-[#B66FDE] to-[#D4A5F5] text-white shadow-lg shadow-[#B66FDE]/30 hover:shadow-2xl hover:shadow-[#B66FDE]/50 transition-all duration-300"

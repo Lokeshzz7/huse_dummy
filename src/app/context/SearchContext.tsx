@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, ReactNode, useEffect } from 'react';
+import { apiGet } from '../../lib/api';
 
 export type SearchCategory = 'all' | 'students' | 'startups' | 'jobs' | 'opportunities' | 'quotes' | 'posts' | 'projects';
 
@@ -48,7 +49,7 @@ const MOCK_SEARCH_DATA: SearchResult[] = [
     title: 'Priya Sharma',
     description: 'Full-stack developer specializing in React and Node.js. Built 5+ MVPs.',
     image: '👩‍💻',
-    url: '/huse-circle-platform/portfolio/student-1',
+    url: '/husecircle/student/portfolio/student-1',
     metadata: {
       platform: 'huse',
       tier: 'Gold',
@@ -63,7 +64,7 @@ const MOCK_SEARCH_DATA: SearchResult[] = [
     title: 'Rahul Verma',
     description: 'UI/UX Designer with expertise in Figma and design systems.',
     image: '👨‍🎨',
-    url: '/huse-circle-platform/portfolio/student-2',
+    url: '/husecircle/student/portfolio/student-2',
     metadata: {
       platform: 'huse',
       tier: 'Platinum',
@@ -78,7 +79,7 @@ const MOCK_SEARCH_DATA: SearchResult[] = [
     title: 'Ananya Patel',
     description: 'AI/ML enthusiast building intelligent applications.',
     image: '👩‍🔬',
-    url: '/huse-circle-platform/portfolio/student-3',
+    url: '/husecircle/student/portfolio/student-3',
     metadata: {
       platform: 'huse',
       tier: 'Gold',
@@ -94,7 +95,7 @@ const MOCK_SEARCH_DATA: SearchResult[] = [
     title: 'TechVision AI',
     description: 'Building next-generation AI solutions for enterprise automation',
     image: '🚀',
-    url: '/startup/techvision',
+    url: '/dofracto/startup/techvision',
     metadata: {
       platform: 'dofracto',
       tags: ['AI', 'SaaS', 'Enterprise', 'Automation'],
@@ -108,7 +109,7 @@ const MOCK_SEARCH_DATA: SearchResult[] = [
     title: 'HealthSync',
     description: 'Digital health platform connecting patients with healthcare providers',
     image: '🏥',
-    url: '/startup/healthsync',
+    url: '/dofracto/startup/healthsync',
     metadata: {
       platform: 'dofracto',
       tags: ['HealthTech', 'Telemedicine', 'Mobile App'],
@@ -122,7 +123,7 @@ const MOCK_SEARCH_DATA: SearchResult[] = [
     title: 'EduLearn Pro',
     description: 'Interactive learning platform with AI-powered personalization',
     image: '📚',
-    url: '/startup/edulearn',
+    url: '/dofracto/startup/edulearn',
     metadata: {
       platform: 'dofracto',
       tags: ['EdTech', 'AI', 'E-learning'],
@@ -137,7 +138,7 @@ const MOCK_SEARCH_DATA: SearchResult[] = [
     title: 'Frontend Developer Intern',
     description: 'Looking for React developers to join our growing team',
     image: '💼',
-    url: '/huse-circle-platform?tab=jobs',
+    url: '/husecircle/student/platform?tab=jobs',
     metadata: {
       platform: 'huse',
       author: 'TechCorp',
@@ -152,7 +153,7 @@ const MOCK_SEARCH_DATA: SearchResult[] = [
     title: 'Product Designer',
     description: 'Design beautiful and intuitive user experiences',
     image: '🎨',
-    url: '/huse-circle-platform?tab=jobs',
+    url: '/husecircle/student/platform?tab=jobs',
     metadata: {
       platform: 'huse',
       author: 'DesignStudio',
@@ -168,7 +169,7 @@ const MOCK_SEARCH_DATA: SearchResult[] = [
     title: 'Full-stack Development - Equity Based',
     description: 'Join our founding team and get equity. Building a fintech platform.',
     image: '🎯',
-    url: '/dofracto-opportunities',
+    url: '/dofracto/builder/opportunities',
     metadata: {
       platform: 'dofracto',
       author: 'FinTech Startup',
@@ -182,7 +183,7 @@ const MOCK_SEARCH_DATA: SearchResult[] = [
     title: 'Marketing Co-founder',
     description: 'Looking for a marketing expert to lead growth strategy',
     image: '📈',
-    url: '/dofracto-opportunities',
+    url: '/dofracto/builder/opportunities',
     metadata: {
       platform: 'dofracto',
       author: 'GrowthCo',
@@ -228,7 +229,7 @@ const MOCK_SEARCH_DATA: SearchResult[] = [
     title: 'Just launched my first SaaS product!',
     description: 'After 6 months of hard work, finally launched my project management tool',
     image: '🎉',
-    url: '/huse-circle-platform?tab=feed',
+    url: '/husecircle/student/platform?tab=feed',
     metadata: {
       platform: 'huse',
       author: 'Raj Kumar',
@@ -242,7 +243,7 @@ const MOCK_SEARCH_DATA: SearchResult[] = [
     title: 'Looking for feedback on my portfolio',
     description: 'Built my portfolio website using Next.js and Tailwind. Would love your thoughts!',
     image: '💬',
-    url: '/huse-circle-platform?tab=feed',
+    url: '/husecircle/student/platform?tab=feed',
     metadata: {
       platform: 'huse',
       author: 'Sarah Chen',
@@ -257,7 +258,7 @@ const MOCK_SEARCH_DATA: SearchResult[] = [
     title: 'AI Chatbot Builder',
     description: 'No-code platform for creating AI-powered chatbots',
     image: '🤖',
-    url: '/huse-circle-platform?tab=portfolio',
+    url: '/husecircle/student/platform?tab=portfolio',
     metadata: {
       platform: 'huse',
       author: 'Dev Team',
@@ -271,7 +272,7 @@ const MOCK_SEARCH_DATA: SearchResult[] = [
     title: 'Fitness Tracking App',
     description: 'Mobile app for tracking workouts, nutrition, and health metrics',
     image: '💪',
-    url: '/huse-circle-platform?tab=portfolio',
+    url: '/husecircle/student/platform?tab=portfolio',
     metadata: {
       platform: 'huse',
       author: 'Health Enthusiasts',
@@ -318,39 +319,37 @@ export function SearchProvider({ children }: { children: ReactNode }) {
     }
   }, [recentSearches]);
 
-  const performSearch = (query: string, category: SearchCategory = 'all') => {
+  const performSearch = async (query: string, category: SearchCategory = 'all') => {
     if (!query.trim()) {
       setSearchResults([]);
       return;
     }
 
     setIsSearching(true);
-
-    // Simulate API delay
-    setTimeout(() => {
-      const lowerQuery = query.toLowerCase();
-      
-      let filtered = MOCK_SEARCH_DATA.filter(item => {
-        // Category filter
-        if (category !== 'all' && item.type !== category) {
-          return false;
+    try {
+      const data = await apiGet<any[]>(`/users/search?q=${encodeURIComponent(query)}&type=${category}`);
+      const mapped: SearchResult[] = data.map(item => ({
+        id: item.id?.toString() || item._id?.toString(),
+        type: (item.category as SearchCategory) || 'students',
+        title: item.name || item.title || 'Untitled',
+        description: item.bio || item.description || '',
+        image: item.avatar || item.image || '👤',
+        url: item.url || (item.category === 'students' ? `/husecircle/student/portfolio/${item.id}` : '#'),
+        metadata: {
+          platform: item.platform || 'huse',
+          tags: item.skills || item.tags || [],
+          location: item.college_name || item.location,
+          reputation: item.reputation,
+          author: item.author_name
         }
-
-        // Text search
-        const matchesTitle = item.title.toLowerCase().includes(lowerQuery);
-        const matchesDescription = item.description.toLowerCase().includes(lowerQuery);
-        const matchesTags = item.metadata?.tags?.some(tag => 
-          tag.toLowerCase().includes(lowerQuery)
-        );
-        const matchesAuthor = item.metadata?.author?.toLowerCase().includes(lowerQuery);
-        const matchesLocation = item.metadata?.location?.toLowerCase().includes(lowerQuery);
-
-        return matchesTitle || matchesDescription || matchesTags || matchesAuthor || matchesLocation;
-      });
-
-      setSearchResults(filtered);
+      }));
+      setSearchResults(mapped);
+    } catch (e) {
+      console.error('Search error:', e);
+      setSearchResults([]);
+    } finally {
       setIsSearching(false);
-    }, 300);
+    }
   };
 
   const clearSearch = () => {

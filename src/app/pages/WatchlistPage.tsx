@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+﻿import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
@@ -92,7 +92,7 @@ export function WatchlistPage() {
   const handleLogout = () => {
     localStorage.removeItem('dofractoBuilderUser');
     setContributorUser(null);
-    navigate('/dofracto-builder-login');
+    navigate('/dofracto/builder/login');
   };
 
   const removeFromWatchlist = (id: number) => {
@@ -117,7 +117,7 @@ export function WatchlistPage() {
             <>
               <div className="hidden md:flex items-center gap-3 bg-black/50 p-2 rounded-xl border border-white/10">
                 <button
-                  onClick={() => navigate('/dofracto-builders-hub')}
+                  onClick={() => navigate('/dofracto/builder/hub')}
                   className="px-6 py-2.5 rounded-lg font-medium transition-all flex items-center gap-2 text-gray-400 hover:text-white hover:bg-white/5"
                 >
                   <Building2 className="w-4 h-4" />
@@ -127,7 +127,7 @@ export function WatchlistPage() {
 
               <div className="flex items-center gap-4">
                 <button 
-                  onClick={() => navigate('/notifications')}
+                  onClick={() => navigate('/dofracto/notifications')}
                   className="relative p-2 hover:bg-white/5 rounded-lg transition-colors"
                 >
                   <Bell className="w-5 h-5" />
@@ -316,7 +316,7 @@ export function WatchlistPage() {
                     {/* Action Buttons */}
                     <div className="space-y-2">
                       <button 
-                        onClick={() => navigate(`/business/${business.id}`)}
+                        onClick={() => navigate(`/dofracto/business/${business.id}`)}
                         className="w-full py-3 bg-gradient-to-r from-[#24c6dc] to-[#05997F] rounded-xl font-medium hover:shadow-lg hover:shadow-cyan-500/30 transition-all flex items-center justify-center gap-2"
                       >
                         View Business

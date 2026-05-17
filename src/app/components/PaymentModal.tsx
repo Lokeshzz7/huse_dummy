@@ -1,4 +1,4 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   X, CreditCard, Smartphone, Building, Wallet, 
@@ -58,7 +58,7 @@ export function PaymentModal({ isOpen, onClose }: PaymentModalProps) {
 
     // Redirect to HUSE Circle after success
     setTimeout(() => {
-      navigate('/huse-circle-loading');
+      navigate('/husecircle/loading');
     }, 2000);
   };
 

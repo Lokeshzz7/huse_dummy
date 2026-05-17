@@ -1,4 +1,4 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import { motion } from 'motion/react';
 import {
   ArrowLeft, Bell, Check, Trash2, Filter, User, Briefcase,
@@ -33,7 +33,7 @@ export function RecruiterNotifications() {
       studentAvatar: '👩‍💻',
       timestamp: '5 minutes ago',
       read: false,
-      actionUrl: '/huse-circle-platform/portfolio/1'
+      actionUrl: '/husecircle/student/portfolio/1'
     },
     {
       id: 2,
@@ -44,7 +44,7 @@ export function RecruiterNotifications() {
       studentAvatar: '👨‍🔬',
       timestamp: '1 hour ago',
       read: false,
-      actionUrl: '/huse-circle-platform/portfolio/2'
+      actionUrl: '/husecircle/student/portfolio/2'
     },
     {
       id: 3,
@@ -55,7 +55,7 @@ export function RecruiterNotifications() {
       studentAvatar: '👨‍💻',
       timestamp: '2 hours ago',
       read: false,
-      actionUrl: '/recruiter-messages'
+      actionUrl: '/recruiter/messages'
     },
     {
       id: 4,
@@ -66,7 +66,7 @@ export function RecruiterNotifications() {
       studentAvatar: '👩‍🎨',
       timestamp: '3 hours ago',
       read: true,
-      actionUrl: '/huse-circle-platform/portfolio/3'
+      actionUrl: '/husecircle/student/portfolio/3'
     },
     {
       id: 5,
@@ -167,7 +167,7 @@ export function RecruiterNotifications() {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <button
-                onClick={() => navigate('/recruiter-dashboard')}
+                onClick={() => navigate('/recruiter/dashboard')}
                 className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors"
               >
                 <ArrowLeft size={20} />

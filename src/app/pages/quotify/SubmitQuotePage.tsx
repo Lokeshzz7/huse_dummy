@@ -1,4 +1,4 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion } from 'motion/react';
 import {
@@ -39,7 +39,7 @@ export function SubmitQuotePage() {
     setTimeout(() => {
       toast.success('Quote submitted successfully!');
       setIsSubmitting(false);
-      navigate('/admin-dashboard');
+      navigate('/admin/dashboard');
     }, 1500);
   };
 

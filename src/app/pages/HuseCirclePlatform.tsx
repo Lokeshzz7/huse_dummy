@@ -32,10 +32,11 @@ import { ProgressionBar } from '../components/ProgressionBar';
 import { useAuth } from '../context/AuthContext';
 import { toast } from 'sonner';
 import { useMessaging } from '../context/MessagingContext';
-import { TIER_THRESHOLDS, getUserTier } from '../utils/tierSystem';
+import { TIER_THRESHOLDS, calculateTier } from '../utils/tierSystem';
 import { VERIFICATION_BADGES, type BadgeType } from '../utils/verificationBadges';
 import { LINK_TYPES, getContextualButtons } from '../utils/linkTypes';
 import { SKILL_CATEGORIES, ALL_SKILL_TAGS } from '../utils/skillTags';
+import { apiGet, apiPost } from '../../lib/api';
 
 type Tab = 'feed' | 'portfolio' | 'gigs' | 'marketplace' | 'leaderboard' | 'quotes' | 'jobs' | 'dashboard';
 
@@ -57,7 +58,7 @@ export function HuseCirclePlatform() {
   
   const [activeTab, setActiveTab] = useState<Tab>('dashboard'); // Show progression first!
   const [showPostModal, setShowPostModal] = useState(false);
-  const [selectedHouse, setSelectedHouse] = useState(user?.collegeId || 'iit-bombay'); // User's college
+  const [selectedHouse, setSelectedHouse] = useState(user?.college_id || 'iit-bombay'); // User's college
   const [viewMode, setViewMode] = useState<'my-house' | 'all-houses'>('my-house');
   const [showProfileDropdown, setShowProfileDropdown] = useState(false);
   const [showSettingsModal, setShowSettingsModal] = useState(false);
@@ -72,7 +73,7 @@ export function HuseCirclePlatform() {
   // Check if user is logged in
   useEffect(() => {
     if (!user) {
-      navigate('/huse-circle-login');
+      navigate('/husecircle/student/login');
       return;
     }
   }, [user, navigate]);
@@ -122,7 +123,7 @@ export function HuseCirclePlatform() {
 
   const handleMessagingClick = () => {
     if (checkTierPermission('Direct Messaging', 'Gold')) {
-      navigate('/messaging');
+      navigate('/husecircle/student/chats');
     }
   };
 
@@ -216,7 +217,7 @@ export function HuseCirclePlatform() {
 
                 {/* Challenges Button */}
                 <button
-                  onClick={() => navigate('/huse-circle-platform/challenges')}
+                  onClick={() => navigate('/husecircle/student/platform/challenges')}
                   className="hidden md:flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 rounded-full transition-all hover:shadow-[0_0_20px_rgba(168,85,247,0.4)]"
                   title="Complete challenges to earn rep"
                 >
@@ -226,7 +227,7 @@ export function HuseCirclePlatform() {
 
                 {/* Verification Hub Button */}
                 <button
-                  onClick={() => navigate('/verification-hub')}
+                  onClick={() => navigate('/husecircle/verify/hub')}
                   className="hidden lg:flex items-center gap-2 px-4 py-2 huse-glass border border-purple-500/20 hover:border-purple-500/40 rounded-full transition-all"
                   title="Review projects and earn rep"
                 >
@@ -242,7 +243,7 @@ export function HuseCirclePlatform() {
                   <Search size={20} />
                 </button>
                 <button 
-                  onClick={() => navigate('/huse-notifications')}
+                  onClick={() => navigate('/husecircle/student/notifications')}
                   className="relative p-2 text-gray-400 hover:text-white transition-colors"
                 >
                   <Bell size={20} />
@@ -379,7 +380,7 @@ export function HuseCirclePlatform() {
                               setShowProfileDropdown(false);
                               logout();
                               toast.success('Logged out successfully');
-                              navigate('/huse-circle-login');
+                              navigate('/husecircle/student/login');
                             }}
                             className="w-full flex items-center gap-3 px-3 py-2.5 text-red-400 hover:text-red-300 hover:bg-red-500/10 rounded-lg transition-all group"
                           >
@@ -521,13 +522,16 @@ export function HuseCirclePlatform() {
         <GraduateModal
           isOpen={showGraduateModal}
           onClose={() => setShowGraduateModal(false)}
-          currentUser={currentUser}
+          studentId={currentUser.handle}
+          studentName={currentUser.name}
+          college={currentUser.college}
         />
         
         {/* Events Modal */}
         <EventsModal
           isOpen={showEventsModal}
           onClose={() => setShowEventsModal(false)}
+          currentUser={currentUser}
         />
         
         {/* Contributor Unlock Modal */}
@@ -569,7 +573,7 @@ function LeftSidebar({ activeTab, setActiveTab, tabs, currentUser }: any) {
           <div className="relative inline-block">
             <div 
               className="w-16 h-16 mx-auto mb-3 rounded-full bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center text-[28px] cursor-pointer" 
-              onClick={() => navigate('/user-dashboard')}
+              onClick={() => navigate('/user/dashboard')}
             >
               <AvatarDisplay avatar={currentUser.avatar} />
             </div>
@@ -579,7 +583,7 @@ function LeftSidebar({ activeTab, setActiveTab, tabs, currentUser }: any) {
               </div>
             )}
           </div>
-          <h3 className="text-white font-bold text-[14px] cursor-pointer hover:text-purple-400 transition-colors" style={{ fontFamily: 'var(--font-display)' }} onClick={() => navigate('/user-dashboard')}>
+          <h3 className="text-white font-bold text-[14px] cursor-pointer hover:text-purple-400 transition-colors" style={{ fontFamily: 'var(--font-display)' }} onClick={() => navigate('/user/dashboard')}>
             {currentUser.name}
           </h3>
           <p className="text-purple-400 text-[11px] mb-1">{currentUser.handle}</p>
@@ -1632,7 +1636,7 @@ function StudentPortfolio({ currentUser }: any) {
         <ProofPortfolioAddProjectModal
           show={showAddProjectModal}
           onClose={() => setShowAddProjectModal(false)}
-          onAdd={(project) => setProjects([project, ...projects])}
+          onAdd={(project: any) => setProjects([project, ...projects])}
         />
 
         <ProofPortfolioRequestVerificationModal
@@ -1918,62 +1922,40 @@ function GigsBoard({ currentUser }: any) {
   const [showApplyGigModal, setShowApplyGigModal] = useState(false);
   const [selectedGig, setSelectedGig] = useState<any>(null);
   const [showTierModal, setShowTierModal] = useState(false);
-  const [gigs, setGigs] = useState([
-    {
-      id: 1,
-      postedBy: {
-        name: 'Startup Hub',
-        avatar: '🚀',
-        verified: true,
-        reputation: 2340
-      },
-      title: 'Build Landing Page for SaaS Startup',
-      description: 'Need a modern, conversion-focused landing page with animations and mobile responsiveness.',
-      budget: '₹5,000 - ₹8,000',
-      duration: '1 week',
-      skills: ['React', 'Tailwind', 'Framer Motion'],
-      applications: 12,
-      postedAt: '2 days ago',
-      difficulty: 'Medium',
-      repRequired: 300
-    },
-    {
-      id: 2,
-      postedBy: {
-        name: 'Tech Solutions',
-        avatar: '💼',
-        verified: true,
-        reputation: 1890
-      },
-      title: 'Mobile App UI/UX Design',
-      description: 'Design a complete mobile app interface for a fitness tracking application. Figma required.',
-      budget: '₹10,000 - ₹15,000',
-      duration: '2 weeks',
-      skills: ['Figma', 'UI Design', 'Mobile Design'],
-      applications: 8,
-      postedAt: '1 day ago',
-      difficulty: 'Easy',
-      repRequired: 200
-    },
-    {
-      id: 3,
-      postedBy: {
-        name: 'Data Analytics Co.',
-        avatar: '📊',
-        verified: true,
-        reputation: 3120
-      },
-      title: 'Python Data Analysis Script',
-      description: 'Analyze sales data and create visualizations. Experience with pandas and matplotlib required.',
-      budget: '₹8,000 - ₹12,000',
-      duration: '1 week',
-      skills: ['Python', 'Pandas', 'Data Analysis'],
-      applications: 15,
-      postedAt: '5 hours ago',
-      difficulty: 'Hard',
-      repRequired: 500
-    }
-  ]);
+  const [gigs, setGigs] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchGigs = async () => {
+      try {
+        const data = await apiGet<any[]>('/gigs');
+        const mapped = data.map(g => ({
+          id: g.id,
+          postedBy: {
+            name: g.postedBy?.name || 'Startup Hub',
+            avatar: g.postedBy?.avatar || '🚀',
+            verified: !!g.postedBy?.is_verified,
+            reputation: g.postedBy?.reputation || 1000
+          },
+          title: g.title,
+          description: g.description,
+          budget: g.budget,
+          duration: g.duration,
+          skills: g.skills || [],
+          applications: g.applications_count || 0,
+          postedAt: g.created_at ? new Date(g.created_at).toLocaleDateString() : 'Recently',
+          difficulty: g.difficulty || 'Medium',
+          repRequired: g.rep_required || 0
+        }));
+        setGigs(mapped);
+      } catch (err) {
+        console.error('Failed to fetch gigs:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchGigs();
+  }, []);
 
   return (
     <div className="p-6">
@@ -2066,7 +2048,7 @@ function GigsBoard({ currentUser }: any) {
                 <p className="text-gray-400 text-[14px] mb-4">{gig.description}</p>
 
                 <div className="flex flex-wrap gap-2 mb-4">
-                  {gig.skills.map((skill, i) => (
+                  {gig.skills.map((skill: string, i: number) => (
                     <span key={i} className="px-3 py-1 bg-purple-500/10 border border-purple-500/20 text-purple-400 rounded-full text-[11px]">
                       {skill}
                     </span>
@@ -2152,84 +2134,40 @@ function StudentMarketplace({ currentUser }: any) {
 
   const categories = ['all', 'books', 'electronics', 'notes', 'art', 'other'];
 
-  const [items, setItems] = useState([
-    {
-      id: 1,
-      seller: {
-        name: 'Priya Sharma',
-        avatar: '👩‍💻',
-        verified: true,
-        year: '4th Year'
-      },
-      title: 'Data Structures & Algorithms Textbook',
-      description: 'Cormen CLRS book, 3rd edition. Excellent condition, minimal highlighting.',
-      price: '₹600',
-      originalPrice: '₹1,200',
-      category: 'books',
-      image: '📚',
-      condition: 'Like New',
-      location: 'Hostel 5',
-      postedAt: '2 days ago',
-      interestedCount: 8
-    },
-    {
-      id: 2,
-      seller: {
-        name: 'Rahul Verma',
-        avatar: '👨‍💻',
-        verified: true,
-        year: '3rd Year'
-      },
-      title: 'iPad 9th Gen with Apple Pencil',
-      description: 'Perfect for note-taking and design work. Includes case and screen protector.',
-      price: '₹25,000',
-      originalPrice: '₹35,000',
-      category: 'electronics',
-      image: '📱',
-      condition: 'Good',
-      location: 'Hostel 12',
-      postedAt: '1 day ago',
-      interestedCount: 15
-    },
-    {
-      id: 3,
-      seller: {
-        name: 'Sneha Patel',
-        avatar: '👩‍🎨',
-        verified: false,
-        year: '2nd Year'
-      },
-      title: 'Complete Semester Notes - CS',
-      description: 'Handwritten notes for OS, DBMS, CN, and Compiler Design. Scored 9+ GPA using these!',
-      price: '₹400',
-      originalPrice: null,
-      category: 'notes',
-      image: '📝',
-      condition: 'Excellent',
-      location: 'Hostel 3',
-      postedAt: '5 hours ago',
-      interestedCount: 23
-    },
-    {
-      id: 4,
-      seller: {
-        name: 'Arjun Kumar',
-        avatar: '🎨',
-        verified: true,
-        year: '3rd Year'
-      },
-      title: 'Custom Digital Portrait',
-      description: 'Get your portrait drawn digitally! Perfect for profile pictures and gifts.',
-      price: '₹500',
-      originalPrice: null,
-      category: 'art',
-      image: '🎨',
-      condition: 'Custom Order',
-      location: 'Digital',
-      postedAt: '3 days ago',
-      interestedCount: 12
-    }
-  ]);
+  const [items, setItems] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchMarketplace = async () => {
+      try {
+        const data = await apiGet<any[]>('/marketplace');
+        const mapped = data.map(i => ({
+          id: i.id,
+          seller: {
+            name: i.seller?.name || 'Unknown',
+            avatar: i.seller?.avatar || '👤',
+            verified: !!i.seller?.is_verified,
+            year: i.seller?.current_year_of_study ? `${i.seller.current_year_of_study} Year` : 'Student'
+          },
+          title: i.title,
+          description: i.description,
+          price: i.price,
+          category: i.category || 'other',
+          image: i.image || '📦',
+          condition: i.condition || 'Good',
+          location: i.location || 'Campus',
+          postedAt: i.created_at ? new Date(i.created_at).toLocaleDateString() : 'Recently',
+          interestedCount: i.interested_count || 0
+        }));
+        setItems(mapped);
+      } catch (err) {
+        console.error('Failed to fetch marketplace:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchMarketplace();
+  }, []);
 
   return (
     <div className="p-6">
@@ -2746,9 +2684,18 @@ function PostModal({ onClose, currentUser }: any) {
     { id: 'achievement', label: 'Achievement', icon: Trophy, desc: 'Celebrate win' }
   ];
 
-  const handlePost = () => {
-    console.log('Posting:', { type: selectedType, content: postContent });
-    onClose();
+  const handlePost = async () => {
+    try {
+      await apiPost('/posts/create', {
+        type: selectedType,
+        content: postContent,
+        title: postContent.slice(0, 50) + '...'
+      });
+      toast.success('Post created successfully!');
+      onClose();
+    } catch (e: any) {
+      toast.error('Post failed: ' + e.message);
+    }
   };
 
   return (

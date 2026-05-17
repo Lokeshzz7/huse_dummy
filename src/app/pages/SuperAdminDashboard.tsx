@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+﻿import { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { 
   Users, Building2, GraduationCap, BarChart3, Settings, 
@@ -21,25 +21,30 @@ import { QuotifyManagement } from './admin/QuotifyManagement';
 import { PaymentOversight } from './admin/PaymentOversight';
 import { ReputationManagement } from './admin/ReputationManagement';
 import { AIModeration } from './admin/AIModeration';
+import { CollegeManagement } from './admin/CollegeManagement';
+import { HouseManagement } from './admin/HouseManagement';
+import { AnnouncementManagement } from './admin/AnnouncementManagement';
 import { useAuth } from '../context/AuthContext';
 import { AdminVerificationQueue } from './AdminVerificationQueue';
+
+type AdminTab = 'overview' | 'verification' | 'college' | 'house' | 'announcements' | 'huse' | 'dofracto' | 'quotify' | 'payments' | 'reputation' | 'users' | 'moderation' | 'ai' | 'analytics' | 'settings';
 
 export function SuperAdminDashboard() {
   const navigate = useNavigate();
   const { user, isLoading, logout } = useAuth();
-  const [activeTab, setActiveTab] = useState<'overview' | 'verification' | 'huse' | 'dofracto' | 'quotify' | 'payments' | 'reputation' | 'users' | 'moderation' | 'ai' | 'analytics' | 'settings'>('overview');
+  const [activeTab, setActiveTab] = useState<AdminTab>('overview');
 
   useEffect(() => {
     if (!isLoading) {
       if (!user || user.role !== 'admin') {
-        navigate('/huse-circle-login');
+        navigate('/husecircle/student/login');
       }
     }
   }, [user, isLoading, navigate]);
 
   const handleLogout = async () => {
     await logout();
-    navigate('/huse-circle-login');
+    navigate('/husecircle/student/login');
   };
 
   if (isLoading || !user || user.role !== 'admin') {
@@ -137,6 +142,9 @@ export function SuperAdminDashboard() {
             {[
               { id: 'overview', label: 'Overview', icon: Activity, shortLabel: 'Overview' },
               { id: 'verification', label: 'Verification', icon: Shield, shortLabel: 'Verify' },
+              { id: 'college', label: 'Colleges', icon: GraduationCap, shortLabel: 'Colleges' },
+              { id: 'house', label: 'Houses', icon: Flag, shortLabel: 'Houses' },
+              { id: 'announcements', label: 'Announce', icon: Bell, shortLabel: 'Announce' },
               { id: 'huse', label: 'HUSE Circle', icon: FileText, shortLabel: 'HUSE' },
               { id: 'dofracto', label: 'Dofracto', icon: FileText, shortLabel: 'Dofracto' },
               { id: 'quotify', label: 'Quotify', icon: FileText, shortLabel: 'Quotify' },
@@ -199,7 +207,7 @@ export function SuperAdminDashboard() {
                 <div className="flex items-center justify-between mb-6">
                   <h3 className="text-xl font-bold text-white">Recent Activity</h3>
                   <button 
-                    onClick={() => navigate('/admin-notifications')} 
+                    onClick={() => navigate('/admin/notifications')} 
                     className="text-sm text-cyan-400 hover:text-cyan-300 transition-colors"
                   >
                     View All
@@ -231,6 +239,15 @@ export function SuperAdminDashboard() {
 
           {/* Verification Tab */}
           {activeTab === 'verification' && <AdminVerificationQueue />}
+
+          {/* College Management Tab */}
+          {activeTab === 'college' && <CollegeManagement />}
+
+          {/* House Management Tab */}
+          {activeTab === 'house' && <HouseManagement />}
+
+          {/* Announcements Tab */}
+          {activeTab === 'announcements' && <AnnouncementManagement />}
 
           {/* HUSE Circle Management Tab */}
           {activeTab === 'huse' && <HuseCircleManagement />}

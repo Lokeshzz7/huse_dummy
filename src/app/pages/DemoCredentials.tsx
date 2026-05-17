@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { useNavigate } from 'react-router-dom';
 import { 
@@ -208,7 +208,7 @@ export function DemoCredentials() {
             className="grid md:grid-cols-4 gap-4 mb-12 max-w-6xl mx-auto"
           >
             <button
-              onClick={() => navigate('/huse-circle-login')}
+              onClick={() => navigate('/husecircle/student/login')}
               className="p-4 bg-gradient-to-br from-purple-500/10 to-pink-500/10 border border-purple-500/30 rounded-xl hover:border-purple-500/50 transition-all group"
             >
               <GraduationCap className="w-8 h-8 text-purple-400 mx-auto mb-2" />
@@ -217,7 +217,7 @@ export function DemoCredentials() {
             </button>
 
             <button
-              onClick={() => navigate('/dofracto-builder-login')}
+              onClick={() => navigate('/dofracto/builder/login')}
               className="p-4 bg-gradient-to-br from-cyan-500/10 to-teal-500/10 border border-cyan-500/30 rounded-xl hover:border-cyan-500/50 transition-all group"
             >
               <UserPlus className="w-8 h-8 text-cyan-400 mx-auto mb-2" />
@@ -226,7 +226,7 @@ export function DemoCredentials() {
             </button>
 
             <button
-              onClick={() => navigate('/business-portal-login')}
+              onClick={() => navigate('/business/login')}
               className="p-4 bg-gradient-to-br from-blue-500/10 to-indigo-500/10 border border-blue-500/30 rounded-xl hover:border-blue-500/50 transition-all group"
             >
               <Building2 className="w-8 h-8 text-blue-400 mx-auto mb-2" />
@@ -235,7 +235,7 @@ export function DemoCredentials() {
             </button>
 
             <button
-              onClick={() => navigate('/admin-login')}
+              onClick={() => navigate('/admin/login')}
               className="p-4 bg-gradient-to-br from-amber-500/10 to-orange-500/10 border border-amber-500/30 rounded-xl hover:border-amber-500/50 transition-all group"
             >
               <Crown className="w-8 h-8 text-amber-400 mx-auto mb-2" />
@@ -330,7 +330,7 @@ export function DemoCredentials() {
                     </div>
 
                     <button
-                      onClick={() => navigate('/dofracto-builder-login')}
+                      onClick={() => navigate('/dofracto/builder/login')}
                       className="w-full mt-4 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-xl font-semibold hover:shadow-lg hover:shadow-purple-500/30 transition-all flex items-center justify-center gap-2"
                     >
                       Login as {account.name.split(' ')[0]}
@@ -419,7 +419,7 @@ export function DemoCredentials() {
                     </div>
 
                     <button
-                      onClick={() => navigate('/business-portal-login')}
+                      onClick={() => navigate('/business/login')}
                       className="w-full mt-6 py-3 bg-gradient-to-r from-cyan-500 to-teal-500 text-white rounded-xl font-bold hover:shadow-lg hover:shadow-cyan-500/30 transition-all flex items-center justify-center gap-2"
                     >
                       Login to Business Portal
@@ -508,7 +508,7 @@ export function DemoCredentials() {
                     </div>
 
                     <button
-                      onClick={() => navigate('/admin-login')}
+                      onClick={() => navigate('/admin/login')}
                       className="w-full mt-6 py-3 bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-xl font-bold hover:shadow-lg hover:shadow-amber-500/30 transition-all flex items-center justify-center gap-2"
                     >
                       Login to Admin Panel
@@ -610,7 +610,7 @@ export function DemoCredentials() {
                     </div>
 
                     <button
-                      onClick={() => navigate('/huse-circle-login')}
+                      onClick={() => navigate('/husecircle/student/login')}
                       className="w-full mt-4 py-3 bg-gradient-to-r from-purple-500 via-pink-500 to-purple-600 text-white rounded-xl font-semibold hover:shadow-lg hover:shadow-purple-500/30 transition-all flex items-center justify-center gap-2"
                     >
                       Login as {account.name.split(' ')[0]}
@@ -711,7 +711,7 @@ export function DemoCredentials() {
                     </div>
 
                     <button
-                      onClick={() => navigate('/quotify-login')}
+                      onClick={() => navigate('/quotify/login')}
                       className="w-full mt-4 py-3 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-xl font-semibold hover:shadow-lg hover:shadow-blue-500/30 transition-all flex items-center justify-center gap-2"
                     >
                       Login as {account.name.split(' ')[0]}

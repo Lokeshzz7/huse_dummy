@@ -3,10 +3,12 @@ import { motion, AnimatePresence } from 'motion/react';
 import {
   Search, X, TrendingUp, Clock, Filter, ArrowRight,
   User, Briefcase, Target, MessageSquare, FileText, Rocket,
-  MapPin, Tag, Calendar, Star, ExternalLink
+  MapPin, Tag, Calendar, Star, ExternalLink, UserPlus
 } from 'lucide-react';
 import { useSearch, SearchCategory } from '../context/SearchContext';
 import { useNavigate } from 'react-router-dom';
+import { apiPost } from '../../lib/api';
+import { toast } from 'sonner';
 
 const CATEGORY_CONFIG = {
   all: { icon: Search, label: 'All', color: 'purple' },
@@ -70,6 +72,16 @@ export function SearchPage() {
 
   const handleResultClick = (url: string) => {
     navigate(url);
+  };
+
+  const handleConnect = async (studentId: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    try {
+      await apiPost('/connections/request', { toUserId: studentId });
+      toast.success('Connection request sent!');
+    } catch (err: any) {
+      toast.error('Failed to connect: ' + err.message);
+    }
   };
 
   const getPlatformBadgeColor = (platform?: string) => {
@@ -389,6 +401,17 @@ export function SearchPage() {
                               </span>
                             ))}
                           </div>
+
+                          {/* Action Buttons */}
+                          {result.type === 'students' && (
+                            <button 
+                              onClick={(e) => handleConnect(result.id, e)}
+                              className="mt-4 px-4 py-2 bg-purple-500/20 border border-purple-500/30 text-purple-400 rounded-lg text-sm hover:bg-purple-500/30 transition-all flex items-center gap-2"
+                            >
+                              <UserPlus size={16} />
+                              Connect
+                            </button>
+                          )}
                         </div>
 
                         {/* Arrow */}

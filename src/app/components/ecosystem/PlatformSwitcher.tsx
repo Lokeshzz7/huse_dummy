@@ -1,4 +1,4 @@
-import { motion, AnimatePresence } from 'motion/react';
+﻿import { motion, AnimatePresence } from 'motion/react';
 import { useNavigate } from 'react-router-dom';
 import { useEcosystem } from '../../context/EcosystemContext';
 import { GraduationCap, Award, Building2, Quote, ArrowRight, Lock, CheckCircle, Star, Sparkles } from 'lucide-react';
@@ -19,7 +19,7 @@ export function PlatformSwitcher({ isOpen, onClose }: PlatformSwitcherProps) {
       description: 'Student incubator for learning and building MVPs',
       icon: GraduationCap,
       color: 'from-[#8B5CF6] to-[#D946EF]',
-      route: '/huse-circle',
+      route: '/husecircle',
       requiredTiers: ['Bronze', 'Silver', 'Gold', 'Platinum'],
       features: ['Learn Skills', 'Build Projects', 'Earn Reputation', 'Graduate to Dofracto'],
     },
@@ -29,7 +29,7 @@ export function PlatformSwitcher({ isOpen, onClose }: PlatformSwitcherProps) {
       description: 'Startup accelerator for real businesses',
       icon: Award,
       color: 'from-[#24c6dc] to-[#05997F]',
-      route: '/unified-builders-hub',
+      route: '/dofracto/builder/hub',
       requiredTiers: ['Contributor', 'Startup'],
       features: ['Real Projects', 'Earn Money', 'Build Startups', 'Access Business Portal'],
     },
@@ -52,9 +52,9 @@ export function PlatformSwitcher({ isOpen, onClose }: PlatformSwitcherProps) {
     } else if (platformId === 'dofracto' && canAccessPlatform('Dofracto')) {
       // Navigate based on tier
       if (userProfile?.tier === 'Startup') {
-        navigate('/business-portal');
+        navigate('/business/login');
       } else {
-        navigate('/unified-builders-hub');
+        navigate('/dofracto/builder/hub');
       }
       onClose();
     } else if (platformId === 'quotify') {
@@ -214,7 +214,7 @@ export function PlatformSwitcher({ isOpen, onClose }: PlatformSwitcherProps) {
                     </div>
                     <button
                       onClick={() => {
-                        navigate('/graduation');
+                        navigate('/husecircle/student/graduation');
                         onClose();
                       }}
                       className="px-6 py-3 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-lg hover:shadow-lg hover:shadow-green-500/30 transition-all font-medium"

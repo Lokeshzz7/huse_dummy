@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+﻿import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { 
@@ -141,7 +141,7 @@ export function UnifiedBuildersHub() {
       description: 'Start your subscription to contribute and bookmark startups',
       action: {
         label: 'Upgrade',
-        onClick: () => navigate('/dofracto/pricing')
+        onClick: () => navigate('/dofracto/pricing/contributor')
       }
     });
   };
@@ -405,7 +405,7 @@ export function UnifiedBuildersHub() {
                 </div>
                 <div className="flex items-center gap-3">
                   <button
-                    onClick={() => navigate('/dofracto/pricing')}
+                    onClick={() => navigate('/dofracto/pricing/contributor')}
                     className="px-6 py-2.5 bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-xl font-semibold hover:shadow-lg hover:shadow-amber-500/30 transition-all flex items-center gap-2"
                   >
                     <Crown className="w-4 h-4" />
@@ -754,7 +754,7 @@ export function UnifiedBuildersHub() {
                       {/* Actions */}
                       <div className="flex items-center gap-2">
                         <button
-                          onClick={() => navigate(`/startup/${startup.id}`)}
+                          onClick={() => navigate(`/dofracto/startup/${startup.id}`)}
                           className="flex-1 py-2.5 bg-gradient-to-r from-cyan-500 to-teal-500 text-white rounded-xl font-medium hover:shadow-lg hover:shadow-cyan-500/30 transition-all flex items-center justify-center gap-2"
                         >
                           View Details
@@ -824,7 +824,7 @@ export function UnifiedBuildersHub() {
                   </p>
                   <div className="flex flex-col sm:flex-row gap-4 justify-center">
                     <button
-                      onClick={() => navigate('/dofracto/pricing')}
+                      onClick={() => navigate('/dofracto/pricing/contributor')}
                       className="px-8 py-4 bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-xl font-bold hover:shadow-lg hover:shadow-amber-500/30 transition-all flex items-center justify-center gap-2"
                     >
                       <Crown className="w-5 h-5" />
@@ -932,7 +932,7 @@ export function UnifiedBuildersHub() {
                       <p className="text-sm text-gray-400">Browse jobs and service requests</p>
                     </button>
                     <button 
-                      onClick={() => navigate('/reputation')}
+                      onClick={() => navigate('/husecircle/student/reputation')}
                       className="p-6 bg-gradient-to-br from-amber-500/10 to-orange-500/10 border border-amber-500/30 rounded-2xl hover:border-amber-500/50 transition-all text-left group"
                     >
                       <Award className="w-10 h-10 text-amber-400 mb-4" />
@@ -974,7 +974,7 @@ export function UnifiedBuildersHub() {
                     </div>
                   </div>
                   <button
-                    onClick={() => navigate('/recruiter-job-postings')}
+                    onClick={() => navigate('/recruiter/jobs')}
                     className="flex items-center gap-2 px-5 py-2.5 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-purple-500/30 rounded-xl text-gray-300 hover:text-white transition-all"
                   >
                     <span className="text-sm font-medium">View All</span>
@@ -1093,7 +1093,7 @@ export function UnifiedBuildersHub() {
                     </div>
                   </div>
                   <button
-                    onClick={() => navigate('/opportunity-feed')}
+                    onClick={() => navigate('/husecircle/student/opportunities')}
                     className="flex items-center gap-2 px-5 py-2.5 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-cyan-500/30 rounded-xl text-gray-300 hover:text-white transition-all"
                   >
                     <span className="text-sm font-medium">View All</span>
@@ -1245,7 +1245,7 @@ export function UnifiedBuildersHub() {
                   Explore the full ecosystem opportunity feed with advanced filters and more options
                 </p>
                 <button
-                  onClick={() => navigate('/opportunity-feed')}
+                  onClick={() => navigate('/husecircle/student/opportunities')}
                   className="px-8 py-4 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white rounded-xl font-bold transition-all inline-flex items-center gap-2 shadow-xl shadow-amber-500/20"
                 >
                   Browse All Opportunities
@@ -1407,7 +1407,7 @@ export function UnifiedBuildersHub() {
                     <div className="text-sm text-gray-400">7-day free trial included</div>
                   </div>
                   <button
-                    onClick={() => navigate('/dofracto/pricing')}
+                    onClick={() => navigate('/dofracto/pricing/contributor')}
                     className="w-full py-4 bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-xl font-bold hover:shadow-lg hover:shadow-amber-500/30 transition-all mb-3"
                   >
                     Upgrade Now

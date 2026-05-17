@@ -1,4 +1,4 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import { motion } from 'motion/react';
 import { 
   ArrowLeft, Building2, Mail, Phone, Globe, MapPin, Users,
@@ -87,7 +87,7 @@ export function RecruiterProfile() {
         <div className="max-w-6xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <button
-              onClick={() => navigate('/recruiter-dashboard')}
+              onClick={() => navigate('/recruiter/dashboard')}
               className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors"
             >
               <ArrowLeft size={20} />

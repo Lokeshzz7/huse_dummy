@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+﻿import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -190,7 +190,7 @@ export function QuoteMarketplace({ userType, userTier }: QuoteMarketplaceProps) 
 
   const handleSubmitQuote = (requestId: number) => {
     // Navigate to quote submission form
-    navigate(`/quotify/submit-quote/${requestId}`);
+    navigate(`/quotify/submit/${requestId}`);
   };
 
   // Check if student has access
@@ -207,7 +207,7 @@ export function QuoteMarketplace({ userType, userTier }: QuoteMarketplaceProps) 
             Upgrade your tier to access this feature!
           </p>
           <button
-            onClick={() => navigate('/huse-circle-platform')}
+            onClick={() => navigate('/husecircle/student/platform')}
             className="px-6 py-3 bg-gradient-to-r from-amber-500 to-orange-500 rounded-lg hover:shadow-lg hover:shadow-amber-500/30 transition-all"
           >
             Upgrade to Platinum

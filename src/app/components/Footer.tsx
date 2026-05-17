@@ -1,14 +1,14 @@
-import { Facebook, Twitter, Linkedin, Instagram, Mail, Shield } from 'lucide-react';
+﻿import { Facebook, Twitter, Linkedin, Instagram, Mail, Shield } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
 const footerLinks = {
   product: [
-    { label: 'HUSE Circle', href: '/huse-circle' },
+    { label: 'HUSE Circle', href: '/husecircle' },
     { label: 'Dofracto', href: '/dofracto' },
     { label: 'Quotify', href: '/quotify' },
-    { label: 'Challenges & Events', href: '/huse-circle#challenges' },
-    { label: 'Reputation System', href: '/huse-circle#reputation' }
+    { label: 'Challenges & Events', href: '/husecircle#challenges' },
+    { label: 'Reputation System', href: '/husecircle#reputation' }
   ],
   company: [
     { label: 'About Ecosystem', href: '/#about' },
@@ -46,7 +46,7 @@ export function Footer() {
   const handleAdminAccess = () => {
     setAdminClicks(prev => prev + 1);
     if (adminClicks + 1 >= 5) {
-      navigate('/super-admin-login');
+      navigate('/admin/super/login');
       setAdminClicks(0);
     }
   };

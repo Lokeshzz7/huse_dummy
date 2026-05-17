@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { 
   GraduationCap, Mail, Lock, Eye, EyeOff, 
   CheckCircle, AlertCircle, ArrowRight, Sparkles,
-  School, Zap
+  School, Zap, User
 } from 'lucide-react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
@@ -11,14 +11,16 @@ import { toast } from 'sonner';
 
 export function HuseCircleLogin() {
   const navigate = useNavigate();
-  const { login, signUp, signInWithGoogle, isLoading: authLoading, logout } = useAuth();
+  const { login, signUp, signInWithGoogle, sendMagicLink, isLoading: authLoading, logout } = useAuth();
   
   const [isSignUp, setIsSignUp] = useState(false);
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [magicLinkSent, setMagicLinkSent] = useState(false);
 
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -26,26 +28,53 @@ export function HuseCircleLogin() {
     setLoading(true);
 
     try {
-      if (isSignUp) {
-        const user = await signUp({ email, password, platform: 'huse' });
-        if (user) {
-          navigate('/onboarding');
+      const user = isSignUp 
+        ? await signUp({ email, password, name, platform: 'huse' })
+        : await login({ email, password, platform: 'huse' });
+
+      if (user) {
+        console.log('Login successful, user onboarding step:', user.onboarding_step);
+        
+        if (user.role === 'admin') {
+          await logout();
+          setError('Admins must log in through the Super Admin portal.');
+          setLoading(false);
+          return;
         }
-      } else {
-        const user = await login({ email, password, platform: 'huse' });
-        if (user) {
-          if (user.role === 'admin') {
-            await logout();
-            setError('Admins must log in through the Super Admin portal.');
-          } else if (user.user_status === 'pending_verification') {
-            navigate('/onboarding');
-          } else {
-            navigate('/huse-circle-platform');
-          }
-        }
+
+        const stepRoutes: Record<string, string> = {
+          complete_profile: '/husecircle/onboarding',
+          verify_phone: '/husecircle/onboarding',
+          upload_doc: '/husecircle/onboarding',
+          profile_setup: '/husecircle/onboarding',
+          pending_review: '/husecircle/onboarding',
+          reupload_doc: '/husecircle/onboarding',
+          done: '/husecircle/student/platform',
+        };
+
+        const target = stepRoutes[user.onboarding_step || ''] || '/husecircle/onboarding';
+        console.log('Navigating to:', target);
+        navigate(target);
       }
     } catch (e: any) {
       setError(e.message || 'Authentication failed');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleMagicLink = async () => {
+    if (!email) {
+      setError('Please enter your email first.');
+      return;
+    }
+    setLoading(true);
+    setError('');
+    try {
+      await sendMagicLink(email);
+      setMagicLinkSent(true);
+    } catch (e: any) {
+      setError(e.message);
     } finally {
       setLoading(false);
     }
@@ -134,6 +163,26 @@ export function HuseCircleLogin() {
             </div>
 
             <form onSubmit={handleAuth} className="space-y-4 mb-6">
+              {isSignUp && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                >
+                  <label className="text-gray-400 text-[13px] mb-2 block">Full Name</label>
+                  <div className="relative">
+                    <User className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" size={18} />
+                    <input
+                      type="text"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      placeholder="John Doe"
+                      className="w-full pl-12 pr-4 py-3 bg-[#1A1A1A] border border-purple-500/20 rounded-[12px] text-white placeholder-gray-600 focus:border-purple-500/40 outline-none transition-all"
+                      required={isSignUp}
+                    />
+                  </div>
+                </motion.div>
+              )}
+
               <div>
                 <label className="text-gray-400 text-[13px] mb-2 block">College Email</label>
                 <div className="relative">
@@ -202,10 +251,20 @@ export function HuseCircleLogin() {
             <button
               type="button"
               onClick={handleGoogleAuth}
-              className="w-full mb-6 px-6 py-3 bg-[#1A1A1A] border border-purple-500/20 text-white rounded-[12px] font-medium hover:border-purple-500/40 transition-all flex items-center justify-center gap-3"
+              className="w-full mb-3 px-6 py-3 bg-[#1A1A1A] border border-purple-500/20 text-white rounded-[12px] font-medium hover:border-purple-500/40 transition-all flex items-center justify-center gap-3"
             >
               <img src="https://www.svgrepo.com/show/475656/google-color.svg" className="w-5 h-5" alt="Google" />
               Continue with Google
+            </button>
+
+            <button
+              type="button"
+              onClick={handleMagicLink}
+              disabled={loading || magicLinkSent}
+              className="w-full mb-6 px-6 py-3 bg-transparent border border-purple-500/20 text-gray-400 rounded-[12px] font-medium hover:border-purple-500/40 hover:text-white transition-all flex items-center justify-center gap-3"
+            >
+              <Mail size={18} />
+              {magicLinkSent ? 'Check your inbox' : 'Continue with Magic Link'}
             </button>
 
             <div className="text-center">

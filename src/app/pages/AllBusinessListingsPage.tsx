@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+﻿import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
   Bell, LogOut, LayoutDashboard, Building2, Search,
@@ -227,7 +227,7 @@ export function AllBusinessListingsPage() {
   const handleLogout = () => {
     localStorage.removeItem('dofractoBuilderUser');
     setContributorUser(null);
-    navigate('/dofracto-builder-login');
+    navigate('/dofracto/builder/login');
   };
 
   // Filter and sort businesses
@@ -414,7 +414,7 @@ export function AllBusinessListingsPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.05 }}
               className="bg-gradient-to-br from-white/5 to-white/[0.02] rounded-2xl p-6 border border-white/10 hover:border-cyan-500/30 transition-all group cursor-pointer"
-              onClick={() => navigate(`/business/${business.id}`)}
+              onClick={() => navigate(`/dofracto/business/${business.id}`)}
             >
               {/* Header */}
               <div className="flex items-start justify-between mb-4">
@@ -509,7 +509,7 @@ export function AllBusinessListingsPage() {
                 className="w-full py-3 bg-gradient-to-r from-[#24c6dc] to-[#05997F] rounded-xl font-medium hover:shadow-lg hover:shadow-cyan-500/30 transition-all flex items-center justify-center gap-2"
                 onClick={(e) => {
                   e.stopPropagation();
-                  navigate(`/business/${business.id}`);
+                  navigate(`/dofracto/business/${business.id}`);
                 }}
               >
                 View Details

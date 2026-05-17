@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { useNavigate } from 'react-router-dom';
 import { 
@@ -146,7 +146,7 @@ export function ContributorPricing() {
                 </p>
 
                 <button 
-                  onClick={() => navigate('/dofracto-contributor-signup?alumni=true')}
+                  onClick={() => navigate('/dofracto/builder/signup?alumni=true')}
                   className="w-full py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-xl font-medium hover:shadow-lg hover:shadow-purple-500/30 transition-all mb-6"
                 >
                   Claim Free Access
@@ -201,7 +201,7 @@ export function ContributorPricing() {
                 </p>
 
                 <button 
-                  onClick={() => navigate('/dofracto-contributor-signup')}
+                  onClick={() => navigate('/dofracto/builder/signup')}
                   className="w-full py-3 bg-gradient-to-r from-cyan-500 to-teal-500 text-white rounded-xl font-medium hover:shadow-lg hover:shadow-cyan-500/30 transition-all mb-2"
                 >
                   Start 7-Day Free Trial
@@ -321,7 +321,7 @@ export function ContributorPricing() {
               No credit card required. Cancel anytime. Full access to explore.
             </p>
             <button
-              onClick={() => navigate('/dofracto-contributor-signup')}
+              onClick={() => navigate('/dofracto/builder/signup')}
               className="px-8 py-4 bg-gradient-to-r from-cyan-500 to-teal-500 text-white rounded-xl font-bold text-lg hover:shadow-lg hover:shadow-cyan-500/30 transition-all inline-flex items-center gap-2"
             >
               Get Started Free

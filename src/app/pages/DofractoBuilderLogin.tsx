@@ -1,4 +1,4 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { toast } from 'sonner';
@@ -64,7 +64,7 @@ export function DofractoBuilderLogin() {
           duration: 3000
         });
         setTimeout(() => {
-          navigate('/dofracto-builders-hub'); // Redirect to builders hub
+          navigate('/dofracto/builder/hub'); // Redirect to builders hub
         }, 1000);
       } else {
         setError('Invalid credentials. Try a demo account below.');
@@ -87,7 +87,7 @@ export function DofractoBuilderLogin() {
         duration: 3000
       });
       setTimeout(() => {
-        navigate('/dofracto-builders-hub'); // Redirect to builders hub
+        navigate('/dofracto/builder/hub'); // Redirect to builders hub
       }, 1000);
     }, 1000);
   };
@@ -309,7 +309,7 @@ export function DofractoBuilderLogin() {
               {/* Footer Links */}
               <div className="mt-8 text-center space-y-3">
                 <button
-                  onClick={() => navigate('/dofracto-business-login')}
+                  onClick={() => navigate('/dofracto/business/login')}
                   className="text-sm text-gray-400 hover:text-purple-400 transition-colors"
                 >
                   Login as Business instead?

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+﻿import { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -36,7 +36,7 @@ export function NewQuoteRequest() {
     const quotifyUser = localStorage.getItem('quotifyUser');
     if (!quotifyUser) {
       toast.error('Please login to submit a quote request');
-      navigate('/quotify-login');
+      navigate('/quotify/login');
       return;
     }
     setUser(JSON.parse(quotifyUser));

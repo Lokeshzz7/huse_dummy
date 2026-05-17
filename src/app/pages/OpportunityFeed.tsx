@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { 
   Rocket, Briefcase, DollarSign, TrendingUp, MapPin, Clock, 
@@ -11,6 +11,7 @@ import { useEcosystem } from '../context/EcosystemContext';
 import { Header } from '../components/Header';
 import { Footer } from '../components/Footer';
 import { AlumniBadge } from '../components/AlumniBadge';
+import { apiGet } from '../../lib/api';
 import { toast } from 'sonner';
 
 type OpportunitySource = 'dofracto' | 'huse' | 'quotify';
@@ -36,11 +37,42 @@ interface OpportunityItem {
 
 export function OpportunityFeed() {
   const navigate = useNavigate();
-  const { currentUser, gigPosts, startups, quoteRequests } = useEcosystem();
+  const { currentUser } = useEcosystem();
   const [selectedSource, setSelectedSource] = useState<OpportunitySource | 'all'>('all');
   const [selectedType, setSelectedType] = useState<OpportunityType | 'all'>('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [bookmarkedOpps, setBookmarkedOpps] = useState<Set<string>>(new Set());
+  const [feedItems, setFeedItems] = useState<OpportunityItem[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  // Fetch from backend
+  useEffect(() => {
+    const fetchFeed = async () => {
+      try {
+        const data = await apiGet<any[]>('/feed');
+        const mapped: OpportunityItem[] = data.map(item => ({
+          id: item.id,
+          source: (item.source as OpportunitySource) || 'huse',
+          type: (item.type as OpportunityType) || 'gig',
+          title: item.title,
+          company: item.author?.name || item.company || 'HUSE Builder',
+          description: item.content || item.description || '',
+          compensation: item.budget ? `₹${item.budget}` : (item.compensation || 'Negotiable'),
+          skills: item.skills || item.skillsRequired || [],
+          location: item.location || 'Remote',
+          postedAt: item.created_at || item.postedAt || new Date().toISOString(),
+          applicants: item.applications_count,
+          isHuseAlumni: item.author?.verified || item.isHuseAlumni
+        }));
+        setFeedItems(mapped);
+      } catch (e) {
+        console.error('Feed error:', e);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchFeed();
+  }, []);
 
   // Handle Apply Now
   const handleApplyNow = (opp: OpportunityItem) => {
@@ -72,193 +104,11 @@ export function OpportunityFeed() {
     });
   };
 
-  // Aggregate opportunities from all platforms
-  const getAllOpportunities = (): OpportunityItem[] => {
-    const opportunities: OpportunityItem[] = [];
-
-    // From Dofracto - Startup opportunities
-    (startups || []).forEach(startup => {
-      startup.opportunities?.forEach(opp => {
-        opportunities.push({
-          id: opp.id,
-          source: 'dofracto',
-          type: opp.type === 'Equity' ? 'equity' : opp.type === 'Revenue Share' ? 'revenue-share' : 'cash',
-          title: opp.title,
-          company: startup.name,
-          description: opp.description,
-          compensation: opp.equity || opp.share || `$${opp.payment}`,
-          skills: opp.skills,
-          location: startup.location,
-          postedAt: opp.postedOn,
-          isHuseAlumni: startup.isHuseAlumni,
-          college: startup.huseCollege
-        });
-      });
-    });
-
-    // From HUSE Circle - Gig posts
-    (gigPosts || []).forEach(gig => {
-      opportunities.push({
-        id: gig.id,
-        source: 'huse',
-        type: 'gig',
-        title: gig.title,
-        company: gig.postedBy,
-        description: gig.description,
-        compensation: `$${gig.budget}`,
-        skills: gig.skillsRequired,
-        location: gig.college || 'Remote',
-        postedAt: gig.createdAt,
-        applicants: gig.applicants,
-        budget: gig.budget,
-        isUrgent: gig.isFromDofracto
-      });
-    });
-
-    // From Quotify - Quote requests
-    (quoteRequests || []).forEach(quote => {
-      opportunities.push({
-        id: quote.id,
-        source: 'quotify',
-        type: 'quote',
-        title: quote.title,
-        company: quote.userName,
-        description: quote.description,
-        compensation: quote.budget || 'Negotiable',
-        skills: [quote.category],
-        location: 'Remote',
-        postedAt: quote.createdAt,
-        isUrgent: quote.status === 'pending'
-      });
-    });
-
-    // Add demo opportunities if no real data exists
-    if (opportunities.length === 0) {
-      const demoOpportunities: OpportunityItem[] = [
-        {
-          id: 'demo-1',
-          source: 'dofracto',
-          type: 'equity',
-          title: 'Senior Full Stack Developer',
-          company: 'TechVision AI',
-          description: 'Join our founding team to build the next generation of AI-powered analytics tools. Looking for passionate developers who want equity stake in a high-growth startup.',
-          compensation: '2-5% Equity',
-          skills: ['React', 'Node.js', 'TypeScript', 'PostgreSQL', 'AI/ML'],
-          location: 'Bangalore, India',
-          postedAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
-          applicants: 23,
-          isHuseAlumni: true,
-          college: 'IIT Bombay'
-        },
-        {
-          id: 'demo-2',
-          source: 'huse',
-          type: 'gig',
-          title: 'UI/UX Design for Mobile App',
-          company: 'Priya Sharma',
-          description: 'Need a talented designer to create modern, intuitive designs for our fitness tracking mobile app. Must have experience with Figma and mobile design principles.',
-          compensation: '₹25,000',
-          skills: ['Figma', 'UI/UX', 'Mobile Design', 'Prototyping'],
-          location: 'Remote',
-          postedAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
-          applicants: 12,
-          budget: 25000,
-          isUrgent: true
-        },
-        {
-          id: 'demo-3',
-          source: 'quotify',
-          type: 'quote',
-          title: 'Logo & Brand Identity Design',
-          company: 'StartupHub Ventures',
-          description: 'Looking for a creative designer to develop complete brand identity including logo, color palette, typography, and brand guidelines for our new venture capital firm.',
-          compensation: '₹30,000 - ₹50,000',
-          skills: ['Brand Identity', 'Logo Design', 'Adobe Illustrator'],
-          location: 'Remote',
-          postedAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(),
-          isUrgent: false
-        },
-        {
-          id: 'demo-4',
-          source: 'dofracto',
-          type: 'revenue-share',
-          title: 'Marketing Growth Lead',
-          company: 'EduTech Solutions',
-          description: 'Join our team as a growth marketing expert. We offer revenue sharing model where you earn percentage of sales you bring in. Perfect for ambitious marketers.',
-          compensation: '15% Revenue Share',
-          skills: ['Digital Marketing', 'SEO', 'Content Marketing', 'Analytics'],
-          location: 'Pune, India',
-          postedAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
-          applicants: 18,
-          isHuseAlumni: true,
-          college: 'BITS Pilani'
-        },
-        {
-          id: 'demo-5',
-          source: 'huse',
-          type: 'gig',
-          title: 'Content Writer for Tech Blog',
-          company: 'Arjun Mehta',
-          description: 'Looking for technical content writers to create in-depth articles about web development, cloud computing, and DevOps. Must have strong technical background.',
-          compensation: '₹2,000/article',
-          skills: ['Technical Writing', 'Web Development', 'Cloud Computing'],
-          location: 'Remote',
-          postedAt: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000).toISOString(),
-          applicants: 31,
-          budget: 2000
-        },
-        {
-          id: 'demo-6',
-          source: 'dofracto',
-          type: 'cash',
-          title: 'Backend Developer - Python/Django',
-          company: 'FinanceFlow',
-          description: 'We are building a fintech platform and need experienced backend developers. Competitive salary with opportunity to grow into leadership roles.',
-          compensation: '₹8-12 LPA',
-          skills: ['Python', 'Django', 'REST APIs', 'AWS', 'Docker'],
-          location: 'Mumbai, India',
-          postedAt: new Date(Date.now() - 6 * 24 * 60 * 60 * 1000).toISOString(),
-          applicants: 45
-        },
-        {
-          id: 'demo-7',
-          source: 'quotify',
-          type: 'quote',
-          title: 'Video Editing for YouTube Channel',
-          company: 'Creative Studios',
-          description: 'Need professional video editor for our educational YouTube channel. Looking for someone who can create engaging edits with animations and effects.',
-          compensation: 'Negotiable',
-          skills: ['Video Editing', 'After Effects', 'Premiere Pro'],
-          location: 'Remote',
-          postedAt: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(),
-          isUrgent: true
-        },
-        {
-          id: 'demo-8',
-          source: 'huse',
-          type: 'gig',
-          title: 'Data Analysis & Visualization',
-          company: 'Research Lab IIT Delhi',
-          description: 'Part-time opportunity for students skilled in data analysis. Work on real research projects and build your portfolio while earning.',
-          compensation: '₹15,000',
-          skills: ['Python', 'Data Analysis', 'Tableau', 'Statistics'],
-          location: 'Delhi, India',
-          postedAt: new Date(Date.now() - 8 * 24 * 60 * 60 * 1000).toISOString(),
-          applicants: 27,
-          budget: 15000,
-          isHuseAlumni: true,
-          college: 'IIT Delhi'
-        }
-      ];
-      opportunities.push(...demoOpportunities);
-    }
-
-    return opportunities.sort((a, b) => 
-      new Date(b.postedAt).getTime() - new Date(a.postedAt).getTime()
-    );
+  const getAllOpportunities = () => {
+    return feedItems;
   };
 
-  const opportunities = getAllOpportunities();
+  const opportunities = loading ? [] : getAllOpportunities();
 
   // Filter opportunities
   const filteredOpportunities = opportunities.filter(opp => {

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Building2, Mail, Lock, User, Phone, Eye, EyeOff, CheckCircle, ArrowRight } from 'lucide-react';
 import { motion } from 'motion/react';
@@ -37,7 +37,7 @@ export function BusinessPortalRegister() {
     } else {
       // Registration logic here
       alert('Business registration successful!\n\nYour account is being reviewed and will be activated within 24 hours.');
-      navigate('/business-portal-login');
+      navigate('/business/login');
     }
   };
 
@@ -294,7 +294,7 @@ export function BusinessPortalRegister() {
             <p className="text-theme-tertiary text-sm">
               Already have an account?{' '}
               <Link
-                to="/business-portal-login"
+                to="/business/login"
                 className="text-[#24c6dc] hover:text-[#05997F] transition-colors font-medium"
               >
                 Sign In

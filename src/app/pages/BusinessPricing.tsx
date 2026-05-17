@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { useNavigate } from 'react-router-dom';
 import { 
@@ -229,7 +229,7 @@ export function BusinessPricing() {
             </div>
 
             <button
-              onClick={() => navigate('/business-portal-register')}
+              onClick={() => navigate('/business/register')}
               className="w-full max-w-md mx-auto py-4 bg-gradient-to-r from-cyan-500 to-teal-500 text-white rounded-xl font-bold text-lg hover:shadow-lg hover:shadow-cyan-500/30 transition-all mb-8 flex items-center justify-center gap-2"
             >
               List Your Business Now
@@ -400,7 +400,7 @@ export function BusinessPricing() {
               Join 200+ startups raising funds, hiring talent, and getting customers through Dofracto
             </p>
             <button
-              onClick={() => navigate('/business-portal-register')}
+              onClick={() => navigate('/business/register')}
               className="px-8 py-4 bg-gradient-to-r from-cyan-500 to-teal-500 text-white rounded-xl font-bold text-lg hover:shadow-lg hover:shadow-cyan-500/30 transition-all inline-flex items-center gap-2"
             >
               List Your Business - ₹4,999/year

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { Users, Search, ArrowLeft, TrendingUp, Mail, Linkedin, Calendar, Sparkles, Briefcase } from 'lucide-react';
@@ -188,7 +188,7 @@ export function RecruiterConnections() {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <button
-                onClick={() => navigate('/recruiter-dashboard')}
+                onClick={() => navigate('/recruiter/dashboard')}
                 className="text-gray-400 hover:text-white transition-colors"
               >
                 <ArrowLeft className="w-6 h-6" />

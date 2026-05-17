@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+﻿import { useState, useRef } from 'react';
 import { motion } from 'motion/react';
 import {
   ArrowLeft, Search, Send, Paperclip, Smile, MoreVertical,
@@ -324,7 +324,7 @@ export function RecruiterMessages() {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <button
-                onClick={() => navigate('/recruiter-dashboard')}
+                onClick={() => navigate('/recruiter/dashboard')}
                 className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors"
               >
                 <ArrowLeft size={20} />
@@ -430,7 +430,7 @@ export function RecruiterMessages() {
 
                   <div className="flex items-center gap-2">
                     <button
-                      onClick={() => navigate(`/huse-circle-platform/portfolio/${selectedChatData.studentId}`)}
+                      onClick={() => navigate(`/husecircle/student/portfolio/${selectedChatData.studentId}`)}
                       className="px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-lg text-sm font-medium hover:shadow-lg transition-all"
                     >
                       View Profile

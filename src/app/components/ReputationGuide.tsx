@@ -1,4 +1,4 @@
-import { motion } from 'motion/react';
+﻿import { motion } from 'motion/react';
 import { 
   Trophy, Star, Code, Users, Briefcase, ShoppingBag, 
   Award, GraduationCap, Rocket, Target, Zap, BookOpen,
@@ -394,13 +394,13 @@ export function ReputationGuide() {
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <button 
-              onClick={() => navigate('/huse-circle-loading')}
+              onClick={() => navigate('/husecircle/loading')}
               className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-8 py-4 rounded-[15px] hover:shadow-[0_0_30px_rgba(168,85,247,0.5)] transition-all w-full sm:w-auto font-bold text-[18px]"
             >
               Join as Student
             </button>
             <button 
-              onClick={() => navigate('/dofracto/pricing')}
+              onClick={() => navigate('/dofracto/pricing/contributor')}
               className="bg-gradient-to-r from-cyan-500 to-teal-500 text-white px-8 py-4 rounded-[15px] hover:shadow-[0_0_30px_rgba(6,182,212,0.5)] transition-all w-full sm:w-auto font-bold text-[18px]"
             >
               Join as Contributor

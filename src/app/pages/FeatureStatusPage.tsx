@@ -1,4 +1,4 @@
-import { motion } from 'motion/react';
+﻿import { motion } from 'motion/react';
 import { 
   CheckCircle, AlertCircle, Circle, ArrowLeft,
   Navigation, Square, FileText, Lock, MessageSquare,
@@ -67,7 +67,7 @@ export function FeatureStatusPage() {
         'Login/logout with localStorage persistence',
         'Role-based access: student, contributor, recruiter, business, client, provider',
         'Tier-based features: Bronze, Silver, Gold, Platinum',
-        'Demo credentials at /demo-credentials',
+        'Demo credentials at /ecosystem/demo',
         '7+ demo users available across all platforms'
       ]
     },
@@ -77,7 +77,7 @@ export function FeatureStatusPage() {
       description: 'Messaging system with localStorage (simulated real-time)',
       icon: MessageSquare,
       details: [
-        'Two-panel messaging interface at /messaging',
+        'Two-panel messaging interface at /dofracto/builder/messages',
         'Conversation list with unread badges',
         'Send/receive messages (localStorage)',
         'Cross-platform communication (HUSE ↔ Dofracto ↔ Quotify)',
@@ -295,7 +295,7 @@ export function FeatureStatusPage() {
               • This is a fully functional demonstration of the ecosystem's UI/UX and user flows
             </p>
             <p>
-              • Demo credentials available at: <button onClick={() => navigate('/demo-credentials')} className="text-cyan-400 hover:text-cyan-300 underline">/demo-credentials</button>
+              • Demo credentials available at: <button onClick={() => navigate('/ecosystem/demo')} className="text-cyan-400 hover:text-cyan-300 underline">/ecosystem/demo</button>
             </p>
           </div>
         </div>
@@ -303,7 +303,7 @@ export function FeatureStatusPage() {
         {/* Quick Links */}
         <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
           <button
-            onClick={() => navigate('/demo-credentials')}
+            onClick={() => navigate('/ecosystem/demo')}
             className="p-4 bg-white/5 hover:bg-white/10 border border-purple-500/30 rounded-xl text-left transition-all group"
           >
             <Lock className="text-purple-400 mb-2" size={24} />
@@ -325,7 +325,7 @@ export function FeatureStatusPage() {
           </button>
 
           <button
-            onClick={() => navigate('/huse-circle-platform')}
+            onClick={() => navigate('/husecircle/student/platform')}
             className="p-4 bg-white/5 hover:bg-white/10 border border-purple-500/30 rounded-xl text-left transition-all group"
           >
             <MessageSquare className="text-pink-400 mb-2" size={24} />

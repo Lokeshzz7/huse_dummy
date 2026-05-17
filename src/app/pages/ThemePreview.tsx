@@ -1,4 +1,4 @@
-import { useNavigate, useLocation } from 'react-router-dom';
+﻿import { useNavigate, useLocation } from 'react-router-dom';
 import { ArrowLeft, X, Check, Sparkles, TrendingUp, Users, Building2, Crown, Eye } from 'lucide-react';
 import { motion } from 'motion/react';
 import { useState, useEffect } from 'react';
@@ -25,7 +25,7 @@ export function ThemePreview() {
   const handleApplyTheme = () => {
     if (confirm('Apply this theme to your website?\n\nThis will update the live theme colors across the entire platform.')) {
       alert('Theme Applied Successfully!\n\nYour website has been updated with the new theme colors.');
-      navigate('/admin-dashboard');
+      navigate('/admin/dashboard');
     }
   };
 
@@ -36,7 +36,7 @@ export function ThemePreview() {
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <button
-              onClick={() => navigate('/admin-dashboard')}
+              onClick={() => navigate('/admin/dashboard')}
               className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors"
             >
               <ArrowLeft className="w-5 h-5" />
@@ -55,7 +55,7 @@ export function ThemePreview() {
               <span className="text-gray-400 text-sm ml-2">Current Theme</span>
             </div>
             <button
-              onClick={() => navigate('/admin-dashboard')}
+              onClick={() => navigate('/admin/dashboard')}
               className="bg-white/10 border border-white/20 text-white px-6 py-2 rounded-lg hover:bg-white/20 transition-all flex items-center gap-2"
             >
               <X className="w-4 h-4" />

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { Lock, Mail, Eye, EyeOff, Shield, AlertCircle, CheckCircle, Crown } from 'lucide-react';
@@ -33,7 +33,7 @@ export function SuperAdminLogin() {
         if (user.role === 'admin') {
           setSuccess(true);
           setTimeout(() => {
-            navigate('/super-admin-dashboard');
+            navigate('/admin/super/dashboard');
           }, 500);
         } else {
           await logout();
@@ -223,13 +223,13 @@ export function SuperAdminLogin() {
             <p className="text-center text-theme-tertiary text-sm mb-3">Access other portals:</p>
             <div className="grid grid-cols-2 gap-2">
               <Link
-                to="/business-portal-login"
+                to="/business/login"
                 className="text-center py-2 px-3 bg-theme-secondary border border-theme-secondary rounded-lg text-theme-secondary hover:border-[#24c6dc] hover:text-[#24c6dc] transition-all text-sm"
               >
                 Business Portal
               </Link>
               <Link
-                to="/user-login"
+                to="/user/login"
                 className="text-center py-2 px-3 bg-theme-secondary border border-theme-secondary rounded-lg text-theme-secondary hover:border-[#24c6dc] hover:text-[#24c6dc] transition-all text-sm"
               >
                 User Login

@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import { motion } from 'motion/react';
-import { 
+import {
   Calendar, Plus, Edit, Trash2, Eye, Search, Filter,
   Trophy, MapPin, Users, DollarSign, CheckCircle, XCircle,
-  Clock, ExternalLink, Star, Zap, AlertCircle
+  Clock, ExternalLink, Star, Zap, AlertCircle, Loader2
 } from 'lucide-react';
 import { toast } from 'sonner';
+import { adminAction } from '../../../lib/api';
 
 interface Event {
   id: number;
@@ -500,10 +501,44 @@ function AddEventModal({ event, onClose, onSave }: AddEventModalProps) {
 
   const [tagInput, setTagInput] = useState('');
   const [reqInput, setReqInput] = useState('');
+  const [saving, setSaving] = useState(false);
+  const [startDatetime, setStartDatetime] = useState(event?.date || '');
+  const [endDatetime, setEndDatetime] = useState(event?.endDate || '');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const API_TYPE_MAP: Record<string, string> = {
+    hackathon: 'hackathon',
+    workshop: 'workshop',
+    competition: 'other',
+    conference: 'networking',
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    onSave(formData as Event);
+    if (!startDatetime) { toast.error('Start date/time is required'); return; }
+    if (!endDatetime) { toast.error('End date/time is required'); return; }
+
+    setSaving(true);
+    try {
+      const result = await adminAction<{ event_id: string }>({
+        action: 'create_event',
+        title: formData.title,
+        description: formData.description || undefined,
+        event_type: API_TYPE_MAP[formData.type || 'hackathon'] || 'other',
+        venue: (formData.mode !== 'online' && formData.location) ? formData.location : undefined,
+        meeting_link: (formData.mode !== 'offline' && formData.registrationLink) ? formData.registrationLink : undefined,
+        start_datetime: new Date(startDatetime).toISOString(),
+        end_datetime: new Date(endDatetime).toISOString(),
+        max_attendees: formData.maxParticipants || undefined,
+      });
+      toast.success(`Event created! ID: ${result.event_id}`);
+      onSave({ ...formData, date: startDatetime, endDate: endDatetime } as Event);
+    } catch (apiErr: any) {
+      // API may reject in some cases — fall back to local-only save with a notice
+      toast.warning('API save failed, saved locally. ' + apiErr.message);
+      onSave(formData as Event);
+    } finally {
+      setSaving(false);
+    }
   };
 
   return (
@@ -577,25 +612,24 @@ function AddEventModal({ event, onClose, onSave }: AddEventModalProps) {
             </div>
 
             <div>
-              <label className="block text-gray-400 text-sm mb-2">Start Date *</label>
+              <label className="block text-gray-400 text-sm mb-2">Start Date & Time *</label>
               <input
-                type="text"
+                type="datetime-local"
                 required
-                value={formData.date}
-                onChange={(e) => setFormData({ ...formData, date: e.target.value })}
+                value={startDatetime}
+                onChange={(e) => setStartDatetime(e.target.value)}
                 className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white"
-                placeholder="Jan 15, 2025"
               />
             </div>
 
             <div>
-              <label className="block text-gray-400 text-sm mb-2">End Date (Optional)</label>
+              <label className="block text-gray-400 text-sm mb-2">End Date & Time *</label>
               <input
-                type="text"
-                value={formData.endDate || ''}
-                onChange={(e) => setFormData({ ...formData, endDate: e.target.value })}
+                type="datetime-local"
+                required
+                value={endDatetime}
+                onChange={(e) => setEndDatetime(e.target.value)}
                 className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white"
-                placeholder="Jan 17, 2025"
               />
             </div>
 
@@ -787,14 +821,16 @@ function AddEventModal({ event, onClose, onSave }: AddEventModalProps) {
           <div className="flex gap-3 pt-4 border-t border-white/10">
             <button
               type="submit"
-              className="flex-1 bg-gradient-to-r from-purple-500 to-pink-500 text-white px-6 py-3 rounded-xl font-bold hover:shadow-lg transition-all"
+              disabled={saving}
+              className="flex-1 bg-gradient-to-r from-purple-500 to-pink-500 text-white px-6 py-3 rounded-xl font-bold hover:shadow-lg transition-all disabled:opacity-50 flex items-center justify-center gap-2"
             >
-              {event ? 'Update Event' : 'Add Event'}
+              {saving ? <><Loader2 className="w-4 h-4 animate-spin" /> Saving...</> : (event ? 'Update Event' : 'Add Event')}
             </button>
             <button
               type="button"
               onClick={onClose}
-              className="px-6 py-3 bg-white/5 border border-white/10 text-white rounded-xl hover:bg-white/10 transition-all"
+              disabled={saving}
+              className="px-6 py-3 bg-white/5 border border-white/10 text-white rounded-xl hover:bg-white/10 transition-all disabled:opacity-50"
             >
               Cancel
             </button>

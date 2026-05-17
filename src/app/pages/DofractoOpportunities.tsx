@@ -1,4 +1,4 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import { motion } from 'motion/react';
 import {
   Briefcase, MapPin, DollarSign, Clock, Building2, Globe,
@@ -35,7 +35,7 @@ export function DofractoOpportunities() {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <button
-                onClick={() => navigate('/dofracto-builders-hub')}
+                onClick={() => navigate('/dofracto/builder/hub')}
                 className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors"
               >
                 <ArrowLeft size={20} />

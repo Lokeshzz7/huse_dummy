@@ -1,4 +1,4 @@
-import { motion } from 'motion/react';
+﻿import { motion } from 'motion/react';
 import { 
   Trophy, Star, Target, Zap, CheckCircle, Lock, 
   Flame, Calendar, Clock, Award, TrendingUp, 
@@ -532,7 +532,7 @@ export function HuseChallenges() {
           description: 'Complete all fields to earn +100 Rep!'
         });
         // In a real app, this would open a profile edit modal or navigate to profile settings
-        setTimeout(() => navigate('/huse-circle-platform'), 1500);
+        setTimeout(() => navigate('/husecircle/student/platform'), 1500);
         break;
 
       case 'first-project':
@@ -540,28 +540,28 @@ export function HuseChallenges() {
           description: 'Upload your first project to earn +50 Rep!'
         });
         // This would open the AddProjectModal
-        setTimeout(() => navigate('/huse-circle-platform'), 1500);
+        setTimeout(() => navigate('/husecircle/student/platform'), 1500);
         break;
 
       case 'join-house':
         toast.success('Redirecting to House selection...', {
           description: 'Join your college house to earn +25 Rep!'
         });
-        setTimeout(() => navigate('/huse-circle-platform'), 1500);
+        setTimeout(() => navigate('/husecircle/student/platform'), 1500);
         break;
 
       case 'introduce-yourself':
         toast.success('Opening community feed...', {
           description: 'Post an introduction to earn +25 Rep!'
         });
-        setTimeout(() => navigate('/huse-circle-platform'), 1500);
+        setTimeout(() => navigate('/husecircle/student/platform'), 1500);
         break;
 
       case 'connect-students':
         toast.success('Opening leaderboard...', {
           description: 'Connect with 5 students to earn +50 Rep!'
         });
-        setTimeout(() => navigate('/huse-circle-platform'), 1500);
+        setTimeout(() => navigate('/husecircle/student/platform'), 1500);
         break;
 
       // Daily Challenges
@@ -569,21 +569,21 @@ export function HuseChallenges() {
         toast.success('Opening House Feed...', {
           description: 'Browse for 5 minutes to earn +5 Rep!'
         });
-        setTimeout(() => navigate('/huse-circle-platform'), 1500);
+        setTimeout(() => navigate('/husecircle/student/platform'), 1500);
         break;
       
       case 'upvote-projects':
         toast.success('Opening Portfolio section...', {
           description: 'Upvote 3 projects to earn +10 Rep!'
         });
-        setTimeout(() => navigate('/huse-circle-platform'), 1500);
+        setTimeout(() => navigate('/husecircle/student/platform'), 1500);
         break;
       
       case 'comment-posts':
         toast.success('Opening House Feed...', {
           description: 'Comment on 2 posts to earn +10 Rep!'
         });
-        setTimeout(() => navigate('/huse-circle-platform'), 1500);
+        setTimeout(() => navigate('/husecircle/student/platform'), 1500);
         break;
 
       // Weekly Challenges
@@ -591,21 +591,21 @@ export function HuseChallenges() {
         toast.success('Opening project upload...', {
           description: 'Share your work to earn +100 Rep!'
         });
-        setTimeout(() => navigate('/huse-circle-platform'), 1500);
+        setTimeout(() => navigate('/husecircle/student/platform'), 1500);
         break;
       
       case 'complete-gig':
         toast.success('Opening Gigs Board...', {
           description: 'Complete a gig to earn +150 Rep!'
         });
-        setTimeout(() => navigate('/huse-circle-platform'), 1500);
+        setTimeout(() => navigate('/husecircle/student/platform'), 1500);
         break;
       
       case 'help-peers':
         toast.success('Opening House Feed...', {
           description: 'Help 3 peers to earn +75 Rep!'
         });
-        setTimeout(() => navigate('/huse-circle-platform'), 1500);
+        setTimeout(() => navigate('/husecircle/student/platform'), 1500);
         break;
       
       case 'attend-event':
@@ -625,28 +625,28 @@ export function HuseChallenges() {
         toast.success('Opening Portfolio section...', {
           description: 'Upload 3 more code projects to earn +250 Rep & Code Warrior badge!'
         });
-        setTimeout(() => navigate('/huse-circle-platform'), 1500);
+        setTimeout(() => navigate('/husecircle/student/platform'), 1500);
         break;
 
       case 'designer-path':
         toast.success('Opening Portfolio section...', {
           description: 'Upload 3 design projects to earn +200 Rep & Master Designer badge!'
         });
-        setTimeout(() => navigate('/huse-circle-platform'), 1500);
+        setTimeout(() => navigate('/husecircle/student/platform'), 1500);
         break;
 
       case 'content-creator':
         toast.success('Opening House Feed...', {
           description: 'Write 2 blog posts/tutorials to earn +150 Rep & Content King badge!'
         });
-        setTimeout(() => navigate('/huse-circle-platform'), 1500);
+        setTimeout(() => navigate('/husecircle/student/platform'), 1500);
         break;
       
       case 'entrepreneur':
         toast.success('Opening House Feed...', {
           description: 'Share your startup idea to earn +100 Rep & Visionary badge!'
         });
-        setTimeout(() => navigate('/huse-circle-platform'), 1500);
+        setTimeout(() => navigate('/husecircle/student/platform'), 1500);
         break;
 
       // Verification Challenges
@@ -654,14 +654,14 @@ export function HuseChallenges() {
         toast.success('Opening Proof Portfolio...', {
           description: 'Request peer review on your project to earn +200 Rep!'
         });
-        setTimeout(() => navigate('/huse-circle-platform'), 1500);
+        setTimeout(() => navigate('/husecircle/student/platform'), 1500);
         break;
 
       case 'get-client-rated':
         toast.success('Opening Gigs Board...', {
           description: 'Complete a gig and get rated to earn +300 Rep!'
         });
-        setTimeout(() => navigate('/huse-circle-platform'), 1500);
+        setTimeout(() => navigate('/husecircle/student/platform'), 1500);
         break;
 
       case 'recruiter-endorsed':
@@ -674,7 +674,7 @@ export function HuseChallenges() {
         toast.success('Opening Proof Portfolio...', {
           description: 'Request mentor confirmation to earn +250 Rep!'
         });
-        setTimeout(() => navigate('/huse-circle-platform'), 1500);
+        setTimeout(() => navigate('/husecircle/student/platform'), 1500);
         break;
 
       case 'all-five-badges':
@@ -688,21 +688,21 @@ export function HuseChallenges() {
         toast.info('Keep completing challenges!', {
           description: 'You need 158 more Rep to reach Silver tier (500 Rep total).'
         });
-        navigate('/reputation-guide');
+        navigate('/husecircle/reputation/guide');
         break;
 
       case 'reach-gold':
         toast.info('Build your reputation!', {
           description: 'You need 1,658 more Rep to reach Gold tier (2,000 Rep total).'
         });
-        navigate('/reputation-guide');
+        navigate('/husecircle/reputation/guide');
         break;
 
       case 'reach-platinum':
         toast.info('Keep pushing forward!', {
           description: 'You need 7,658 more Rep to reach Platinum tier (8,000 Rep total).'
         });
-        navigate('/reputation-guide');
+        navigate('/husecircle/reputation/guide');
         break;
       
       case 'profile-views':
@@ -715,7 +715,7 @@ export function HuseChallenges() {
         toast.success('Opening Gigs Board...', {
           description: 'Complete more gigs to reach ₹5,000 total earnings!'
         });
-        setTimeout(() => navigate('/huse-circle-platform'), 1500);
+        setTimeout(() => navigate('/husecircle/student/platform'), 1500);
         break;
 
       // Streak Challenges
@@ -729,7 +729,7 @@ export function HuseChallenges() {
         toast.success('Opening House Feed...', {
           description: 'Post weekly content to earn +300 Rep!'
         });
-        setTimeout(() => navigate('/huse-circle-platform'), 1500);
+        setTimeout(() => navigate('/husecircle/student/platform'), 1500);
         break;
 
       default:
@@ -797,7 +797,7 @@ export function HuseChallenges() {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <button
-                onClick={() => navigate('/huse-circle-platform')}
+                onClick={() => navigate('/husecircle/student/platform')}
                 className="w-10 h-10 rounded-[12px] bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/30 flex items-center justify-center transition-all"
               >
                 <ArrowLeft className="text-purple-400" size={20} />
@@ -970,7 +970,7 @@ export function HuseChallenges() {
             Every challenge you complete brings you closer to unlocking new tiers and opportunities. Start with the easy ones!
           </p>
           <button
-            onClick={() => navigate('/reputation-guide')}
+            onClick={() => navigate('/husecircle/reputation/guide')}
             className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-8 py-4 rounded-[15px] hover:shadow-[0_0_30px_rgba(168,85,247,0.5)] transition-all font-bold text-[16px]"
           >
             View Full Reputation Guide

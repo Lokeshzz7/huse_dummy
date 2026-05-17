@@ -1,4 +1,4 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import {
@@ -244,7 +244,7 @@ export function UserManagement() {
                     </button>
                     <button
                       onClick={() => {
-                        navigate('/add-business');
+                        navigate('/business/add');
                         setShowAddUserMenu(false);
                       }}
                       className="w-full flex items-center gap-3 px-3 py-2 text-white hover:bg-white/10 rounded-lg transition-all"

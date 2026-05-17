@@ -1,4 +1,4 @@
-import { motion } from 'motion/react';
+﻿import { motion } from 'motion/react';
 import { ArrowRight, Lock, Unlock, Zap, TrendingUp, Award, Crown, CheckCircle } from 'lucide-react';
 import { getTierInfo, getReputationNeededForNextTier, TierLevel } from '../utils/tierSystem';
 import { useNavigate } from 'react-router-dom';
@@ -322,13 +322,13 @@ export function ProgressionBar({ reputation, userType = 'student', compact = fal
       {/* Quick Actions */}
       <div className="mt-4 flex gap-2">
         <button 
-          onClick={() => navigate('/huse-circle-platform/challenges')}
+          onClick={() => navigate('/husecircle/student/platform/challenges')}
           className="flex-1 px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-lg text-sm font-medium hover:shadow-lg transition-all"
         >
           Earn More Reputation
         </button>
         <button 
-          onClick={() => navigate('/reputation-guide')}
+          onClick={() => navigate('/husecircle/reputation/guide')}
           className="px-4 py-2 bg-[#1A1A1A] border border-purple-500/20 text-gray-400 hover:text-white rounded-lg text-sm transition-all"
         >
           View All Benefits

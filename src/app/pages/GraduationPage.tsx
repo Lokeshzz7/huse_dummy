@@ -1,4 +1,4 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { useEcosystem } from '../context/EcosystemContext';
@@ -30,7 +30,7 @@ export function GraduationPage() {
     toast.success('🎉 Congratulations! You\'ve graduated to Dofracto!');
     
     setTimeout(() => {
-      navigate('/unified-builders-hub');
+      navigate('/dofracto/builder/hub');
     }, 2000);
   };
 

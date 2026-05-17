@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+﻿import { useState, useRef, useEffect } from 'react';
 import { AvatarDisplay } from './AvatarDisplay';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
@@ -73,7 +73,7 @@ export function Header() {
             <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-[#24c6dc] to-[#05997F] group-hover:w-full transition-premium" />
           </Link>
           <Link 
-            to="/huse-circle"
+            to="/husecircle"
             className="text-gray-300 hover:text-white transition-premium relative group smooth-edges"
           >
             <span className="relative z-10">HUSE Circle</span>
@@ -139,7 +139,7 @@ export function Header() {
                       <p className="text-gray-500 text-[11px] font-bold uppercase mb-2 px-2">HUSE Circle</p>
                       <button
                         onClick={() => {
-                          navigate('/huse-circle-login');
+                          navigate('/husecircle/student/login');
                           setLoginDropdownOpen(false);
                         }}
                         className="w-full flex items-center gap-3 px-3 py-2.5 rounded-[10px] hover:bg-purple-500/10 transition-all text-left group"
@@ -267,7 +267,7 @@ export function Header() {
                     <p className="text-gray-500 text-[10px] font-bold uppercase mb-2">HUSE Circle</p>
                     <button
                       onClick={() => {
-                        navigate('/huse-circle-login');
+                        navigate('/husecircle/student/login');
                         setMobileMenuOpen(false);
                       }}
                       className="w-full flex items-center gap-3 p-3 rounded-[10px] hover:bg-purple-500/10 transition-all text-left mb-2"
@@ -347,7 +347,7 @@ export function Header() {
                   <span className="text-[16px] font-medium">Dofracto</span>
                 </Link>
                 <Link 
-                  to="/huse-circle"
+                  to="/husecircle"
                   onClick={() => setMobileMenuOpen(false)}
                   className="flex items-center gap-3 text-white hover:text-[#24c6dc] transition-colors p-3 rounded-lg hover:bg-white/5"
                 >

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'motion/react';
 import {
@@ -117,7 +117,7 @@ export function VerificationHub() {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <button
-                onClick={() => navigate('/huse-circle-platform')}
+                onClick={() => navigate('/husecircle/student/platform')}
                 className="text-gray-400 hover:text-white transition-colors"
               >
                 <ArrowLeft className="w-6 h-6" />

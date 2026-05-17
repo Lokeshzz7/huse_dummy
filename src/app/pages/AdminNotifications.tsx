@@ -1,4 +1,4 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   ArrowLeft,
@@ -42,15 +42,15 @@ export function AdminNotifications() {
     // Check for super admin
     const isSuperAdmin = localStorage.getItem('userType') === 'super-admin';
     if (isSuperAdmin) {
-      return '/super-admin-dashboard';
+      return '/admin/super/dashboard';
     }
     // Check if user came from business portal
     const businessUser = localStorage.getItem('dofractoBusinessUser');
     if (businessUser) {
-      return '/admin-dashboard';
+      return '/admin/dashboard';
     }
     // Default to admin dashboard
-    return '/admin-dashboard';
+    return '/admin/dashboard';
   };
 
   const [notifications, setNotifications] = useState<Notification[]>([

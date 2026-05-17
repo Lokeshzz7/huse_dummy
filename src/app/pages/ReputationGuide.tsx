@@ -1,4 +1,4 @@
-import { motion } from 'motion/react';
+﻿import { motion } from 'motion/react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Award, Star, Trophy, Zap, CheckCircle, TrendingUp } from 'lucide-react';
 
@@ -182,7 +182,7 @@ export function ReputationGuide() {
           className="mt-16 text-center"
         >
           <button
-            onClick={() => navigate('/huse-circle-platform')}
+            onClick={() => navigate('/husecircle/student/platform')}
             className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-8 py-4 rounded-full font-bold hover:shadow-[0_0_30px_rgba(168,85,247,0.5)] transition-all"
           >
             Start Building Reputation

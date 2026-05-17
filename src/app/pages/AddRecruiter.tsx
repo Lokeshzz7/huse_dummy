@@ -1,4 +1,4 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Save, Upload, X, Users, Eye, EyeOff, CheckCircle, Briefcase } from 'lucide-react';
 import { motion } from 'motion/react';
@@ -10,7 +10,7 @@ export function AddRecruiter() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   
   const userType = localStorage.getItem('userType');
-  const dashboardRoute = userType === 'superadmin' ? '/super-admin-dashboard' : '/admin-dashboard';
+  const dashboardRoute = userType === 'superadmin' ? '/admin/super/dashboard' : '/admin/dashboard';
   
   const [formData, setFormData] = useState({
     firstName: '',

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import {
   Briefcase, Calendar, Clock, CheckCircle, XCircle, AlertCircle,
@@ -81,7 +81,7 @@ export function ApplicationTracker() {
               <p className="text-gray-400">Track all your job applications in one place</p>
             </div>
             <button
-              onClick={() => navigate('/huse-circle-platform')}
+              onClick={() => navigate('/husecircle/student/platform')}
               className="px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-medium rounded-xl hover:shadow-lg hover:shadow-purple-500/30 transition-all"
             >
               Back to Dashboard
@@ -209,7 +209,7 @@ export function ApplicationTracker() {
                 {searchQuery ? 'Try adjusting your search query' : 'Start applying to jobs to track them here'}
               </p>
               <button
-                onClick={() => navigate('/huse-circle-platform')}
+                onClick={() => navigate('/husecircle/student/platform')}
                 className="px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-medium rounded-xl"
               >
                 Browse Jobs

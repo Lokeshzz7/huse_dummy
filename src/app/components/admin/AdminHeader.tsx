@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom';
+﻿import { Link, useNavigate } from 'react-router-dom';
 import { Shield, Bell, LogOut, Crown, User } from 'lucide-react';
 import { motion } from 'motion/react';
 import { useState } from 'react';
@@ -12,7 +12,7 @@ export function AdminHeader() {
     localStorage.removeItem('userType');
     localStorage.removeItem('userEmail');
     localStorage.removeItem('superAdminUser');
-    navigate('/super-admin-login');
+    navigate('/admin/super/login');
   };
 
   return (
@@ -20,7 +20,7 @@ export function AdminHeader() {
       <div className="max-w-[1600px] mx-auto px-6 h-[70px] flex items-center justify-between">
         {/* Left - Logo & Badge */}
         <div className="flex items-center gap-4">
-          <Link to="/super-admin-dashboard" className="flex items-center gap-3">
+          <Link to="/admin/super/dashboard" className="flex items-center gap-3">
             <motion.div
               animate={{
                 boxShadow: [

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+﻿import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useNavigate } from 'react-router-dom';
 import { 
@@ -40,7 +40,7 @@ export function HuseCircleLoading() {
             setStage('ready');
             // Navigate after showing "Ready"
             setTimeout(() => {
-              navigate('/college-verification');
+              navigate('/husecircle/verify/college');
             }, 1500);
             return 100;
           }

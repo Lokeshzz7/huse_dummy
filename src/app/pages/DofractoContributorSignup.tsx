@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { 
@@ -68,13 +68,13 @@ export function DofractoContributorSignup() {
       // Alumni - Free access
       setTimeout(() => {
         toast.success('🎓 Alumni status verified! Welcome to Dofracto.');
-        navigate('/dofracto-builders-hub');
+        navigate('/dofracto/builder/hub');
       }, 1500);
     } else {
       // Regular user - Start trial
       setTimeout(() => {
         toast.success('🎉 Your 7-day free trial has started!');
-        navigate('/dofracto-builders-hub?trial=true');
+        navigate('/dofracto/builder/hub?trial=true');
       }, 1500);
     }
   };
@@ -365,7 +365,7 @@ export function DofractoContributorSignup() {
                 Already have an account?{' '}
                 <button
                   type="button"
-                  onClick={() => navigate('/dofracto-builder-login')}
+                  onClick={() => navigate('/dofracto/builder/login')}
                   className="text-cyan-400 hover:underline font-medium"
                 >
                   Sign In

@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+﻿import { useNavigate } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { Rocket, GraduationCap, FileText, ArrowRight, Sparkles, Users, TrendingUp, Zap, Award, Briefcase, DollarSign, MessageSquare } from 'lucide-react';
 import { Header } from '../components/Header';
@@ -33,7 +33,7 @@ export function EcosystemLanding() {
       borderColor: 'border-[#B66FDE]/30',
       glowColor: 'shadow-[#B66FDE]/20',
       hoverGlow: 'hover:shadow-[#B66FDE]/40',
-      route: '/huse-circle',
+      route: '/husecircle',
       features: ['Student Programs', 'Startup Support', 'Recruiter Access', 'Skill Development'],
     },
     {
@@ -159,7 +159,7 @@ export function EcosystemLanding() {
                 className="flex flex-col sm:flex-row gap-4 justify-center items-center"
               >
                 <button
-                  onClick={() => navigate('/huse-circle')}
+                  onClick={() => navigate('/husecircle')}
                   className="group px-8 py-4 rounded-full bg-gradient-to-r from-[#24c6dc] to-[#05997F] text-white font-semibold hover:shadow-xl hover:shadow-[#24c6dc]/30 transition-all duration-300 hover:scale-105 flex items-center gap-2"
                 >
                   Start Your Journey

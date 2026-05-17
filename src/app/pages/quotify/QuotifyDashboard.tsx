@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+﻿import { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -72,7 +72,7 @@ export function QuotifyDashboard() {
     // Check if user is logged in to Quotify
     const quotifyUser = localStorage.getItem('quotifyUser');
     if (!quotifyUser) {
-      navigate('/quotify-login');
+      navigate('/quotify/login');
       return;
     }
     setUser(JSON.parse(quotifyUser));
@@ -84,7 +84,7 @@ export function QuotifyDashboard() {
 
   const handleLogout = () => {
     localStorage.removeItem('quotifyUser');
-    navigate('/quotify-login');
+    navigate('/quotify/login');
     toast.success('Logged out successfully');
   };
 

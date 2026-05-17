@@ -1,6 +1,12 @@
 import { useState } from 'react';
-import { X, Upload, Link as LinkIcon, Plus, DollarSign, Calendar, Tag, Bell, Lock, Eye, Globe, Moon, Sun, Palette, Shield, User, Mail, Phone, MapPin, Briefcase, Code } from 'lucide-react';
-import { GraduationCap, Rocket, Sparkles, TrendingUp, CheckCircle } from 'lucide-react';
+import { 
+  GraduationCap, Rocket, Sparkles, TrendingUp, CheckCircle, X,
+  DollarSign, Calendar, Bell, Shield, Palette, User, Upload,
+  MapPin, Mail, Briefcase, Code, Globe
+} from 'lucide-react';
+import { apiPost } from '../../lib/api';
+import { useAuth } from '../context/AuthContext';
+import { toast } from 'sonner';
 
 // Add Project Modal
 export function AddProjectModal({ show, onClose, onAdd }: { show: boolean; onClose: () => void; onAdd: (project: any) => void }) {
@@ -19,7 +25,7 @@ export function AddProjectModal({ show, onClose, onAdd }: { show: boolean; onClo
       onAdd({
         id: Date.now(),
         ...formData,
-        tech: formData.tech.split(',').map(t => t.trim()).filter(t => t),
+        tech: formData.tech.split(',').map((t: string) => t.trim()).filter((t: string) => t),
         likes: 0,
         views: 0,
         recruitersViewed: 0
@@ -146,7 +152,7 @@ export function PostGigModal({ show, onClose, onAdd, currentUser }: { show: bool
       onAdd({
         id: Date.now(),
         ...formData,
-        skills: formData.skills.split(',').map(s => s.trim()).filter(s => s),
+        skills: formData.skills.split(',').map((s: string) => s.trim()).filter((s: string) => s),
         postedBy: {
           name: currentUser.name,
           avatar: currentUser.avatar,
@@ -767,27 +773,51 @@ export function SettingsModal({ show, onClose, currentUser }: { show: boolean; o
 
 // Edit Profile Modal
 export function EditProfileModal({ show, onClose, currentUser }: { show: boolean; onClose: () => void; currentUser: any }) {
+  const { updateUser } = useAuth();
   const [formData, setFormData] = useState({
-    name: currentUser.name,
-    bio: 'Passionate about building innovative solutions. Love coding, design, and entrepreneurship.',
-    email: 'arjun.kumar@iitb.ac.in',
-    phone: '+91 98765 43210',
-    location: 'Mumbai, Maharashtra',
-    college: currentUser.college,
-    year: currentUser.year,
-    branch: currentUser.branch,
-    skills: 'React, Node.js, Python, UI/UX Design',
-    interests: 'Web Development, AI/ML, Startups',
-    github: 'github.com/arjunkumar',
-    linkedin: 'linkedin.com/in/arjunkumar',
-    portfolio: 'arjunkumar.dev',
-    twitter: '@arjun_kumar',
-    avatar: currentUser.avatar
+    name: currentUser.name || '',
+    bio: currentUser.bio || '',
+    email: currentUser.email || '',
+    phone: currentUser.mobile || '',
+    location: '',
+    college: currentUser.college_name || '',
+    year: currentUser.current_year_of_study || 1,
+    branch: currentUser.department || '',
+    skills: (currentUser.skills || []).join(', '),
+    interests: '',
+    github: currentUser.github_url || '',
+    linkedin: currentUser.linkedin_url || '',
+    portfolio: currentUser.website_url || '',
+    twitter: currentUser.twitter_url || '',
+    avatar: currentUser.avatar || '🎓'
   });
 
-  const handleSave = () => {
-    alert('✅ Profile updated successfully!');
-    onClose();
+  const [saving, setSaving] = useState(false);
+
+  const handleSave = async () => {
+    setSaving(true);
+    try {
+      const payload = {
+        name: formData.name,
+        bio: formData.bio,
+        skills: formData.skills.split(',').map((s: string) => s.trim()).filter((s: string) => s),
+        linkedin_url: formData.linkedin,
+        github_url: formData.github,
+        twitter_url: formData.twitter,
+        website_url: formData.portfolio,
+        department: formData.branch,
+        current_year_of_study: Number(formData.year)
+      };
+
+      await apiPost(`/users/${currentUser.id}/update`, payload);
+      updateUser(payload);
+      toast.success('Profile updated successfully!');
+      onClose();
+    } catch (e: any) {
+      toast.error(e.message || 'Update failed');
+    } finally {
+      setSaving(false);
+    }
   };
 
   if (!show) return null;
@@ -1032,9 +1062,10 @@ export function EditProfileModal({ show, onClose, currentUser }: { show: boolean
           <button
             type="button"
             onClick={handleSave}
-            className="flex-1 bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 py-3 rounded-lg hover:shadow-lg transition-all"
+            disabled={saving}
+            className="flex-1 bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 py-3 rounded-lg hover:shadow-lg transition-all disabled:opacity-50"
           >
-            Save Changes
+            {saving ? 'Saving...' : 'Save Changes'}
           </button>
         </div>
       </div>

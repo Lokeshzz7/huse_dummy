@@ -1,4 +1,4 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import {
   X, Send, Briefcase, DollarSign, FileText, Upload, Link as LinkIcon,
@@ -69,7 +69,7 @@ export function JobApplicationModal({ isOpen, onClose, job, currentUser }: JobAp
       description: 'Click here to track your application',
       action: {
         label: 'Track',
-        onClick: () => navigate('/application-tracker')
+        onClick: () => navigate('/dofracto/builder/tracker')
       },
       duration: 5000
     });

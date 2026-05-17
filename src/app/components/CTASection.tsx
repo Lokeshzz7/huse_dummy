@@ -1,4 +1,4 @@
-import { motion } from 'motion/react';
+﻿import { motion } from 'motion/react';
 import { ArrowRight, Zap } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
@@ -63,7 +63,7 @@ export function CTASection() {
             transition={{ duration: 0.6, delay: 0.5 }}
           >
             <button 
-              onClick={() => navigate('/user-login')}
+              onClick={() => navigate('/user/login')}
               className="group bg-gradient-to-r from-[#24c6dc] to-[#05997F] text-white px-10 py-5 rounded-[15px] hover:shadow-[0_0_40px_rgba(36,198,220,0.6)] transition-all flex items-center gap-2 w-full sm:w-auto justify-center"
             >
               Start Free Trial

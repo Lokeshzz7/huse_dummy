@@ -1,15 +1,34 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import {
   TrendingUp, TrendingDown, Users, Building2, GraduationCap,
   DollarSign, Activity, Clock, Award, Target, Zap, Eye,
   Heart, MessageSquare, Share2, Download, Calendar,
-  BarChart3, PieChart, LineChart as LineChartIcon
+  BarChart3, PieChart, LineChart as LineChartIcon, Loader2, RefreshCw
 } from 'lucide-react';
+import { adminAction } from '../../../lib/api';
+import { toast } from 'sonner';
 
 export function AnalyticsDashboard() {
   const [timeRange, setTimeRange] = useState('7d');
   const [selectedPlatform, setSelectedPlatform] = useState('All');
+  const [analyticsData, setAnalyticsData] = useState<Record<string, any> | null>(null);
+  const [analyticsLoading, setAnalyticsLoading] = useState(true);
+
+  const fetchAnalytics = async () => {
+    setAnalyticsLoading(true);
+    try {
+      const data = await adminAction<Record<string, any>>({ action: 'get_analytics' });
+      setAnalyticsData(data);
+    } catch (e: any) {
+      // silently fall back to mock data
+      console.warn('[Analytics] Could not fetch real analytics:', e.message);
+    } finally {
+      setAnalyticsLoading(false);
+    }
+  };
+
+  useEffect(() => { fetchAnalytics(); }, []);
 
   const overviewStats = [
     {
@@ -125,12 +144,43 @@ export function AnalyticsDashboard() {
             <option value="90d">Last 90 Days</option>
             <option value="1y">Last Year</option>
           </select>
+          <button
+            onClick={fetchAnalytics}
+            disabled={analyticsLoading}
+            className="flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 text-gray-300 rounded-lg hover:bg-white/10 transition-all disabled:opacity-50"
+            title="Refresh analytics from backend"
+          >
+            {analyticsLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <RefreshCw className="w-4 h-4" />}
+            <span className="text-sm font-medium">{analyticsData ? 'Refresh' : 'Load'}</span>
+          </button>
           <button className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-cyan-500 to-teal-500 rounded-lg hover:shadow-lg hover:shadow-cyan-500/30 transition-all">
             <Download className="w-4 h-4 text-white" />
             <span className="text-sm text-white font-medium">Export Report</span>
           </button>
         </div>
       </div>
+
+      {/* Live analytics snapshot */}
+      {analyticsData && (
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="bg-green-500/5 border border-green-500/20 rounded-xl p-4"
+        >
+          <div className="flex items-center gap-2 mb-3">
+            <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+            <span className="text-green-400 text-sm font-medium">Live from backend</span>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            {Object.entries(analyticsData).slice(0, 8).map(([key, val]) => (
+              <div key={key} className="bg-white/5 rounded-lg p-3">
+                <p className="text-gray-400 text-xs capitalize">{key.replace(/_/g, ' ')}</p>
+                <p className="text-white font-bold text-lg">{String(val)}</p>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+      )}
 
       {/* Overview Stats */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">

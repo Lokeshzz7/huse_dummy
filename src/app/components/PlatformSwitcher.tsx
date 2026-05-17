@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+﻿import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { GraduationCap, Rocket, MessageSquare, ChevronDown, ArrowRight, Sparkles } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -22,7 +22,7 @@ const platforms: Platform[] = [
     icon: GraduationCap,
     color: 'purple',
     gradient: 'from-purple-500 via-pink-500 to-amber-500',
-    path: '/huse-circle-platform',
+    path: '/husecircle/student/platform',
     description: 'Student Incubator',
     badge: 'Students'
   },

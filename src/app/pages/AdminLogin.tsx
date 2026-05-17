@@ -1,4 +1,4 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Lock, Mail, Eye, EyeOff, Shield, AlertCircle, CheckCircle } from 'lucide-react';
 import { motion } from 'motion/react';
@@ -36,7 +36,7 @@ export function AdminLogin() {
       
       // Navigate to admin dashboard
       setTimeout(() => {
-        navigate('/admin-dashboard');
+        navigate('/admin/dashboard');
       }, 500);
     } else {
       setError('Invalid credentials. Please check your email and password.');
@@ -191,7 +191,7 @@ export function AdminLogin() {
           <p className="text-center text-gray-400">
             Not an admin?{' '}
             <Link
-              to="/user-login"
+              to="/user/login"
               className="text-[#24c6dc] hover:text-[#05997F] transition-colors"
             >
               Login as User

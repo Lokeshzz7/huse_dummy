@@ -1,4 +1,4 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Lock, Mail, Eye, EyeOff, Building2, AlertCircle, CheckCircle, Rocket } from 'lucide-react';
 import { motion } from 'motion/react';
@@ -36,7 +36,7 @@ export function BusinessPortalLogin() {
       
       // Navigate to business dashboard
       setTimeout(() => {
-        navigate('/admin-dashboard');
+        navigate('/admin/dashboard');
       }, 500);
     } else {
       setError('Invalid credentials. Please check your email and password.');
@@ -224,7 +224,7 @@ export function BusinessPortalLogin() {
               Don't have a business account?
             </p>
             <Link
-              to="/business-portal-register"
+              to="/business/register"
               className="inline-flex items-center gap-2 text-[#24c6dc] hover:text-[#05997F] transition-colors font-medium"
             >
               <Building2 className="w-4 h-4" />
@@ -237,7 +237,7 @@ export function BusinessPortalLogin() {
             <p className="text-center text-theme-muted text-sm mb-3">Access other portals:</p>
             <div className="flex gap-2">
               <Link
-                to="/dofracto-builder-login"
+                to="/dofracto/builder/login"
                 className="flex-1 text-center py-2 px-3 bg-theme-secondary border border-theme-secondary rounded-lg text-theme-secondary hover:border-[#24c6dc] hover:text-[#24c6dc] transition-all text-sm"
               >
                 Contributors

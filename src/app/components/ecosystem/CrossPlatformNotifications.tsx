@@ -1,4 +1,4 @@
-import { motion, AnimatePresence } from 'motion/react';
+﻿import { motion, AnimatePresence } from 'motion/react';
 import { X, Bell, Award, GraduationCap, Quote, Briefcase, DollarSign, Star, MessageSquare, TrendingUp } from 'lucide-react';
 
 interface Notification {
@@ -48,7 +48,7 @@ export function CrossPlatformNotifications({ isOpen, onClose }: CrossPlatformNot
       message: 'Congratulations! You\'ve reached 100,000 reputation. Graduate to Dofracto now!',
       timestamp: '2 hours ago',
       read: false,
-      actionUrl: '/graduation',
+      actionUrl: '/husecircle/student/graduation',
     },
     {
       id: '4',

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import { createPortal } from 'react-dom';
 import { motion } from 'motion/react';
 import { X, Mail, Lock, Eye, EyeOff, LogIn, ArrowRight } from 'lucide-react';
@@ -25,8 +25,8 @@ export function LoginModal({ isOpen, onClose, loginType, onSwitchToSignup }: Log
       subtitle: 'Login to your HUSE Circle account',
       color: 'purple',
       gradient: 'from-purple-500 to-pink-500',
-      loginRoute: '/huse-circle-loading',
-      demoRoute: '/huse-circle-loading',
+      loginRoute: '/husecircle/loading',
+      demoRoute: '/husecircle/loading',
       demoLabel: 'Demo Student Account'
     },
     recruiter: {
@@ -34,8 +34,8 @@ export function LoginModal({ isOpen, onClose, loginType, onSwitchToSignup }: Log
       subtitle: 'Login to access top student talent',
       color: 'blue',
       gradient: 'from-blue-500 to-indigo-500',
-      loginRoute: '/recruiter-dashboard',
-      demoRoute: '/recruiter-dashboard',
+      loginRoute: '/recruiter/dashboard',
+      demoRoute: '/recruiter/dashboard',
       demoLabel: 'Demo Recruiter Account'
     },
     contributor: {
@@ -43,8 +43,8 @@ export function LoginModal({ isOpen, onClose, loginType, onSwitchToSignup }: Log
       subtitle: 'Login to your Dofracto account',
       color: 'cyan',
       gradient: 'from-cyan-500 to-teal-500',
-      loginRoute: '/dofracto-builders-hub',
-      demoRoute: '/dofracto-builders-hub',
+      loginRoute: '/dofracto/builder/hub',
+      demoRoute: '/dofracto/builder/hub',
       demoLabel: 'Demo Contributor Account'
     },
     business: {
@@ -52,8 +52,8 @@ export function LoginModal({ isOpen, onClose, loginType, onSwitchToSignup }: Log
       subtitle: 'Login to your Dofracto startup portal',
       color: 'emerald',
       gradient: 'from-emerald-500 to-green-500',
-      loginRoute: '/business-portal-login',
-      demoRoute: '/business-portal-login',
+      loginRoute: '/business/login',
+      demoRoute: '/business/login',
       demoLabel: 'Demo Startup Account'
     }
   };
@@ -239,7 +239,7 @@ export function LoginModal({ isOpen, onClose, loginType, onSwitchToSignup }: Log
                   {loginType === 'student' ? (
                     <>
                       <button
-                        onClick={() => handleDemoLogin('/huse-circle-loading')}
+                        onClick={() => handleDemoLogin('/husecircle/loading')}
                         className="w-full bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 text-amber-300 py-2.5 rounded-[10px] text-[13px] font-medium transition-all"
                       >
                         {config.demoLabel}

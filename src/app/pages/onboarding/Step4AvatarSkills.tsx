@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useAuth } from '../../context/AuthContext';
 import { supabase } from '../../../lib/supabase';
+import { apiPost } from '../../../lib/api';
 import { toast } from 'sonner';
 import { Loader2, Sparkles, X, Plus } from 'lucide-react';
 
@@ -51,24 +52,28 @@ export function Step4AvatarSkills({ onComplete }: { onComplete: () => void }) {
     setLoading(true);
 
     try {
-      const payload = {
+      // 1. Backend update for profile fields
+      await apiPost(`/users/${user.id}/update`, { bio, skills });
+
+      // 2. Supabase update for avatar_style (not in backend schema)
+      const { error: supabaseError } = await supabase
+        .from('users')
+        .update({ 
+          avatar_style: avatarStyle
+        })
+        .eq('id', user.id);
+
+      if (supabaseError) throw supabaseError;
+
+      updateUser({
         avatar_style: avatarStyle,
         skills,
-        bio
-      };
-
-      const { data, error } = await supabase
-        .from('users')
-        .update(payload)
-        .eq('id', user.id)
-        .select()
-        .single();
-
-      if (error) throw error;
-
-      updateUser(payload);
-      toast.success('Profile completed successfully!');
-      onComplete(); // redirect to verification hub
+        bio,
+        onboarding_step: 'upload_doc' // Move to Payment Step
+      });
+      
+      toast.success('Profile details saved!');
+      onComplete();
     } catch (e: any) {
       toast.error(e.message || 'Failed to save profile');
     } finally {

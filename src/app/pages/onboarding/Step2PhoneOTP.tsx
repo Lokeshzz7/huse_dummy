@@ -1,37 +1,43 @@
 import { useState } from 'react';
 import { motion } from 'motion/react';
 import { useAuth } from '../../context/AuthContext';
+import { apiPost } from '../../../lib/api';
 import { supabase } from '../../../lib/supabase';
 import { toast } from 'sonner';
 import { ArrowRight, Loader2, Phone } from 'lucide-react';
 
 export function Step2PhoneOTP({ onNext }: { onNext: () => void }) {
-  const { updateUser } = useAuth();
+  const { user, updateUser } = useAuth();
   
-  const [phone, setPhone] = useState('');
+  // Pre-fill phone if collected in Step 1
+  const initialPhone = user?.mobile ? user.mobile.replace('+91', '') : '';
+  const [phone, setPhone] = useState(initialPhone);
   const [otp, setOtp] = useState(['', '', '', '']);
   const [step, setStep] = useState<'input' | 'verify'>('input');
   const [loading, setLoading] = useState(false);
 
   const handleSendOTP = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (phone.length !== 10) {
+    const cleanPhone = phone.replace(/\D/g, '');
+    if (cleanPhone.length !== 10) {
       toast.error('Please enter a valid 10-digit phone number');
       return;
     }
-    
+
     setLoading(true);
     try {
-      const { data, error } = await supabase.functions.invoke('phone-otp', {
-        body: { phone, action: 'send' }
-      });
-
-      if (error) throw error;
-      if (!data?.success) throw new Error(data?.error || 'Failed to send OTP');
-
-      toast.success('OTP sent successfully');
-      setStep('verify');
+      console.log('Sending OTP to:', `+91${cleanPhone}`);
+      const result = await apiPost<{ sent: boolean, otp?: string }>('/auth/otp/send', { phone: `+91${cleanPhone}` });
+      
+      if (result.sent) {
+        toast.success('OTP sent successfully');
+        if (result.otp) console.log('Dev Mode OTP:', result.otp);
+        setStep('verify');
+      } else {
+        throw new Error('Failed to send OTP');
+      }
     } catch (e: any) {
+      console.error('OTP Send Error:', e);
       toast.error(e.message || 'Error sending OTP');
     } finally {
       setLoading(false);
@@ -48,18 +54,39 @@ export function Step2PhoneOTP({ onNext }: { onNext: () => void }) {
 
     setLoading(true);
     try {
-      const { data, error } = await supabase.functions.invoke('phone-otp', {
-        body: { phone, action: 'verify', otp: otpValue }
+      const cleanPhone = phone.replace(/\D/g, '');
+      const result = await apiPost<{ verified: boolean }>('/auth/otp/verify', { 
+        phone: `+91${cleanPhone}`, 
+        otp: otpValue 
       });
 
-      if (error) throw error;
-      if (!data?.success) throw new Error(data?.error || 'Invalid OTP');
+      if (result.verified) {
+        toast.success('Phone verified successfully!');
+        
+        // After phone verify, move to Profile Setup (Step 3)
+        // Save to Supabase for recovery
+        if (user?.id) {
+          await supabase.from('users').update({ 
+            phone_verified: true
+          }).eq('id', user.id);
+        }
 
-      toast.success('Phone verified successfully!');
-      updateUser({ phone_verified: true });
-      onNext();
+        updateUser({ 
+          phone_verified: true,
+          onboarding_step: 'profile_setup'
+        });
+        
+        onNext();
+      } else {
+        throw new Error('OTP verification failed');
+      }
     } catch (e: any) {
-      toast.error(e.message || 'Error verifying OTP');
+      console.error('OTP Verify Error:', e);
+      if (e.message?.includes('users_mobile_key') || e.message?.includes('duplicate key value')) {
+        toast.error('This mobile number is already linked to another account.');
+      } else {
+        toast.error(e.message || 'Error verifying OTP');
+      }
     } finally {
       setLoading(false);
     }

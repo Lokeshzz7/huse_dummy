@@ -1,4 +1,4 @@
-import { motion } from 'motion/react';
+﻿import { motion } from 'motion/react';
 import { Check, Sparkles } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
@@ -61,7 +61,7 @@ export function Pricing() {
     if (planName === 'Enterprise') {
       navigate('/contact');
     } else {
-      navigate('/user-login');
+      navigate('/user/login');
     }
   };
 

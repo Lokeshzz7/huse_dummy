@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { 
   Rocket, TrendingUp, Users, Target, Zap, Award,
@@ -402,7 +402,7 @@ export function DofractoPlatform() {
                         </div>
                       </div>
                       <button
-                        onClick={() => navigate(`/startup/${startup.id}`)}
+                        onClick={() => navigate(`/dofracto/startup/${startup.id}`)}
                         className="flex items-center gap-1 px-4 py-2 bg-gradient-to-r from-[#24c6dc] to-[#05997F] text-white rounded-lg text-sm font-medium hover:shadow-lg hover:shadow-[#24c6dc]/30 transition-all duration-300 group"
                       >
                         View
@@ -445,7 +445,7 @@ export function DofractoPlatform() {
                       <div className="text-purple-400 text-xs font-medium mt-1">7-Day Free Trial</div>
                     </div>
                     <button
-                      onClick={() => navigate('/dofracto/pricing')}
+                      onClick={() => navigate('/dofracto/pricing/contributor')}
                       className="w-full py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-xl font-semibold hover:shadow-lg hover:shadow-purple-500/30 transition-all duration-300 flex items-center justify-center gap-2"
                     >
                       Start Free Trial
@@ -469,7 +469,7 @@ export function DofractoPlatform() {
                       </div>
                     </div>
                     <button
-                      onClick={() => navigate('/business-portal-register')}
+                      onClick={() => navigate('/business/register')}
                       className="w-full py-3 bg-gradient-to-r from-cyan-500 to-teal-500 text-white rounded-xl font-semibold hover:shadow-lg hover:shadow-cyan-500/30 transition-all duration-300 flex items-center justify-center gap-2"
                     >
                       Get Started
@@ -485,7 +485,7 @@ export function DofractoPlatform() {
                   <p className="text-gray-500 text-sm">
                     🎓 <span className="text-purple-400 font-medium">HUSE Circle Alumni?</span> Get FREE lifetime access!{' '}
                     <button
-                      onClick={() => navigate('/dofracto/pricing')}
+                      onClick={() => navigate('/dofracto/pricing/contributor')}
                       className="text-cyan-400 hover:underline font-medium"
                     >
                       Claim Now →
@@ -557,7 +557,7 @@ export function DofractoPlatform() {
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <button
-                    onClick={() => navigate('/huse-circle')}
+                    onClick={() => navigate('/husecircle')}
                     className="px-8 py-3 rounded-xl bg-gradient-to-r from-[#B66FDE] to-[#E8C4FF] text-white font-semibold hover:shadow-lg hover:shadow-[#B66FDE]/30 transition-all duration-300"
                   >
                     Visit HUSE Circle
@@ -594,14 +594,14 @@ export function DofractoPlatform() {
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <button
-                    onClick={() => navigate('/dofracto/business-pricing')}
+                    onClick={() => navigate('/dofracto/pricing/contributor/business')}
                     className="px-8 py-4 rounded-full bg-gradient-to-r from-[#24c6dc] to-[#05997F] text-white font-semibold hover:shadow-xl hover:shadow-[#24c6dc]/30 transition-all duration-300 hover:scale-105 flex items-center justify-center gap-2"
                   >
                     <Building2 className="w-5 h-5" />
                     I'm a Startup
                   </button>
                   <button
-                    onClick={() => navigate('/dofracto/pricing')}
+                    onClick={() => navigate('/dofracto/pricing/contributor')}
                     className="px-8 py-4 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold hover:shadow-xl hover:shadow-purple-500/30 transition-all duration-300 hover:scale-105 flex items-center justify-center gap-2"
                   >
                     <UserPlus className="w-5 h-5" />

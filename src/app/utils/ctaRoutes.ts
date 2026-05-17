@@ -12,39 +12,39 @@ export interface CTARoute {
 
 // ===== LANDING PAGE CTAs =====
 export const landingCTAs = {
-  getStarted: '/huse-ecosystem-intro',
-  exploreHuse: '/huse-circle',
+  getStarted: '/ecosystem/intro',
+  exploreHuse: '/husecircle',
   exploreDofracto: '/dofracto',
   exploreQuotify: '/quotify',
-  viewDemo: '/demo-credentials',
+  viewDemo: '/ecosystem/demo',
   contactUs: '/contact',
-  login: '/huse-circle-login',
-  signup: '/huse-circle-login'
+  login: '/husecircle/student/login',
+  signup: '/husecircle/student/login'
 };
 
 // ===== HUSE CIRCLE CTAs =====
 export const huseCTAs = {
   // Auth
-  login: '/huse-circle-login',
-  signup: '/huse-circle-login',
-  verifyCollege: '/college-verification',
-  
+  login: '/husecircle/student/login',
+  signup: '/husecircle/student/login',
+  verifyCollege: '/husecircle/verify/college',
+
   // Main Actions
-  dashboard: '/huse-circle-platform',
-  myProgress: '/huse-circle-platform?tab=dashboard',
-  portfolio: '/huse-circle-platform?tab=portfolio',
-  jobs: '/huse-circle-platform?tab=jobs',
-  gigs: '/huse-circle-platform?tab=gigs',
-  marketplace: '/huse-circle-platform?tab=marketplace',
-  quotes: '/huse-circle-platform?tab=quotes',
-  leaderboard: '/huse-circle-platform?tab=leaderboard',
-  houseFeed: '/huse-circle-platform?tab=feed',
-  
+  dashboard: '/husecircle/student/platform',
+  myProgress: '/husecircle/student/platform?tab=dashboard',
+  portfolio: '/husecircle/student/platform?tab=portfolio',
+  jobs: '/husecircle/student/platform?tab=jobs',
+  gigs: '/husecircle/student/platform?tab=gigs',
+  marketplace: '/husecircle/student/platform?tab=marketplace',
+  quotes: '/husecircle/student/platform?tab=quotes',
+  leaderboard: '/husecircle/student/platform?tab=leaderboard',
+  houseFeed: '/husecircle/student/platform?tab=feed',
+
   // Additional Pages
-  chat: '/huse-chats',
-  notifications: '/huse-notifications',
-  studentPortfolio: (id: number) => `/huse-circle-platform/portfolio/${id}`,
-  
+  chat: '/husecircle/student/chats',
+  notifications: '/husecircle/student/notifications',
+  studentPortfolio: (id: number) => `/husecircle/student/portfolio/${id}`,
+
   // Modals
   addProject: 'modal:addProject',
   postGig: 'modal:postGig',
@@ -54,42 +54,42 @@ export const huseCTAs = {
   editProfile: 'modal:editProfile',
   settings: 'modal:settings',
   graduateToDofracto: 'modal:graduate',
-  
+
   // Progression Actions
-  earnReputation: '/huse-circle-platform?tab=dashboard',
-  viewBenefits: '/huse-circle-platform?tab=dashboard',
-  upgradeTier: '/huse-circle-platform?tab=dashboard'
+  earnReputation: '/husecircle/student/platform?tab=dashboard',
+  viewBenefits: '/husecircle/student/platform?tab=dashboard',
+  upgradeTier: '/husecircle/student/platform?tab=dashboard'
 };
 
 // ===== DOFRACTO CTAs =====
 export const dofractoCTAs = {
   // Auth
-  builderLogin: '/dofracto-builder-login',
-  businessLogin: '/dofracto-business-login',
-  contributorSignup: '/dofracto-contributor-signup',
-  businessSignup: '/business-portal-register',
-  
+  builderLogin: '/dofracto/builder/login',
+  businessLogin: '/dofracto/business/login',
+  contributorSignup: '/dofracto/builder/signup',
+  businessSignup: '/business/register',
+
   // Main Actions
   home: '/dofracto',
-  buildersHub: '/dofracto-builders-hub',
-  opportunities: '/dofracto-opportunities',
+  buildersHub: '/dofracto/builder/hub',
+  opportunities: '/dofracto/builder/opportunities',
   discover: '/dofracto/discover',
-  allBusinessListings: '/all-business-listings',
-  
+  allBusinessListings: '/dofracto/discover',
+
   // Pricing
-  contributorPricing: '/dofracto/pricing',
-  businessPricing: '/dofracto/business-pricing',
-  
+  contributorPricing: '/dofracto/pricing/contributor',
+  businessPricing: '/dofracto/pricing/business',
+
   // Individual Pages
-  startupDetail: (id: string) => `/startup/${id}`,
-  businessDetail: (name: string) => `/business/${name}`,
-  
+  startupDetail: (id: string) => `/dofracto/startup/${id}`,
+  businessDetail: (name: string) => `/dofracto/business/${name}`,
+
   // Actions
-  watchlist: '/watchlist',
-  reputation: '/reputation',
-  notifications: '/notifications',
-  opportunityFeed: '/opportunity-feed',
-  
+  watchlist: '/dofracto/watchlist',
+  reputation: '/husecircle/student/reputation',
+  notifications: '/dofracto/notifications',
+  opportunityFeed: '/husecircle/student/opportunities',
+
   // Modals
   postOpportunity: 'modal:postOpportunity',
   applyToOpportunity: 'modal:applyOpportunity',
@@ -100,21 +100,21 @@ export const dofractoCTAs = {
 // ===== QUOTIFY CTAs =====
 export const quotifyCTAs = {
   // Auth
-  login: '/quotify-login',
-  signup: '/quotify-login',
-  
+  login: '/quotify/login',
+  signup: '/quotify/login',
+
   // Main Actions
   landing: '/quotify',
   dashboard: '/quotify/dashboard',
   newRequest: '/quotify/new-request',
   matchResults: '/quotify/match-results',
-  
+
   // Individual Pages
   quoteDetail: (id: string) => `/quotify/request/${id}`,
-  submitQuote: (id: string) => `/quotify/submit-quote/${id}`,
+  submitQuote: (id: string) => `/quotify/submit/${id}`,
   providerProfile: (id: string) => `/quotify/provider/${id}`,
   settings: '/quotify/settings',
-  
+
   // Modals
   compareQuotes: 'modal:compareQuotes',
   paymentEscrow: 'modal:paymentEscrow',
@@ -125,23 +125,23 @@ export const quotifyCTAs = {
 // ===== RECRUITER CTAs =====
 export const recruiterCTAs = {
   // Auth
-  login: '/recruiter-login',
-  signup: '/recruiter-login',
-  
+  login: '/recruiter/login',
+  signup: '/recruiter/login',
+
   // Main Actions
-  dashboard: '/recruiter-dashboard',
-  profile: '/recruiter-profile',
-  messages: '/recruiter-messages',
-  notifications: '/recruiter-notifications',
-  jobPostings: '/recruiter-job-postings',
-  
+  dashboard: '/recruiter/dashboard',
+  profile: '/recruiter/profile',
+  messages: '/recruiter/messages',
+  notifications: '/recruiter/notifications',
+  jobPostings: '/recruiter/jobs',
+
   // Actions
-  browseStudents: '/recruiter-dashboard',
+  browseStudents: '/recruiter/dashboard',
   postJob: 'modal:createJob',
   saveStudent: 'action:saveStudent',
   contactStudent: 'modal:contactStudent',
-  viewPortfolio: (id: number) => `/huse-circle-platform/portfolio/${id}`,
-  
+  viewPortfolio: (id: number) => `/husecircle/student/portfolio/${id}`,
+
   // Filters
   filterByTier: 'filter:tier',
   filterByCollege: 'filter:college',
@@ -151,36 +151,36 @@ export const recruiterCTAs = {
 // ===== ADMIN CTAs =====
 export const adminCTAs = {
   // Auth
-  adminLogin: '/admin-login',
-  superAdminLogin: '/super-admin-login',
-  userLogin: '/user-login',
-  businessPortalLogin: '/business-portal-login',
-  
+  adminLogin: '/admin/login',
+  superAdminLogin: '/admin/super/login',
+  userLogin: '/user/login',
+  businessPortalLogin: '/business/login',
+
   // Dashboards
-  adminDashboard: '/admin-dashboard',
-  superAdminDashboard: '/super-admin-dashboard',
-  userDashboard: '/user-dashboard',
-  businessDashboard: '/business-dashboard',
-  businessPortalDashboard: '/business-portal-dashboard',
-  
+  adminDashboard: '/admin/dashboard',
+  superAdminDashboard: '/admin/super/dashboard',
+  userDashboard: '/user/dashboard',
+  businessDashboard: '/business/dashboard',
+  businessPortalDashboard: '/business/dashboard',
+
   // Management
-  addBusiness: '/add-business',
-  addUser: '/add-user',
-  adminProfile: '/admin-profile',
-  adminNotifications: '/admin-notifications',
-  
+  addBusiness: '/business/add',
+  addUser: '/user/add',
+  adminProfile: '/admin/profile',
+  adminNotifications: '/admin/notifications',
+
   // Utility
-  themePreview: '/theme-preview'
+  themePreview: '/ecosystem/theme'
 };
 
 // ===== UTILITY CTAs =====
 export const utilityCTAs = {
   home: '/',
   intro: '/intro',
-  ecosystemIntro: '/huse-ecosystem-intro',
+  ecosystemIntro: '/ecosystem/intro',
   contact: '/contact',
-  demoCredentials: '/demo-credentials',
-  
+  demoCredentials: '/ecosystem/demo',
+
   // External Links
   github: 'https://github.com',
   linkedin: 'https://linkedin.com',
@@ -281,7 +281,7 @@ export const quickNav = {
   toDofracto: () => dofractoCTAs.home,
   toQuotify: () => quotifyCTAs.dashboard,
   toRecruiter: () => recruiterCTAs.dashboard,
-  
+
   // Common Actions
   toLogin: (platform: 'huse' | 'dofracto' | 'quotify' | 'recruiter') => {
     switch (platform) {
@@ -291,7 +291,7 @@ export const quickNav = {
       case 'recruiter': return recruiterCTAs.login;
     }
   },
-  
+
   toDashboard: (platform: 'huse' | 'dofracto' | 'quotify' | 'recruiter') => {
     switch (platform) {
       case 'huse': return huseCTAs.dashboard;

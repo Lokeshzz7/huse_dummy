@@ -1,4 +1,4 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import { motion } from 'motion/react';
 import { 
   Search, Filter, MapPin, Star, TrendingUp,
@@ -98,7 +98,7 @@ export function RecruiterDashboard() {
 
               <div className="flex items-center gap-4">
                 <button 
-                  onClick={() => navigate('/recruiter-job-postings')}
+                  onClick={() => navigate('/recruiter/jobs')}
                   className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-[10px] transition-all hover:shadow-lg"
                 >
                   <Briefcase size={16} />
@@ -116,14 +116,14 @@ export function RecruiterDashboard() {
                   <span className="text-[13px]">{showSavedOnly ? 'Showing Saved' : 'Saved'} ({savedStudents.size})</span>
                 </button>
                 <button 
-                  onClick={() => navigate('/recruiter-messages')}
+                  onClick={() => navigate('/recruiter/messages')}
                   className="flex items-center gap-2 px-4 py-2 bg-[#1A1A1A] border border-purple-500/20 text-gray-400 hover:text-white hover:border-purple-500/40 rounded-[10px] transition-all"
                 >
                   <MessageCircle size={16} />
                   <span className="text-[13px]">Messages</span>
                 </button>
                 <button 
-                  onClick={() => navigate('/recruiter-notifications')}
+                  onClick={() => navigate('/recruiter/notifications')}
                   className="relative flex items-center gap-2 px-4 py-2 bg-[#1A1A1A] border border-purple-500/20 text-gray-400 hover:text-white hover:border-purple-500/40 rounded-[10px] transition-all"
                 >
                   <div className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center text-white text-[10px] font-bold">3</div>
@@ -181,7 +181,7 @@ export function RecruiterDashboard() {
                         <div className="p-2">
                           <button
                             onClick={() => {
-                              navigate('/recruiter-profile');
+                              navigate('/recruiter/profile');
                               setShowProfileDropdown(false);
                             }}
                             className="w-full flex items-center gap-3 px-3 py-2 text-gray-400 hover:text-white hover:bg-purple-500/10 rounded-lg transition-all text-[13px]"
@@ -192,7 +192,7 @@ export function RecruiterDashboard() {
                           
                           <button
                             onClick={() => {
-                              navigate('/recruiter-profile');
+                              navigate('/recruiter/profile');
                               setShowProfileDropdown(false);
                             }}
                             className="w-full flex items-center gap-3 px-3 py-2 text-gray-400 hover:text-white hover:bg-purple-500/10 rounded-lg transition-all text-[13px]"
@@ -205,7 +205,7 @@ export function RecruiterDashboard() {
 
                           <button
                             onClick={() => {
-                              navigate('/huse-circle');
+                              navigate('/husecircle');
                               setShowProfileDropdown(false);
                             }}
                             className="w-full flex items-center gap-3 px-3 py-2 text-red-400 hover:text-red-300 hover:bg-red-500/10 rounded-lg transition-all text-[13px] font-medium"
@@ -605,7 +605,7 @@ export function RecruiterDashboard() {
                 {/* View Full Portfolio Button */}
                 <button
                   onClick={() => {
-                    navigate(`/huse-circle-platform/portfolio/${selectedStudent.id}`);
+                    navigate(`/husecircle/student/portfolio/${selectedStudent.id}`);
                   }}
                   className="w-full flex items-center justify-center gap-2 px-6 py-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-[12px] font-bold hover:shadow-lg hover:shadow-purple-500/30 transition-all text-[15px]"
                 >

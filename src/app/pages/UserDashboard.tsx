@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+﻿import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'motion/react';
 import {
@@ -35,7 +35,7 @@ export function UserDashboard() {
     const email = localStorage.getItem('userEmail');
     
     if (userType !== 'user' || !email) {
-      navigate('/user-login');
+      navigate('/user/login');
       return;
     }
     
@@ -178,7 +178,7 @@ function OverviewTab() {
           <h3 className="text-white text-xl mb-4">Quick Actions</h3>
           <div className="space-y-3">
             <Link
-              to="/business-listings"
+              to="/dofracto/discover"
               className="flex items-center justify-between bg-[#111] border border-[#24c6dc]/30 rounded-lg p-4 hover:border-[#24c6dc] transition-all group"
             >
               <div className="flex items-center gap-3">
@@ -188,7 +188,7 @@ function OverviewTab() {
               <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-[#24c6dc] group-hover:translate-x-1 transition-all" />
             </Link>
             <Link
-              to="/huse-circle-platform"
+              to="/husecircle/student/platform"
               className="flex items-center justify-between bg-[#111] border border-[#24c6dc]/30 rounded-lg p-4 hover:border-[#24c6dc] transition-all group"
             >
               <div className="flex items-center gap-3">

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
   Building2,
@@ -778,7 +778,7 @@ export function StartupDashboard() {
                 <p className="text-gray-400">Manage and monitor your business profiles</p>
               </div>
               <button
-                onClick={() => navigate('/add-business')}
+                onClick={() => navigate('/business/add')}
                 className="bg-gradient-to-r from-[#24c6dc] to-[#05997F] text-white px-6 py-3 rounded-lg font-medium flex items-center gap-2 hover:shadow-lg hover:shadow-[#24c6dc]/30 transition-all"
               >
                 <Plus className="w-5 h-5" />
@@ -897,7 +897,7 @@ export function StartupDashboard() {
                 <h3 className="text-xl font-bold text-white mb-2">No businesses yet</h3>
                 <p className="text-gray-400 mb-6">Get started by adding your first business listing</p>
                 <button
-                  onClick={() => navigate('/add-business')}
+                  onClick={() => navigate('/business/add')}
                   className="bg-gradient-to-r from-[#24c6dc] to-[#05997F] text-white px-6 py-3 rounded-lg font-medium inline-flex items-center gap-2 hover:shadow-lg hover:shadow-[#24c6dc]/30 transition-all"
                 >
                   <Plus className="w-5 h-5" />

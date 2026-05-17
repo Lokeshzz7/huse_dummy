@@ -1,4 +1,4 @@
-import { motion } from 'motion/react';
+﻿import { motion } from 'motion/react';
 import { 
   GraduationCap, Briefcase, ShoppingBag, Trophy, 
   Target, Zap, Award, Shield, Users, 
@@ -491,7 +491,7 @@ export function HuseCircle() {
                 </div>
               </div>
               <button
-                onClick={() => navigate('/reputation-guide')}
+                onClick={() => navigate('/husecircle/reputation/guide')}
                 className="flex items-center gap-2 text-purple-400 hover:text-purple-300 transition-colors text-[14px] font-medium group"
               >
                 <Eye size={16} />
@@ -682,7 +682,7 @@ export function HuseCircle() {
               </div>
 
               <button
-                onClick={() => navigate('/recruiter-login')}
+                onClick={() => navigate('/recruiter/login')}
                 className="w-full bg-blue-500 hover:bg-blue-600 text-white py-4 rounded-[15px] font-bold text-[16px] transition-all"
               >
                 Apply Now

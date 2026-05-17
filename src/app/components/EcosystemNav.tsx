@@ -50,8 +50,8 @@ export function EcosystemNav({ platform, user, showPlatformSwitcher = true }: Ec
       icon: '🎓',
       description: 'Student Incubator',
       color: 'from-purple-500 to-pink-500',
-      route: '/huse-circle-platform',
-      loginRoute: '/huse-circle-login'
+      route: '/husecircle/student/platform',
+      loginRoute: '/husecircle/student/login'
     },
     {
       id: 'dofracto',
@@ -60,7 +60,7 @@ export function EcosystemNav({ platform, user, showPlatformSwitcher = true }: Ec
       description: 'Startup Accelerator',
       color: 'from-cyan-500 to-blue-500',
       route: '/dofracto',
-      loginRoute: '/dofracto-builder-login'
+      loginRoute: '/dofracto/builder/login'
     },
     {
       id: 'quotify',
@@ -69,7 +69,7 @@ export function EcosystemNav({ platform, user, showPlatformSwitcher = true }: Ec
       description: 'Quote Marketplace',
       color: 'from-green-500 to-emerald-500',
       route: '/quotify/dashboard',
-      loginRoute: '/quotify-login'
+      loginRoute: '/quotify/login'
     },
     {
       id: 'recruiter',
@@ -77,8 +77,8 @@ export function EcosystemNav({ platform, user, showPlatformSwitcher = true }: Ec
       icon: '👔',
       description: 'Hire Talent',
       color: 'from-amber-500 to-orange-500',
-      route: '/recruiter-dashboard',
-      loginRoute: '/recruiter-login'
+      route: '/recruiter/dashboard',
+      loginRoute: '/recruiter/login'
     }
   ];
 
@@ -88,17 +88,17 @@ export function EcosystemNav({ platform, user, showPlatformSwitcher = true }: Ec
     switch (platform) {
       case 'huse':
         return [
-          { label: 'Dashboard', icon: Home, route: '/huse-circle-platform' },
-          { label: 'Jobs', icon: Briefcase, route: '/huse-circle-platform' },
-          { label: 'Portfolio', icon: Award, route: '/huse-circle-platform' },
-          { label: 'Chat', icon: MessageSquare, route: '/huse-chats' }
+          { label: 'Dashboard', icon: Home, route: '/husecircle/student/platform' },
+          { label: 'Jobs', icon: Briefcase, route: '/husecircle/student/platform' },
+          { label: 'Portfolio', icon: Award, route: '/husecircle/student/platform' },
+          { label: 'Chat', icon: MessageSquare, route: '/husecircle/student/chats' }
         ];
       case 'dofracto':
         return [
           { label: 'Home', icon: Home, route: '/dofracto' },
-          { label: 'Opportunities', icon: TrendingUp, route: '/dofracto-opportunities' },
+          { label: 'Opportunities', icon: TrendingUp, route: '/dofracto/builder/opportunities' },
           { label: 'Discover', icon: Search, route: '/dofracto/discover' },
-          { label: 'Builders Hub', icon: Rocket, route: '/dofracto-builders-hub' }
+          { label: 'Builders Hub', icon: Rocket, route: '/dofracto/builder/hub' }
         ];
       case 'quotify':
         return [
@@ -108,9 +108,9 @@ export function EcosystemNav({ platform, user, showPlatformSwitcher = true }: Ec
         ];
       case 'recruiter':
         return [
-          { label: 'Dashboard', icon: Home, route: '/recruiter-dashboard' },
-          { label: 'Messages', icon: MessageSquare, route: '/recruiter-messages' },
-          { label: 'Job Postings', icon: Briefcase, route: '/recruiter-job-postings' }
+          { label: 'Dashboard', icon: Home, route: '/recruiter/dashboard' },
+          { label: 'Messages', icon: MessageSquare, route: '/recruiter/messages' },
+          { label: 'Job Postings', icon: Briefcase, route: '/recruiter/jobs' }
         ];
       default:
         return [];
@@ -372,7 +372,7 @@ export function EcosystemNav({ platform, user, showPlatformSwitcher = true }: Ec
               </>
             ) : (
               <Link
-                to={currentPlatform?.loginRoute || '/huse-circle-login'}
+                to={currentPlatform?.loginRoute || '/husecircle/student/login'}
                 className={`px-4 py-2 rounded-lg bg-gradient-to-r ${currentPlatform?.color || 'from-blue-500 to-purple-500'} text-white font-medium hover:shadow-lg transition-all`}
               >
                 Login

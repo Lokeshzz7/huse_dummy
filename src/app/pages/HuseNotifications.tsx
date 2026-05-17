@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { apiGet, apiPost } from '../../lib/api';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'motion/react';
 import {
@@ -36,84 +37,32 @@ interface Notification {
 export function HuseNotifications() {
   const navigate = useNavigate();
   const [filter, setFilter] = useState<'all' | 'unread'>('all');
-  const [notifications, setNotifications] = useState<Notification[]>([
-    {
-      id: 1,
-      type: 'like',
-      title: 'New Like on Your Post',
-      message: 'Priya Sharma liked your post about React best practices',
-      time: '2 min ago',
-      read: false,
-      avatar: '👩‍💻',
-      actionUrl: '/huse-circle-platform'
-    },
-    {
-      id: 2,
-      type: 'comment',
-      title: 'New Comment',
-      message: 'Rahul commented: "Great project! Can you share the GitHub link?"',
-      time: '15 min ago',
-      read: false,
-      avatar: '🧑‍💼',
-      actionUrl: '/huse-circle-platform'
-    },
-    {
-      id: 3,
-      type: 'achievement',
-      title: '🏆 Achievement Unlocked!',
-      message: 'You earned the "Rising Star" badge for gaining 500+ reputation',
-      time: '1 hour ago',
-      read: false,
-      avatar: '🏆'
-    },
-    {
-      id: 4,
-      type: 'gig',
-      title: 'New Gig Match',
-      message: 'A new gig matching your skills was posted: "React Developer Needed"',
-      time: '2 hours ago',
-      read: true,
-      avatar: '💼',
-      actionUrl: '/huse-circle-platform?tab=gigs'
-    },
-    {
-      id: 5,
-      type: 'marketplace',
-      title: 'Item Interest',
-      message: 'Someone is interested in your "Data Structures Book"',
-      time: '3 hours ago',
-      read: true,
-      avatar: '📚',
-      actionUrl: '/huse-circle-platform?tab=marketplace'
-    },
-    {
-      id: 6,
-      type: 'reputation',
-      title: 'Reputation Update',
-      message: 'You gained +25 reputation points from completing a gig',
-      time: '5 hours ago',
-      read: true,
-      avatar: '⚡'
-    },
-    {
-      id: 7,
-      type: 'follow',
-      title: 'New Follower',
-      message: 'Amit Kumar started following you',
-      time: '1 day ago',
-      read: true,
-      avatar: '👨‍💻'
-    },
-    {
-      id: 8,
-      type: 'system',
-      title: 'Welcome to HUSE Circle!',
-      message: 'Complete your profile to unlock all features and start building',
-      time: '2 days ago',
-      read: true,
-      avatar: '🎓'
-    }
-  ]);
+  const [notifications, setNotifications] = useState<Notification[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      try {
+        const data = await apiGet<any[]>('/notifications');
+        const mapped: Notification[] = data.map(n => ({
+          id: n.id,
+          type: (n.type as NotificationType) || 'system',
+          title: n.title || 'Notification',
+          message: n.message || '',
+          time: n.created_at ? new Date(n.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Recently',
+          read: !!n.is_read,
+          avatar: n.sender?.avatar || n.icon,
+          actionUrl: n.action_url
+        }));
+        setNotifications(mapped);
+      } catch (err) {
+        console.error('Failed to fetch notifications:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchNotifications();
+  }, []);
 
   const getIcon = (type: NotificationType) => {
     switch (type) {
@@ -128,8 +77,13 @@ export function HuseNotifications() {
     }
   };
 
-  const markAsRead = (id: number) => {
-    setNotifications(notifications.map(n => n.id === id ? { ...n, read: true } : n));
+  const markAsRead = async (id: number) => {
+    try {
+      await apiPost(`/notifications/${id}/read`, {});
+      setNotifications(notifications.map(n => n.id === id ? { ...n, read: true } : n));
+    } catch (err) {
+      console.error('Failed to mark as read:', err);
+    }
   };
 
   const markAllAsRead = () => {
@@ -160,7 +114,7 @@ export function HuseNotifications() {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <button
-                onClick={() => navigate('/huse-circle-platform')}
+                onClick={() => navigate('/husecircle/student/platform')}
                 className="text-gray-400 hover:text-white transition-colors"
               >
                 <ArrowLeft className="w-6 h-6" />

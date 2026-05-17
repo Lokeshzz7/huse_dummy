@@ -1,14 +1,16 @@
 import { useState, useRef } from 'react';
 import { motion } from 'motion/react';
 import { useAuth } from '../../context/AuthContext';
-import { supabase, supabaseKey, supabaseUrl } from '../../../lib/supabase';
+import { supabase } from '../../../lib/supabase';
+import { uploadDoc, apiPost } from '../../../lib/api';
 import { toast } from 'sonner';
-import { ArrowRight, Loader2, FileText, UploadCloud, CreditCard } from 'lucide-react';
+import { ArrowRight, Loader2, FileText, UploadCloud, CreditCard, AlertCircle } from 'lucide-react';
 
-export function Step3DocumentPayment({ onNext }: { onNext: () => void }) {
-  const { user } = useAuth();
+export function Step3DocumentPayment({ onNext, showReuploadBanner }: { onNext: () => void; showReuploadBanner?: boolean }) {
+  const { user, updateUser } = useAuth();
   
   const [file, setFile] = useState<File | null>(null);
+  const [documentType, setDocumentType] = useState<'id_card' | 'admission_letter'>('id_card');
   const [loading, setLoading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -56,65 +58,79 @@ export function Step3DocumentPayment({ onNext }: { onNext: () => void }) {
     setLoading(true);
 
     try {
-      // Step A: Upload Verification Document
-      const formData = new FormData();
-      formData.append('file', file);
-      
-      const { data: { session } } = await supabase.auth.getSession();
-      
-      const res = await fetch(`${supabaseUrl}/functions/v1/upload-verification-doc`, {
-        method: 'POST',
-        headers: {
-          'apikey': supabaseKey,
-          'Authorization': `Bearer ${session?.access_token}`
-        },
-        body: formData,
-      });
-      const result = await res.json();
-      if (!result.success) throw new Error(result.error || 'Failed to upload document');
+      // Step A: Upload Verification Document via backend API (Multipart)
+      const uploadResult = await uploadDoc(file, documentType);
+      console.log('Document uploaded:', uploadResult);
 
-      // Step B & C: Create Razorpay Order
-      const { data: orderData, error: orderError } = await supabase.functions.invoke('create-razorpay-order', {
-        body: { plan_type: planType, amount: price, months_covered: monthsCovered }
+      // Step B: Create Razorpay Order via backend
+      const orderData = await apiPost<any>('/payments/create-order', { 
+        plan_type: planType, 
+        amount: price, 
+        months_covered: monthsCovered 
       });
 
-      if (orderError) throw orderError;
-      if (!orderData?.success) throw new Error(orderData?.error || 'Failed to create payment order');
-
-      // Step D: Open Razorpay Checkout
-      const isLoaded = await loadRazorpay();
-      if (!isLoaded) throw new Error('Razorpay SDK failed to load');
+      const res = await loadRazorpay();
+      if (!res) {
+        toast.error('Razorpay SDK failed to load. Are you online?');
+        setLoading(false);
+        return;
+      }
 
       const options = {
-        key: orderData.data.key_id,
-        amount: orderData.data.amount * 100,
-        currency: orderData.data.currency,
-        name: 'HUSE Circle',
-        description: 'Student Membership',
-        order_id: orderData.data.order_id,
-        handler: function (response: any) {
-          // Razorpay returns razorpay_payment_id, razorpay_order_id, razorpay_signature
-          toast.success('Payment successful!');
-          onNext(); // Move to next step
+        key: orderData.key_id,
+        amount: orderData.amount,
+        currency: orderData.currency,
+        name: 'Huse Circle',
+        description: `Student Subscription (${monthsCovered} months)`,
+        order_id: orderData.order_id,
+        handler: async function (response: any) {
+          console.log('Payment successful. Proceeding to finalize onboarding...');
+          
+          try {
+            // STEP C: Finalize Onboarding with academic data (POST /auth/onboard)
+            // Pull data from user state (populated in Step 1)
+            const onboardingPayload = {
+              college_id: user.college_id,
+              degree_program_id: (user as any).degree_program_id,
+              department: (user as any).department,
+              current_year_of_study: (user as any).current_year_of_study,
+              joining_year: (user as any).joining_year,
+              dob: (user as any).dob
+            };
+
+            console.log('Finalizing onboarding with payload:', onboardingPayload);
+            await apiPost<any>('/auth/onboard', onboardingPayload);
+
+            // Finalize onboarding and move to pending_review
+            updateUser({
+              onboarding_step: 'pending_review'
+            });
+
+            toast.success('Onboarding complete! Your profile is under review.');
+            onNext();
+          } catch (error: any) {
+            console.error('Onboarding finalization failed', error);
+            toast.error('Payment succeeded but profile update failed. Please contact support.');
+          }
         },
         prefill: {
+          name: user.name,
           email: user.email,
-          contact: '' // phone not readily available in user context, could fetch from DB if needed
+          contact: (user as any).mobile || ''
         },
-        theme: {
-          color: '#A855F7'
+        theme: { color: '#A855F7' },
+        modal: {
+          ondismiss: function() {
+            setLoading(false);
+          }
         }
       };
 
-      const rzp = new (window as any).Razorpay(options);
-      rzp.on('payment.failed', function (response: any) {
-        toast.error(response.error.description || 'Payment failed');
-      });
-      rzp.open();
-
-    } catch (e: any) {
-      toast.error(e.message || 'An error occurred during payment');
-    } finally {
+      const rzp1 = new (window as any).Razorpay(options);
+      rzp1.open();
+    } catch (err: any) {
+      console.error('Step 3 Error:', err);
+      toast.error(err.message || 'Verification process failed');
       setLoading(false);
     }
   };
@@ -132,7 +148,40 @@ export function Step3DocumentPayment({ onNext }: { onNext: () => void }) {
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-8">
-        
+        {showReuploadBanner && (
+          <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-xl flex items-start gap-3">
+            <AlertCircle className="text-red-400 shrink-0 mt-0.5" size={18} />
+            <div>
+              <p className="text-red-400 font-bold text-sm">Document Rejected</p>
+              <p className="text-red-400/80 text-xs">Your previous document was rejected. Please upload a clear, valid college ID or admission letter.</p>
+            </div>
+          </div>
+        )}
+
+        {/* Document Type */}
+        <div className="space-y-3">
+          <label className="text-sm text-gray-400">Document Type</label>
+          <div className="grid grid-cols-2 gap-3">
+            {([
+              { value: 'id_card', label: 'College ID Card' },
+              { value: 'admission_letter', label: 'Admission Letter' },
+            ] as const).map(({ value, label }) => (
+              <button
+                key={value}
+                type="button"
+                onClick={() => setDocumentType(value)}
+                className={`p-3 rounded-xl border text-sm font-medium transition-colors ${
+                  documentType === value
+                    ? 'border-purple-500 bg-purple-500/10 text-purple-300'
+                    : 'border-gray-800 bg-[#1A1A1A] text-gray-400 hover:border-gray-700'
+                }`}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+        </div>
+
         {/* Document Upload */}
         <div className="bg-[#1A1A1A] border border-gray-800 rounded-xl p-6 relative overflow-hidden group hover:border-purple-500/50 transition-colors cursor-pointer" onClick={() => fileInputRef.current?.click()}>
           <input 

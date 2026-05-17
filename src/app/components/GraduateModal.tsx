@@ -1,4 +1,4 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import { X, GraduationCap, Rocket, Sparkles, TrendingUp, CheckCircle, Code, Award, Lightbulb } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
@@ -47,7 +47,7 @@ export function GraduateModal({ isOpen, onClose, studentId, studentName, college
 
     // Navigate to Unified Builders Hub (Contributor platform)
     setTimeout(() => {
-      navigate('/unified-builders-hub');
+      navigate('/dofracto/builder/hub');
     }, 1500);
   };
 

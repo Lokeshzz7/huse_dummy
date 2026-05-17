@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { apiGet } from '../../lib/api';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { Users, Search, ArrowLeft, TrendingUp, Mail, Linkedin, Calendar, Sparkles } from 'lucide-react';
@@ -34,87 +35,51 @@ export function HuseConnections() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedContact, setSelectedContact] = useState<string | null>(null);
 
-  // Mock contacts data
-  const [contacts] = useState<Contact[]>([
-    {
-      id: '1',
-      name: 'Priya Sharma',
-      avatar: '👩‍💻',
-      role: 'Full Stack Developer',
-      email: 'priya.sharma@example.com',
-      linkedinUrl: 'https://linkedin.com/in/priyasharma',
-      calendarUrl: 'https://calendly.com/priyasharma',
-      verified: true,
-      lastContact: '2 days ago'
-    },
-    {
-      id: '2',
-      name: 'Rahul Singh',
-      avatar: '🧑‍💼',
-      role: 'Product Manager',
-      email: 'rahul.singh@example.com',
-      linkedinUrl: 'https://linkedin.com/in/rahulsingh',
-      verified: true,
-      lastContact: '1 week ago'
-    },
-    {
-      id: '3',
-      name: 'Ananya Patel',
-      avatar: '👩‍🎨',
-      role: 'UI/UX Designer',
-      email: 'ananya.patel@example.com',
-      linkedinUrl: 'https://linkedin.com/in/ananyapatel',
-      calendarUrl: 'https://calendly.com/ananyapatel',
-      verified: false,
-      lastContact: '3 weeks ago'
-    },
-    {
-      id: '4',
-      name: 'Vikram Mehta',
-      avatar: '🧑‍💻',
-      role: 'Senior Developer',
-      email: 'vikram.mehta@example.com',
-      linkedinUrl: 'https://linkedin.com/in/vikrammehta',
-      verified: true,
-      lastContact: '1 month ago'
-    },
-    {
-      id: '5',
-      name: 'Sneha Iyer',
-      avatar: '👩‍🔬',
-      role: 'Data Scientist',
-      email: 'sneha.iyer@example.com',
-      linkedinUrl: 'https://linkedin.com/in/snehaiyer',
-      calendarUrl: 'https://calendly.com/snehaiyer',
-      verified: true,
-      lastContact: '2 months ago'
-    }
-  ]);
+  // Contacts and recent connections from backend
+  const [contacts, setContacts] = useState<Contact[]>([]);
+  const [recentConnections, setRecentConnections] = useState<Connection[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  // Mock recent connections
-  const [recentConnections] = useState<Connection[]>([
-    {
-      id: '1',
-      type: 'email',
-      withUser: contacts[0],
-      context: 'Collaboration Request',
-      timestamp: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString()
-    },
-    {
-      id: '2',
-      type: 'linkedin',
-      withUser: contacts[1],
-      context: 'Recruitment',
-      timestamp: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString()
-    },
-    {
-      id: '3',
-      type: 'calendar',
-      withUser: contacts[2],
-      context: 'Mentorship',
-      timestamp: new Date(Date.now() - 21 * 24 * 60 * 60 * 1000).toISOString()
-    }
-  ]);
+  useEffect(() => {
+    const fetchConnections = async () => {
+      try {
+        const data = await apiGet<any[]>('/connections');
+        // Map backend data to Contact/Connection interface
+        const mappedContacts: Contact[] = data.map(c => ({
+          id: c.withUser.id.toString(),
+          name: c.withUser.name,
+          avatar: c.withUser.avatar || '👤',
+          role: c.withUser.bio || 'Student',
+          email: c.withUser.email,
+          linkedinUrl: c.withUser.linkedin,
+          calendarUrl: c.withUser.calendly,
+          verified: c.withUser.is_verified,
+          lastContact: 'Active'
+        }));
+        setContacts(mappedContacts);
+        
+        const mappedRecent: Connection[] = data.map(c => ({
+          id: c.id.toString(),
+          type: (c.type as any) || 'email',
+          withUser: {
+            id: c.withUser.id.toString(),
+            name: c.withUser.name,
+            avatar: c.withUser.avatar || '👤',
+            role: c.withUser.bio || 'Student'
+          },
+          context: c.context,
+          timestamp: c.created_at || new Date().toISOString()
+        }));
+        setRecentConnections(mappedRecent);
+
+      } catch (err) {
+        console.error('Failed to fetch connections:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchConnections();
+  }, []);
 
   const selectedContactData = contacts.find(c => c.id === selectedContact);
 
@@ -162,7 +127,7 @@ export function HuseConnections() {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <button
-                onClick={() => navigate('/huse-circle-platform')}
+                onClick={() => navigate('/husecircle/student/platform')}
                 className="text-gray-400 hover:text-white transition-colors"
               >
                 <ArrowLeft className="w-6 h-6" />

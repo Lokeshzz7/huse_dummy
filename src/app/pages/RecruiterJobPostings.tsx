@@ -1,4 +1,4 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import {
   ArrowLeft, Plus, Search, Filter, Briefcase, MapPin, Calendar,
@@ -75,7 +75,7 @@ export function RecruiterJobPostings() {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <button
-                onClick={() => navigate('/recruiter-dashboard')}
+                onClick={() => navigate('/recruiter/dashboard')}
                 className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors"
               >
                 <ArrowLeft size={20} />
@@ -448,7 +448,7 @@ export function RecruiterJobPostings() {
 
                           <div className="flex items-center gap-2">
                             <button
-                              onClick={() => navigate(`/huse-circle-platform/portfolio/${application.applicantId}`)}
+                              onClick={() => navigate(`/husecircle/student/portfolio/${application.applicantId}`)}
                               className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-lg text-sm font-medium hover:shadow-lg transition-all"
                             >
                               <Eye size={14} />

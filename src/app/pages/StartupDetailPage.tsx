@@ -1,4 +1,4 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Header } from '../components/Header';
 import { Footer } from '../components/Footer';
@@ -230,14 +230,14 @@ export function StartupDetailPage() {
                     description: 'You can view all saved startups in your Builders Hub'
                   });
                   // Optionally navigate to watchlist after a short delay
-                  setTimeout(() => navigate('/watchlist'), 1500);
+                  setTimeout(() => navigate('/dofracto/watchlist'), 1500);
                 } else {
                   // User not logged in - navigate to Dofracto Builder Login
                   setIsInterested(true);
                   toast.info('Login to express interest', {
                     description: 'Create an account to track startups and contribute'
                   });
-                  navigate('/dofracto-builder-login');
+                  navigate('/dofracto/builder/login');
                 }
               }}
               className="w-full mt-6 bg-gradient-to-r from-[#24c6dc] to-[#05997F] text-white px-8 py-4 rounded-[15px] hover:shadow-[0_0_30px_rgba(36,198,220,0.5)] transition-all font-bold flex items-center justify-center gap-2"
@@ -405,7 +405,7 @@ export function StartupDetailPage() {
                             toast.info('Login to become a supporter', {
                               description: 'Create an account to support this startup'
                             });
-                            navigate('/dofracto-builder-login');
+                            navigate('/dofracto/builder/login');
                           }
                         }}
                         className="w-full py-2 bg-gradient-to-r from-[#8B5CF6] to-[#EC4899] text-white rounded-[10px] hover:shadow-lg transition-all text-[14px] font-bold"
@@ -463,7 +463,7 @@ export function StartupDetailPage() {
                               toast.info('Login to apply for this opportunity', {
                                 description: 'Create an account to join this startup'
                               });
-                              navigate('/dofracto-builder-login');
+                              navigate('/dofracto/builder/login');
                             }
                           }}
                           className="px-4 py-2 bg-gradient-to-r from-[#24c6dc] to-[#05997F] text-white rounded-[10px] hover:shadow-lg transition-all text-[14px]"

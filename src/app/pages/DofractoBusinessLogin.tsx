@@ -1,4 +1,4 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   Building2, Mail, Lock, Eye, EyeOff, 
@@ -59,7 +59,7 @@ export function DofractoBusinessLogin() {
       if (account) {
         localStorage.setItem('dofractoBusinessUser', JSON.stringify(account));
         setLoading(false);
-        navigate('/admin-dashboard'); // Or create a business dashboard
+        navigate('/admin/dashboard'); // Or create a business dashboard
       } else {
         setError('Invalid credentials. Try a demo account below.');
         setLoading(false);
@@ -76,7 +76,7 @@ export function DofractoBusinessLogin() {
     setTimeout(() => {
       localStorage.setItem('dofractoBusinessUser', JSON.stringify(account));
       setLoading(false);
-      navigate('/admin-dashboard');
+      navigate('/admin/dashboard');
     }, 1000);
   };
 
@@ -294,7 +294,7 @@ export function DofractoBusinessLogin() {
               {/* Footer Links */}
               <div className="mt-8 text-center space-y-3">
                 <button
-                  onClick={() => navigate('/dofracto-builder-login')}
+                  onClick={() => navigate('/dofracto/builder/login')}
                   className="text-sm text-gray-400 hover:text-[#24c6dc] transition-colors"
                 >
                   Login as Contributor instead?

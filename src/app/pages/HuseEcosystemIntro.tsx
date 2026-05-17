@@ -1,4 +1,4 @@
-import { motion, useScroll, useTransform } from 'motion/react';
+﻿import { motion, useScroll, useTransform } from 'motion/react';
 import { useNavigate } from 'react-router-dom';
 import { 
   GraduationCap, Rocket, MessageSquare, ArrowRight, 
@@ -40,7 +40,7 @@ export function HuseEcosystemIntro() {
       color: 'from-[#8B5CF6] via-[#D946EF] to-[#EC4899]',
       bgGlow: 'from-purple-500/20 to-pink-500/20',
       features: ['Student Projects', 'College Verification', 'MVP Building', 'Skill Development'],
-      path: '/huse-circle',
+      path: '/husecircle',
       emoji: '🎓',
       userTypes: ['Students', 'Startups', 'Recruiters']
     },
@@ -510,7 +510,7 @@ export function HuseEcosystemIntro() {
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <button
-                onClick={() => navigate('/huse-circle')}
+                onClick={() => navigate('/husecircle')}
                 className="px-8 py-4 bg-gradient-to-r from-[#8B5CF6] to-[#EC4899] rounded-xl font-medium text-lg hover:shadow-lg hover:shadow-purple-500/30 transition-all flex items-center gap-2"
               >
                 <GraduationCap className="w-5 h-5" />
@@ -546,7 +546,7 @@ export function HuseEcosystemIntro() {
               <p className="text-gray-400 text-sm">From Dorm Room to Boardroom</p>
             </div>
             <div className="flex items-center gap-6">
-              <button onClick={() => navigate('/huse-circle')} className="text-gray-400 hover:text-purple-400 transition-colors">
+              <button onClick={() => navigate('/husecircle')} className="text-gray-400 hover:text-purple-400 transition-colors">
                 HUSE Circle
               </button>
               <button onClick={() => navigate('/dofracto')} className="text-gray-400 hover:text-cyan-400 transition-colors">
